@@ -1,0 +1,38 @@
+version: '3'
+services:
+ web:
+  image: 'leolegends/microservices_php:stable'
+  ports:
+   - '82:80'
+  volumes:
+   - './..:/app'
+  environment:
+   WEB_DOCUMENT_ROOT: /app/public
+  networks:
+   - application_network
+ mysql:
+  image: 'mysql:5.7'
+  ports:
+   - '3310:3306'
+  environment:
+   MYSQL_ROOT_PASSWORD: null
+   MYSQL_DATABASE: avalie
+   MYSQL_USER: root
+   MYSQL_PASSWORD: 123
+  networks:
+   - application_network
+  volumes:
+   - './data:/var/lib/mysql'
+ phpmyadmin:
+  image: phpmyadmin/phpmyadmin
+  networks:
+   - application_network
+  environment:
+   PMA_HOST: mysql
+   PMA_PORT: 3306
+  ports:
+   - '8091:80'
+  volumes:
+   - ./sessions
+networks:
+ application_network:
