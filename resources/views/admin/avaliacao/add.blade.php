@@ -7,12 +7,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Adicionar Disciplina</h1>
+          <h1>Adicionar Sessão</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">Dashboard</li>
-              <li class="breadcrumb-item">Disciplina</li>
+              <li class="breadcrumb-item">Sessão</li>
               <li class="breadcrumb-item active">Adicionar</li>
           </ol>
         </div>
@@ -24,7 +24,7 @@
       <div class="container-fluid">
         <div class="card card-default">
           <div class="card-body">
-          <form action='{{ route('admin.disciplina.addDisciplina') }}' method='POST'>
+          <form action='{{ route('admin.users.addUser') }}' method='POST'>
             @csrf
 
             @if($errors->all())
@@ -40,33 +40,49 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Professores</label>
-                  <select class="select2" data-placeholder="Selecione uma opção" name='professor' style="width: 100%;" require>
+                  <label>Cursos</label>
+                  <select class="select2" data-placeholder="Selecione uma opção" name='curso' style="width: 100%;" require>
                     <option value=""></option>
-                    @foreach ($professores as $professor)
-                     <option value="{{ $professor->id }}">{{ $professor->name }}</option>
+                    @foreach ($cursos as $cursos)
+                      <option value="{{ $cursos->id }}">{{ $cursos->nm_curso }}</option>
                     @endforeach
                   </select>
                 </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label>Turmas</label>
                   <select class="select2" data-placeholder="Selecione uma opção" name='turma' style="width: 100%;" require>
                     <option value=""></option>
                     @foreach ($turmas as $turma)
-                      <option value="{{ $turma->id }}">{{ $turma->curso.' - '.$turma->nm_turma }}</option>
+                      <option value="{{ $turma->id }}">{{ $turma->nm_turma }}</option>
                     @endforeach
                   </select>
                 </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
                 <div class="form-group">
-                  <label>Nome</label>
-                  <input type="text" class="form-control" name="nome" require>
+                  <label>Disciplina</label>
+                  <select class="select2" data-placeholder="Selecione uma opção" name='disciplina' style="width: 100%;" require>
+                    <option value=""></option>
+                    @foreach ($disciplinas as $disciplina)
+                      <option value="{{ $disciplina->id }}">{{ $disciplina->nm_disciplina }}</option>
+                    @endforeach
+                  </select>
                 </div>
               </div>
             </div>
+            
             <div class="row">
               <div class="col-12">
-                <button type="submit" class="btn btn-success">Cadastrar Disciplina</button>
-                <a class="btn btn-danger" href="{{ route('admin.disciplina.list') }}">Cancelar</a>
+                <button type="submit" class="btn btn-success">Cadastrar Sessão</button>
+                <a class="btn btn-danger" href="{{ route('admin.users.list') }}">Cancelar</a>
               </div>
             </div>
 

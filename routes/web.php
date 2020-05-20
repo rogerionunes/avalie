@@ -65,3 +65,11 @@ Route::post('/admin/turma/addTurma', 'TurmaController@addTurma')->name('admin.tu
 Route::get('/admin/turma/edit/{id}', 'TurmaController@edit')->name('admin.turma.edit');
 Route::post('/admin/turma/editTurma/{id}', 'TurmaController@editTurma')->name('admin.turma.editTurma');
 Route::get('/admin/turma/delete/{id}', 'TurmaController@delete')->name('admin.turma.delete');
+
+// Avaliacao
+Route::get('/admin/avaliacao/', 'AvaliacaoController@index')->name('admin.avaliacao');
+Route::get('/admin/avaliacao/list', 'AvaliacaoController@list')->name('admin.avaliacao.list');
+Route::get('/admin/avaliacao/add', 'AvaliacaoController@add')->name('admin.avaliacao.add');
+Route::get('/admin/avaliacao/finalizar/{id}', 'AvaliacaoController@finalizar')->name('admin.avaliacao.finalizar');
+Route::get('/admin/avaliacao/listTurma', 'AvaliacaoController@listTurma')->name('admin.avaliacao.listTurma');
+Route::get('/admin/avaliacao/listDisciplina', 'AvaliacaoController@listDisciplina')->name('admin.avaliacao.listDisciplina');

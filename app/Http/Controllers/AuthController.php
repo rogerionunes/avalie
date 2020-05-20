@@ -18,7 +18,13 @@ class AuthController extends Controller
     public function dashboard()
     {
         if (Auth::check()) {
+
+            if (Auth::user()->tp_usuario == 'P') {
+                return view('admin.dashboardProfessor');
+            }
+
             return view('admin.dashboard');
+
         } 
         return redirect()->route('admin.login');
     }

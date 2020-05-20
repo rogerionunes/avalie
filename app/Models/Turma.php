@@ -21,4 +21,9 @@ class Turma extends Model
         'semestre',
         'turno',
     ];
+
+    public function disciplinas()
+    {
+        return $this->hasMany(Disciplinas::class, 'id_turma');
+    }
 }

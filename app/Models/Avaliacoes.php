@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cursos extends Model
+class Avaliacoes extends Model
 {
-    protected $table = 'cursos';
+    protected $table = 'avaliacoes';
 
     /**
      * The attributes that are mass assignable.
@@ -14,11 +14,6 @@ class Cursos extends Model
      * @var array
      */
     protected $fillable = [
-        'nm_curso'
+        'id_professor', 'id_curso', 'id_turma', 'id_disciplina', 'pin', 'dataValidade', 'status', 'created_at'
     ];
-
-    public function turmas()
-    {
-        return $this->hasMany('App\Models\Turma', 'id_curso');
-    }
 }

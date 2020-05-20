@@ -7,6 +7,4 @@
 
 $(function () {
 
-  'use strict'
-
 })

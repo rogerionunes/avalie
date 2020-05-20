@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cursos;
 use App\Models\Disciplina;
 use App\Models\Disciplinas;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -33,10 +35,14 @@ class DisciplinaController extends Controller
 
         foreach ($disciplinas as $disciplina) {
 
+            $turma = DB::table('turmas')->find($disciplina->id_turma);
+            $cursoTurma = DB::table('cursos')->find($turma->id_curso);
+
             $disciplinaList[] = [
                 'codigo' => $disciplina->id,
                 'professor' => DB::table('users')->find($disciplina->id_professor)->name,
-                'nome' => $disciplina->nm_disciplina,
+                'turma' => $cursoTurma->nm_curso.' - '.$turma->nm_turma,
+                'nome' => $disciplina->nm_disciplina
             ];
         }
 
@@ -53,9 +59,15 @@ class DisciplinaController extends Controller
     public function add()
     {
         $professores = DB::table('users')->where('tp_usuario','P')->get();
+        $turmas = DB::table('turmas')->get();
+
+        foreach ($turmas as &$turma) {
+            $turma->curso = DB::table('cursos')->find($turma->id_curso)->nm_curso;
+        }
 
         return view('admin.disciplina.add', [
-            'professores' => $professores
+            'professores' => $professores,
+            'turmas' => $turmas
         ]);
     }
 
@@ -66,7 +78,7 @@ class DisciplinaController extends Controller
      */
     public function addDisciplina(Request $request)
     {
-        $campos = ['nome' => 'Nome', 'professor' => 'Professores'];
+        $campos = ['nome' => 'Nome', 'professor' => 'Professores', 'turma' => 'Turma'];
         
         foreach($campos as $name => $campo) {
             if ($request->$name == ''){
@@ -74,13 +86,12 @@ class DisciplinaController extends Controller
             }
         }
 
-        $disciplina = Disciplinas::create(['nm_disciplina' => $request->nome, 'id_professor' => $request->professor]);
-        
-        if ($disciplina) {
+        try {
+            Disciplinas::create(['nm_disciplina' => $request->nome, 'id_turma' => $request->turma, 'id_professor' => $request->professor]);
             return redirect()->route('admin.disciplina.list');
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro:'.$e->getMessage()]);
         }
-        
-        return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro ao cadastrar disciplina']);
         
     }
 
@@ -93,10 +104,18 @@ class DisciplinaController extends Controller
     public function edit($id)
     {
         $professores = DB::table('users')->where('tp_usuario','P')->get();
+        $turmas = DB::table('turmas')->get();
+
+        foreach ($turmas as &$turma) {
+            $turma->curso = DB::table('cursos')->find($turma->id_curso)->nm_curso;
+        }
+
         $disciplina = DB::table('disciplinas')->find($id);
+
         return view('admin.disciplina.edit', [
             'disciplina' => $disciplina,
-            'professores' => $professores
+            'professores' => $professores,
+            'turmas' => $turmas
         ]);
     }
 
@@ -109,7 +128,7 @@ class DisciplinaController extends Controller
     public function editDisciplina($id, Request $request)
     {
         
-        $campos = ['nome' => 'Nome', 'professor' => 'Professores'];
+        $campos = ['nome' => 'Nome', 'professor' => 'Professores', 'turma' => 'Turma'];
         
         foreach($campos as $name => $campo) {
             if ($request->$name == ''){
@@ -117,17 +136,18 @@ class DisciplinaController extends Controller
             }
         }
         
-        $dados = ['nm_disciplina' => $request->nome, 'id_professor' => $request->professor];
+        $dados = ['nm_disciplina' => $request->nome, 'id_professor' => $request->professor, 'id_turma' => $request->turma];
+        
+        try {
+            DB::table('disciplinas')
+            ->where('id', $id)
+            ->update($dados);
 
-        $disciplina = DB::table('disciplinas')
-              ->where('id', $id)
-              ->update($dados);
-
-        if ($disciplina) {
             return redirect()->route('admin.disciplina.list');
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro ao editar o disciplina:'.$e->getMessage()]);
         }
         
-        return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro ao editar o disciplina']);
     }
 
     /**

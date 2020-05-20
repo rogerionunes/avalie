@@ -17,6 +17,8 @@ class CreateDisciplinasTable extends Migration
             $table->increments('id');
             $table->integer('id_professor')->unsigned();
             $table->foreign('id_professor')->references('id')->on('users');
+            $table->integer('id_turma')->unsigned();
+            $table->foreign('id_turma')->references('id')->on('turmas');
             $table->string('nm_disciplina');
             $table->timestamps();
         });

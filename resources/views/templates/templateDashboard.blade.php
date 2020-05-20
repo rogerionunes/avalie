@@ -36,6 +36,10 @@
   <link rel="stylesheet" href="{{url('assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{url('assets/dist/css/adminlte.min.css')}}">
+
+  {{-- favicon --}}
+  <link rel="shortcut icon" href="{{url('assets/dist/img/favicon.ico')}}" type="image/x-icon">
+  <link rel="icon" href="{{url('assets/dist/img/favicon.ico')}}" type="image/x-icon">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -65,8 +69,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('admin.dashboard')}}" class="brand-link">
-      <img src="{{url('assets/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
+      <img src="{{url('assets/dist/img/icon.png')}}" alt="Avalie" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Avalie</span>
     </a>
 
@@ -76,35 +79,51 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          @if (Auth::user()->tp_usuario != 'P')
+            <li class="nav-item">
+              <a href="{{ route('admin.users.list') }}" class="nav-link @if (Request::segment(2) == 'user') active @endif">
+                <i class="far fa-circle nav-icon"></i>
+                <p>
+                  Usuario
+                </p>
+              </a>
+            </li>
+          @endif
+          @if (Auth::user()->tp_usuario != 'P')
+            <li class="nav-item">
+              <a href="{{ route('admin.curso.list') }}" class="nav-link @if (Request::segment(2) == 'curso') active @endif">
+                <i class="far fa-circle nav-icon"></i>
+                <p>
+                  Cursos
+                </p>
+              </a>
+            </li>
+          @endif
+          @if (Auth::user()->tp_usuario != 'P')
+            <li class="nav-item">
+              <a href="{{ route('admin.turma.list') }}" class="nav-link @if (Request::segment(2) == 'turma') active @endif">
+                <i class="far fa-circle nav-icon"></i>
+                <p>
+                  Turmas
+                </p>
+              </a>
+            </li>
+          @endif
+          @if (Auth::user()->tp_usuario != 'P')
+            <li class="nav-item">
+              <a href="{{ route('admin.disciplina.list') }}" class="nav-link @if (Request::segment(2) == 'disciplina') active @endif">
+                <i class="far fa-circle nav-icon"></i>
+                <p>
+                  Disciplinas
+                </p>
+              </a>
+            </li>
+          @endif
           <li class="nav-item">
-            <a href="{{ route('admin.users.list') }}" class="nav-link @if (Request::segment(2) == 'user') active @endif">
+            <a href="{{ route('admin.avaliacao.list') }}" class="nav-link @if (Request::segment(2) == 'avaliacao') active @endif">
               <i class="far fa-circle nav-icon"></i>
               <p>
-                Usuario
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.curso.list') }}" class="nav-link @if (Request::segment(2) == 'curso') active @endif">
-              <i class="far fa-circle nav-icon"></i>
-              <p>
-                Curso
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.disciplina.list') }}" class="nav-link @if (Request::segment(2) == 'disciplina') active @endif">
-              <i class="far fa-circle nav-icon"></i>
-              <p>
-                Disciplina
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.turma.list') }}" class="nav-link @if (Request::segment(2) == 'turma') active @endif">
-              <i class="far fa-circle nav-icon"></i>
-              <p>
-                Turma
+                Avaliação
               </p>
             </a>
           </li>
@@ -118,6 +137,7 @@
   <div class="content-wrapper">
 
     @yield('contentDashboard')
+
   </div>
 
   <footer class="main-footer">
@@ -166,7 +186,7 @@
 <!-- AdminLTE App -->
 <script src="{{url('assets/dist/js/adminlte.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{url('assets/dist/js/pages/dashboard.js')}}"></script>
+<script src="@if (Request::segment(2) == '') {{url('assets/dist/js/pages/dashboard.js')}} @else {{url('assets/dist/js/pages/'.Request::segment(2).'.js')}} @endif"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{url('assets/dist/js/demo.js')}}"></script>
 <!-- DataTables -->
@@ -186,6 +206,198 @@
 <script>
   //Initialize Select2 Elements
   $('.select2').select2();
+  
+  //datatables
+  $(function () {
+
+    var table = $('#table').DataTable({
+      dom: 'Bfrtip',
+      oLanguage: {
+        "sEmptyTable": "Nenhum registro encontrado",
+        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "_MENU_ resultados por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+          "sNext": "Próximo",
+          "sPrevious": "Anterior",
+          "sFirst": "Primeiro",
+          "sLast": "Último"
+        },
+        "oAria": {
+          "sSortAscending": ": Ordenar colunas de forma ascendente",
+          "sSortDescending": ": Ordenar colunas de forma descendente"
+        }
+      },
+      ordering: true,
+      paging: true,
+      pageLength: 15, //paginacao necessaria para otimizar os filtros do relatoria
+      searching: true,
+      info: false,
+      order: [[ 0, "desc" ]]
+    });
+  });
+  
+  // AVALIAÇÃO
+  $('#blocoCadastro').hide();
+  $('#btnCancelar').hide();
+  $('#btnIniciarAvaliacao').hide();
+  $('#divMsgErro').hide();
+  
+  $('#btnCadastrar').on('click', function() {
+    $('#blocoCadastro').show('slow');
+    $('#btnIniciarAvaliacao').show();
+    $('#btnCancelar').show();
+    $(this).hide();
+  });
+  
+  $('#btnCancelar').on('click', function() {
+    $('#curso, #turma, #disciplina').val('').trigger('change');
+    $('#turma, #disciplina').attr('disabled', true);
+    $('#blocoCadastro').hide('slow');
+    $('#btnIniciarAvaliacao').hide();
+    $('#btnCadastrar').show();
+    $(this).hide();
+  });
+  
+  $('#curso').on('change', function() {
+    if($(this).val() != '') {
+      $.ajax({
+        url: "{{ route('admin.avaliacao.listTurma') }}",
+        dataType: "json",
+        type: 'get',
+        data: {
+          idCurso : $(this).val()
+        },
+        beforeSend : function() {
+          $("#turma").html('<option>Pesquisando...</option>');
+          $("#turma").attr('disabled', true);
+        }
+      })
+      .done(function(response) {
+        var conteudo = '';
+        if (response.status == '1') {
+          $("#turma").attr('disabled', false);
+          conteudo += '<option value=""></option>';
+          $.each(response.dados, function(index, value) {
+            conteudo += '<option value="'+value.id+'">'+value.nm_turma+'</option>';
+          });
+          
+        } else {
+          conteudo += '<option value="">Nenhuma turma encontrada neste Curso para este professor</option>';
+        }
+        $("#turma").html(conteudo);
+      })
+      .fail(function(jqXHR, textStatus, msg) {
+        console.log(msg);
+      }); 
+    }
+  });
+  
+  $('#turma').on('change', function() {
+    if($(this).val() != '') {
+      $.ajax({
+        url: "{{ route('admin.avaliacao.listDisciplina') }}",
+        dataType: "json",
+        type: 'get',
+        data: {
+          idTurma : $(this).val()
+        },
+        beforeSend : function() {
+          $("#disciplina").html('<option>Pesquisando...</option>');
+          $("#disciplina").attr('disabled', true);
+        }
+      })
+      .done(function(response) {
+        var conteudo = '';
+        if (response.status == '1') {
+          $("#disciplina").attr('disabled', false);
+          conteudo += '<option value=""></option>';
+          $.each(response.dados, function(index, value) {
+            conteudo += '<option value="'+value.id+'">'+value.nm_disciplina+'</option>';
+          });
+          
+        } else {
+          conteudo += '<option value="">Nenhuma Disciplina encontrada nesta Turma para este professor</option>';
+        }
+        $("#disciplina").html(conteudo);
+      })
+      .fail(function(jqXHR, textStatus, msg) {
+        console.log(msg);
+      }); 
+    }
+  });
+  
+  $('#btnIniciarAvaliacao').on('click', function() {
+    
+    $('#divMsgErro').hide();
+    
+    if ($('#curso').val() == '') {
+      $('#divMsgErro').show();
+      $('#msgErro').html('O campo Curso é obrigatorio.');
+      return;
+    }
+    
+    if ($('#turma').val() == '') {
+      $('#divMsgErro').show();
+      $('#msgErro').html('O campo Turma é obrigatorio.');
+      return;
+    }
+    
+    if ($('#disciplina').val() == '') {
+      $('#divMsgErro').show();
+      $('#msgErro').html('O campo Disciplina é obrigatorio.');
+      return;
+    }
+    
+    if (confirm("Tem certeza que deseja INICIAR a avaliação?")) {
+      $.ajax({
+        url: "{{ route('admin.avaliacao.add') }}",
+        dataType: "json",
+        type: 'get',
+        data: {
+          curso : $('#curso').val(),
+          turma : $('#turma').val(),
+          disciplina : $('#disciplina').val()
+        },
+        beforeSend : function() {
+          $('#btnIniciarAvaliacao').html('<i class="fa fa-spinner fa-spin"></i> Criando...');
+          $('#btnIniciarAvaliacao, #btnCancelar').attr('disabled', true);
+        }
+      })
+      .done(function(response) {
+        var conteudo = '';
+        if (response.status == '1') {
+          
+          location.reload();
+          
+        } else {
+          $('#btnIniciarAvaliacao').html('Iniciar Avaliação');
+          $('#btnIniciarAvaliacao, #btnCancelar').attr('disabled', false);
+
+          $('#divMsgErro').show();
+          $('#msgErro').html(response.erro);
+        }
+      })
+      .fail(function(jqXHR, textStatus, msg) {
+        console.log(msg);
+      });
+    }
+  });
+  
+  $('.confirmationDelete').on('click', function () {
+    return confirm('Você tem certeza que deseja CANCELAR a avaliação?');
+  });
+  
+  $('.confirmationFinalizar').on('click', function () {
+    return confirm('Você tem certeza que deseja FINALIZAR a avaliação?');
+  });
 </script>
 </body>
 </html>

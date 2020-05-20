@@ -15,6 +15,7 @@ class Disciplinas extends Model
      */
     protected $fillable = [
         'id_professor',
+        'id_turma',
         'nm_disciplina'
     ];
 

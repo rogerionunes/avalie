@@ -7,7 +7,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Dashboard Coordenador</h1>
+          <h1 class="m-0 text-dark">Dashboard Professor</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -23,36 +23,15 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-
+      <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-4">
-          <div class="small-box bg-info">
-            <div class="inner">
-              <h3>150</h3>
-              <p>Usuários</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-tasks"></i>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-lg-4">
-          <div class="small-box bg-info">
-            <div class="inner">
-              <h3>150</h3>
-              <p>Professores</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-chalkboard-teacher"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4">
+      
+        <div class="col-lg-3">
+          <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
               <h3>65</h3>
+
               <p>Avaliações</p>
             </div>
             <div class="icon">
@@ -60,10 +39,8 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <div class="small-box bg-warning">
             <div class="inner">
               <h3>44</h3>
@@ -75,7 +52,7 @@
           </div>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <div class="small-box bg-success">
             <div class="inner">
               <h3>53<sup style="font-size: 20px">%</sup></h3>
@@ -87,7 +64,7 @@
           </div>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <div class="small-box bg-danger">
             <div class="inner">
               <h3>65</h3>
@@ -98,6 +75,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div><!-- /.container-fluid -->
   </section>

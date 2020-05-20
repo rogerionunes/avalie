@@ -13,13 +13,18 @@ class CreateSessoesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sessoes', function (Blueprint $table) {
+        Schema::create('avaliacoes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_professor')->unsigned();
             $table->foreign('id_professor')->references('id')->on('users');
-            $table->string('codigo');
-            $table->time('tempoInicial');
-            $table->time('tempoFinal');
+            $table->integer('id_curso')->unsigned();
+            $table->foreign('id_curso')->references('id')->on('cursos');
+            $table->integer('id_turma')->unsigned();
+            $table->foreign('id_turma')->references('id')->on('turmas');
+            $table->integer('id_disciplina')->unsigned();
+            $table->foreign('id_disciplina')->references('id')->on('disciplinas');
+            $table->string('pin');
+            $table->dateTime('dataValidade');
             $table->enum('status', ['0','1']);
             $table->timestamps();
         });
@@ -32,6 +37,6 @@ class CreateSessoesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sessoes');
+        Schema::dropIfExists('avaliacoes');
     }
 }
