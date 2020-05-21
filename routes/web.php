@@ -13,11 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// 
+Auth::routes();
+
 Route::get('/', 'LoginController@index');
 Route::get('/admin', 'AdminController@index');
-
-Auth::routes();
 
 // admin/dashboard
 Route::get('/admin', 'AuthController@dashboard')->name('admin.dashboard');
@@ -73,3 +72,4 @@ Route::get('/admin/avaliacao/add', 'AvaliacaoController@add')->name('admin.avali
 Route::get('/admin/avaliacao/finalizar/{id}', 'AvaliacaoController@finalizar')->name('admin.avaliacao.finalizar');
 Route::get('/admin/avaliacao/listTurma', 'AvaliacaoController@listTurma')->name('admin.avaliacao.listTurma');
 Route::get('/admin/avaliacao/listDisciplina', 'AvaliacaoController@listDisciplina')->name('admin.avaliacao.listDisciplina');
+Route::get('/admin/avaliacao/login', 'AvaliacaoController@listDisciplina')->name('admin.avaliacao.listDisciplina');
