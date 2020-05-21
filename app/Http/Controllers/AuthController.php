@@ -66,9 +66,9 @@ class AuthController extends Controller
     protected function createUser()
     {
         $user = Users::create([
-            'name' => 'Rogerio Nunes',
-            'email' => 'rogerionunes90@gmail.com',
-            'password' => Hash::make('12345678'),
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('123321'),
             'tp_usuario' => 'S'
         ]);
 
