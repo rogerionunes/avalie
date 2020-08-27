@@ -30,11 +30,11 @@ class AvaliacaoController extends Controller
         $avaliacaoList = [];
         $avaliacoes = DB::table('avaliacoes');
         
-        if (!in_array(Auth::user()->tp_usuario, ['S', 'C'])) {
+        if (!in_array(Auth::user()->tp_usuario, ['S','C'])) {
             $avaliacoes->where('id_professor', Auth::user()->id);
         }
         
-        $avaliacoes = $avaliacoes->get();
+        $avaliacoes = $avaliacoes->orderBy('status', 'desc')->get();
 
         foreach ($avaliacoes as $avaliacao) {
 
@@ -49,7 +49,6 @@ class AvaliacaoController extends Controller
                 'status' => $avaliacao->status
             ];
         }
-
         
         $disciplinas = DB::table('disciplinas')->where('id_professor', Auth::user()->id)->get();
         
@@ -149,25 +148,71 @@ class AvaliacaoController extends Controller
             $pin = $this->geraPin();
         }
         
+        $avaliacao = DB::table('avaliacoes')
+        ->where(['id_professor' => Auth::user()->id, 
+        'id_curso' => $request->curso,
+        'id_turma' => $request->turma,
+        'id_disciplina' => $request->disciplina,
+        'status' => '1',
+        'DAY(created_at)' => date('d'),
+        'MONTH(created_at)' => date('m'),
+        'YEAR(created_at)' => date('Y')])
+        ->first();
+
+        if ($avaliacao) {
+            $dateCreated = explode(' ', $avaliacao->created_at);
+            $dateCreated = $dateCreated[0];
+            if ($dateCreated == date('Y-m-d')) {
+                return json_encode(['status' => '0', 'erro' => 'Só é permitido criar uma avaliação por dia da mesma turma']);
+            }
+        }
+        
         //insercao da avaliacao
-        $avaliacao = Avaliacoes::firstOrcreate(['id_professor' => Auth::user()->id, 
+        $avaliacaoAdd = Avaliacoes::create(
+            ['id_professor' => Auth::user()->id, 
             'id_curso' => $request->curso,
             'id_turma' => $request->turma,
             'id_disciplina' => $request->disciplina,
-            'status' => '1',
-        ], [
-        'pin' => $this->geraPin(),
-        'dataValidade' => date('Y-m-d H:i:s', strtotime('now+1day')),
-        ]);
+            'pin' => $this->geraPin(),
+            'dataValidade' => date('Y-m-d H:i:s', strtotime('now+1day'))]
+        );
         
-        if ($avaliacao) {
-            if (!$avaliacao->wasRecentlyCreated) {
-                return json_encode(['status' => '0', 'erro' => 'já possui uma avaliação ativa para esse curso, turma e disciplina.']);
-            }
+        if ($avaliacaoAdd) {
             return json_encode(['status' => '1']);
         }
         
+        
         return json_encode(['status' => '0', 'erro' => 'Ocorreu algum erro ao cadastrar avaliacao']);
+    }
+    
+    public function sessao(Request $request)
+    {
+        $pin = preg_replace('/[^A-Za-z0-9]/', "", $request->pin);
+
+        $avaliacao = DB::table('avaliacoes')->where(['pin' => $pin])->first();
+
+        if ($avaliacao) {
+
+            if ($avaliacao->status == '0') {
+                return redirect()->back()->withInput()->withErrors(['Sessão expirada.']);
+            }
+
+        
+            $curso = DB::table('cursos')->find($avaliacao->id_curso);
+            $turma = DB::table('turmas')->find($avaliacao->id_turma);
+            $disciplina = DB::table('disciplinas')->find($avaliacao->id_disciplina);
+            $professor = DB::table('users')->find($avaliacao->id_professor);
+
+            return view('admin.avaliacao.sessao', [
+                'disciplina' => $disciplina,
+                'curso' => $curso,
+                'turma' => $turma,
+                'professor' => $professor
+            ]);
+
+        }
+
+        return redirect()->back()->withInput()->withErrors(['PIN incorreto, digite novamente.']);
     }
 
     /**

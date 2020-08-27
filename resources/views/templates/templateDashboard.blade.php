@@ -56,7 +56,11 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Seja bem vindo, <strong>{{ Auth::user()->name }}.</strong></a>
+        @if (Request::segment(3) != 'sessao')
+          <a href="#" class="nav-link">Seja bem vindo, <strong>{{ Auth::user()->name }}.</strong></a>
+        @else
+          <a href="#" class="nav-link">Seja bem vindo Aluno.</strong></a>
+        @endif
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{ route('admin.login.logout') }}" class="nav-link">Sair</a>
@@ -68,65 +72,103 @@
   <!-- Main Sidebar Container MENU -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ route('admin.dashboard')}}" class="brand-link">
+    <a href="@if (Request::segment(3) == 'sessao') {{route('autenticar')}} @else {{route('admin')}} @endif" class="brand-link">
       <img src="{{url('assets/dist/img/icon.png')}}" alt="Avalie" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Avalie</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          @if (Auth::user()->tp_usuario != 'P')
+          @if (Request::segment(3) != 'sessao')
             <li class="nav-item">
-              <a href="{{ route('admin.users.list') }}" class="nav-link @if (Request::segment(2) == 'user') active @endif">
-                <i class="far fa-circle nav-icon"></i>
-                <p>
-                  Usuario
-                </p>
+              <a href="{{ route('admin') }}" class="nav-link @if (Request::segment(1) == 'admin' && !Request::segment(2)) active @endif">
+                <i class="fas fa-home nav-icon"></i>
+                <p>Dashboard</p>
+              </a>
+            </li>
+            @if (Auth::user()->tp_usuario != 'P')
+              <li class="nav-item has-treeview @if (Request::segment(2) == 'user' || Request::segment(2) == 'curso' || Request::segment(2) ==  'turma' || Request::segment(2) ==  'disciplina')) menu-open @endif">
+                <a href="#" class="nav-link @if (Request::segment(2) == 'user' || Request::segment(2) == 'curso' || Request::segment(2) ==  'turma' || Request::segment(2) ==  'disciplina')) active @endif">
+                  <i class="fas fa-plus-square nav-icon"></i>
+                  <p>
+                    Cadastros
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('admin.users.list') }}" class="nav-link @if (Request::segment(2) == 'user') active @endif">
+                      <i class="fas fa-user nav-icon"></i>
+                      <p>Usuario</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('admin.curso.list') }}" class="nav-link @if (Request::segment(2) == 'curso') active @endif">
+                      <i class="fas fa-layer-group nav-icon"></i>
+                      <p>Cursos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('admin.turma.list') }}" class="nav-link @if (Request::segment(2) == 'turma') active @endif">
+                      <i class="fas fa-users nav-icon"></i>
+                      <p>Turmas</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('admin.disciplina.list') }}" class="nav-link @if (Request::segment(2) == 'disciplina') active @endif">
+                    <i class="fas fa-book nav-icon"></i>
+                      <p>Disciplinas</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('admin.formulario.list') }}" class="nav-link @if (Request::segment(2) == 'formulario') active @endif">
+                    <i class="fas fa-layer-group"></i>
+                      <p>Formulários</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item has-treeview @if (Request::segment(2) == 'results' || Request::segment(2) == 'compare')) menu-open @endif">
+                <a href="#" class="nav-link @if (Request::segment(2) == 'results' || Request::segment(2) == 'compare')) active @endif">
+                  <i class="fas fa-chart-pie nav-icon"></i>
+                  <p>
+                    Relatórios
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('admin.results') }}" class="nav-link @if (Request::segment(2) == 'results') active @endif">
+                      <i class="fas fa-poll nav-icon"></i>
+                      <p>Resultados</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('admin.compare') }}" class="nav-link @if (Request::segment(2) == 'compare') active @endif">
+                      <i class="fas fa-project-diagram nav-icon"></i>
+                      <p>Comparar Avaliações</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            @endif
+            <li class="nav-item">
+              <a href="{{ route('admin.avaliacao.list') }}" class="nav-link @if (Request::segment(2) == 'avaliacao') active @endif">
+                <i class="fas fa-star nav-icon"></i>
+                <p>Avaliação</p>
+              </a>
+            </li>
+          @else
+            <li class="nav-item">
+              <a href="" class="nav-link @if (Request::segment(2) == 'avaliacao') active @endif">
+                <i class="fas fa-star nav-icon"></i>
+                <p>Avaliação</p>
               </a>
             </li>
           @endif
-          @if (Auth::user()->tp_usuario != 'P')
-            <li class="nav-item">
-              <a href="{{ route('admin.curso.list') }}" class="nav-link @if (Request::segment(2) == 'curso') active @endif">
-                <i class="far fa-circle nav-icon"></i>
-                <p>
-                  Cursos
-                </p>
-              </a>
-            </li>
-          @endif
-          @if (Auth::user()->tp_usuario != 'P')
-            <li class="nav-item">
-              <a href="{{ route('admin.turma.list') }}" class="nav-link @if (Request::segment(2) == 'turma') active @endif">
-                <i class="far fa-circle nav-icon"></i>
-                <p>
-                  Turmas
-                </p>
-              </a>
-            </li>
-          @endif
-          @if (Auth::user()->tp_usuario != 'P')
-            <li class="nav-item">
-              <a href="{{ route('admin.disciplina.list') }}" class="nav-link @if (Request::segment(2) == 'disciplina') active @endif">
-                <i class="far fa-circle nav-icon"></i>
-                <p>
-                  Disciplinas
-                </p>
-              </a>
-            </li>
-          @endif
-          <li class="nav-item">
-            <a href="{{ route('admin.avaliacao.list') }}" class="nav-link @if (Request::segment(2) == 'avaliacao') active @endif">
-              <i class="far fa-circle nav-icon"></i>
-              <p>
-                Avaliação
-              </p>
-            </a>
-          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -140,11 +182,8 @@
 
   </div>
 
-  <footer class="main-footer">
+  <footer class="main-footer" align="center">
     <strong>Avalie - Sistema de Avaliação Docente
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Versão</b> 1.0.0
-    </div>
   </footer>
 
   <!-- Control Sidebar -->
@@ -210,6 +249,12 @@
   //datatables
   $(function () {
 
+    var url = window.location.pathname,
+    url = url.split('/');
+
+    colunaForm = (url[2] != 'avaliacao')?0:7;
+    order = (url[2] != 'avaliacao')?'desc':'asc';
+
     var table = $('#table').DataTable({
       dom: 'Bfrtip',
       oLanguage: {
@@ -240,31 +285,26 @@
       pageLength: 15, //paginacao necessaria para otimizar os filtros do relatoria
       searching: true,
       info: false,
-      order: [[ 0, "desc" ]]
+      order: [[ colunaForm, order ]]
     });
   });
   
-  // AVALIAÇÃO
-  $('#blocoCadastro').hide();
-  $('#btnCancelar').hide();
-  $('#btnIniciarAvaliacao').hide();
-  $('#divMsgErro').hide();
-  
-  $('#btnCadastrar').on('click', function() {
-    $('#blocoCadastro').show('slow');
-    $('#btnIniciarAvaliacao').show();
-    $('#btnCancelar').show();
-    $(this).hide();
-  });
-  
-  $('#btnCancelar').on('click', function() {
-    $('#curso, #turma, #disciplina').val('').trigger('change');
-    $('#turma, #disciplina').attr('disabled', true);
-    $('#blocoCadastro').hide('slow');
-    $('#btnIniciarAvaliacao').hide();
-    $('#btnCadastrar').show();
-    $(this).hide();
-  });
+  // AVALIAÇÃO (INICIO)
+    $('#btnCadastrar').on('click', function() {
+      $('#blocoCadastro').attr('hidden', false);
+      $('#btnIniciarAvaliacao').attr('hidden', false);
+      $('#btnCancelar').attr('hidden', false);
+      $(this).attr('hidden', true);
+    });
+    
+    $('#btnCancelar').on('click', function() {
+      $('#curso, #turma, #disciplina').val('').trigger('change');
+      $('#turma, #disciplina').attr('disabled', true);
+      $('#blocoCadastro').attr('hidden', true);
+      $('#btnIniciarAvaliacao').attr('hidden', true);
+      $('#btnCadastrar').attr('hidden', false);
+      $(this).attr('hidden', true);
+    });
   
   $('#curso').on('change', function() {
     if($(this).val() != '') {
@@ -336,22 +376,22 @@
   
   $('#btnIniciarAvaliacao').on('click', function() {
     
-    $('#divMsgErro').hide();
+    $('#divMsgErro').attr('hidden', true);
     
     if ($('#curso').val() == '') {
-      $('#divMsgErro').show();
+      $('#divMsgErro').attr('hidden', false);
       $('#msgErro').html('O campo Curso é obrigatorio.');
       return;
     }
     
     if ($('#turma').val() == '') {
-      $('#divMsgErro').show();
+      $('#divMsgErro').attr('hidden', false);
       $('#msgErro').html('O campo Turma é obrigatorio.');
       return;
     }
     
     if ($('#disciplina').val() == '') {
-      $('#divMsgErro').show();
+      $('#divMsgErro').attr('hidden', false);
       $('#msgErro').html('O campo Disciplina é obrigatorio.');
       return;
     }
@@ -381,7 +421,7 @@
           $('#btnIniciarAvaliacao').html('Iniciar Avaliação');
           $('#btnIniciarAvaliacao, #btnCancelar').attr('disabled', false);
 
-          $('#divMsgErro').show();
+          $('#divMsgErro').attr('hidden', false);
           $('#msgErro').html(response.erro);
         }
       })
@@ -390,6 +430,7 @@
       });
     }
   });
+  // AVALIAÇÃO (FIM)
   
   $('.confirmationDelete').on('click', function () {
     return confirm('Você tem certeza que deseja CANCELAR a avaliação?');

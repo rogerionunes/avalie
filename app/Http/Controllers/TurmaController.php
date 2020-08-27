@@ -158,6 +158,17 @@ class TurmaController extends Controller
      */
     public function delete($id)
     {
+        $disciplinas = DB::table('disciplinas')->where('id_turma', $id)->get();
+
+        if ($disciplinas) {
+            return redirect()->back()->withInput()->withErrors(['A Turma está associado à uma disciplina.']);
+        }
+        $avaliacoes = DB::table('avaliacoes')->where('id_turma', $id)->get();
+
+        if ($avaliacoes) {
+            return redirect()->back()->withInput()->withErrors(['A Turma está associado à uma avaliação.']);
+        }
+
         $turma = DB::table('turmas')->where('id', $id)->delete();
 
         if ($turma) {

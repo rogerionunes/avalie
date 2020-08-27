@@ -2,23 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Avaliacoes;
-use App\Models\Cursos;
-use App\Models\Disciplinas;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
-class DisciplinaController extends Controller
+class FormularioController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->avaliacoes = new Avaliacoes();
-        $this->disciplinas = new Disciplinas();
-    }
-
     /**
     * Display a listing of the resource.
     *
@@ -26,7 +15,7 @@ class DisciplinaController extends Controller
     */
     public function index()
     {
-        return redirect()->route('admin.disciplina.list');
+        return redirect()->route('admin.formulario.list');
     }
 
     /**
@@ -36,25 +25,22 @@ class DisciplinaController extends Controller
      */
     public function list(Request $request)
     {
+        $formularioList = [];
+        $formularios = DB::table('formularios')->get();
 
-        $disciplinaList = [];
-        $disciplinas = DB::table('disciplinas')->get();
+        foreach ($formularios as $formulario) {
 
-        foreach ($disciplinas as $disciplina) {
-
-            $turma = DB::table('turmas')->find($disciplina->id_turma);
+            $turma = DB::table('turmas')->find($formulario->id_turma);
             $cursoTurma = DB::table('cursos')->find($turma->id_curso);
 
-            $disciplinaList[] = [
-                'codigo' => $disciplina->id,
-                'professor' => DB::table('users')->find($disciplina->id_professor)->name,
-                'turma' => $cursoTurma->nm_curso.' - '.$turma->nm_turma,
-                'nome' => $disciplina->nm_disciplina
+            $formularioList[] = [
+                'codigo' => $formulario->id,
+                'nome' => $formulario->name
             ];
         }
 
-        return view('admin.disciplina.list', [
-            'disciplinaList' => $disciplinaList
+        return view('admin.formulario.list', [
+            'formularioList' => $formularioList
         ]);
     }
 
@@ -65,14 +51,14 @@ class DisciplinaController extends Controller
      */
     public function add()
     {
-        $professores = DB::table('users')->whereIn('tp_usuario', ['P','C'])->get();
+        $professores = DB::table('users')->where('tp_usuario','P')->get();
         $turmas = DB::table('turmas')->get();
 
         foreach ($turmas as &$turma) {
             $turma->curso = DB::table('cursos')->find($turma->id_curso)->nm_curso;
         }
 
-        return view('admin.disciplina.add', [
+        return view('admin.formulario.add', [
             'professores' => $professores,
             'turmas' => $turmas
         ]);
@@ -83,7 +69,7 @@ class DisciplinaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function addDisciplina(Request $request)
+    public function addFormulario(Request $request)
     {
         $campos = ['nome' => 'Nome', 'professor' => 'Professores', 'turma' => 'Turma'];
         
@@ -94,8 +80,8 @@ class DisciplinaController extends Controller
         }
 
         try {
-            Disciplinas::create(['nm_disciplina' => $request->nome, 'id_turma' => $request->turma, 'id_professor' => $request->professor]);
-            return redirect()->route('admin.disciplina.list');
+            Formularios::create(['nm_formulario' => $request->nome, 'id_turma' => $request->turma, 'id_professor' => $request->professor]);
+            return redirect()->route('admin.formulario.list');
         } catch (Exception $e) {
             return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro:'.$e->getMessage()]);
         }
@@ -110,17 +96,17 @@ class DisciplinaController extends Controller
      */
     public function edit($id)
     {
-        $professores = DB::table('users')->whereIn('tp_usuario',['P', 'C'])->get();
+        $professores = DB::table('users')->where('tp_usuario','P')->get();
         $turmas = DB::table('turmas')->get();
 
         foreach ($turmas as &$turma) {
             $turma->curso = DB::table('cursos')->find($turma->id_curso)->nm_curso;
         }
 
-        $disciplina = DB::table('disciplinas')->find($id);
+        $formulario = DB::table('formularios')->find($id);
 
-        return view('admin.disciplina.edit', [
-            'disciplina' => $disciplina,
+        return view('admin.formulario.edit', [
+            'formulario' => $formulario,
             'professores' => $professores,
             'turmas' => $turmas
         ]);
@@ -132,7 +118,7 @@ class DisciplinaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editDisciplina($id, Request $request)
+    public function editFormulario($id, Request $request)
     {
         
         $campos = ['nome' => 'Nome', 'professor' => 'Professores', 'turma' => 'Turma'];
@@ -143,16 +129,16 @@ class DisciplinaController extends Controller
             }
         }
         
-        $dados = ['nm_disciplina' => $request->nome, 'id_professor' => $request->professor, 'id_turma' => $request->turma];
+        $dados = ['nm_formulario' => $request->nome, 'id_professor' => $request->professor, 'id_turma' => $request->turma];
         
         try {
-            DB::table('disciplinas')
+            DB::table('formularios')
             ->where('id', $id)
             ->update($dados);
 
-            return redirect()->route('admin.disciplina.list');
+            return redirect()->route('admin.formulario.list');
         } catch (Exception $e) {
-            return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro ao editar o disciplina:'.$e->getMessage()]);
+            return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro ao editar o formulario:'.$e->getMessage()]);
         }
         
     }
@@ -165,19 +151,12 @@ class DisciplinaController extends Controller
      */
     public function delete($id)
     {
+        $formulario = DB::table('formularios')->where('id', $id)->delete();
 
-        $avaliacao = $this->avaliacoes->where('id_disciplina', $id)->get();
-
-        if ($avaliacao) {
-            return redirect()->back()->withInput()->withErrors(['A Disciplina esta associada à uma avaliação.']);
-        }
-
-        $disciplina = DB::table('disciplinas')->where('id', $id)->delete();
-
-        if ($disciplina) {
-            return redirect()->route('admin.disciplina.list');
+        if ($formulario) {
+            return redirect()->route('admin.formulario.list');
         }
         
-        return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro ao deletar o disciplina']);
+        return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro ao deletar o formulario']);
     }
 }

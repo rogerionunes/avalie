@@ -9,12 +9,6 @@
         <div class="col-sm-6">
           <h1 class="m-0 text-dark">Dashboard</h1>
         </div><!-- /.col -->
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">Admin</li>
-            <li class="breadcrumb-item active">Dashboard</li>
-          </ol>
-        </div><!-- /.col -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
@@ -28,11 +22,11 @@
         <div class="col-lg-4">
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>150</h3>
+              <h3>{{ $totalUsuarios }}</h3>
               <p>Usuários</p>
             </div>
             <div class="icon">
-              <i class="fas fa-tasks"></i>
+              <i class="fas fa-user"></i>
             </div>
           </div>
         </div>
@@ -40,7 +34,7 @@
         <div class="col-lg-4">
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>150</h3>
+              <h3>{{ $totalProfessores }}</h3>
               <p>Professores</p>
             </div>
             <div class="icon">
@@ -52,11 +46,11 @@
         <div class="col-lg-4">
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>65</h3>
-              <p>Avaliações</p>
+              <h3>{{ $totalAvaliacoes }}</h3>
+              <p>Avaliações Ativas</p>
             </div>
             <div class="icon">
-              <i class="fas fa-tasks"></i>
+              <i class="fas fa-star"></i>
             </div>
           </div>
         </div>
@@ -66,11 +60,11 @@
         <div class="col-lg-4">
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>44</h3>
+              <h3>{{ $totalCursos }}</h3>
               <p>Cursos</p>
             </div>
             <div class="icon">
-              <i class="fas fa-university"></i>
+              <i class="fas fa-layer-group"></i>
             </div>
           </div>
         </div>
@@ -78,11 +72,11 @@
         <div class="col-lg-4">
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>53<sup style="font-size: 20px">%</sup></h3>
+              <h3>{{ $totalTurmas }}</h3>
               <p>Turmas</p>
             </div>
             <div class="icon">
-              <i class="fas fa-users-class"></i>
+              <i class="fas fa-users"></i>
             </div>
           </div>
         </div>
@@ -90,7 +84,7 @@
         <div class="col-lg-4">
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>65</h3>
+              <h3>{{ $totalDisciplinas }}</h3>
               <p>Disciplinas</p>
             </div>
             <div class="icon">

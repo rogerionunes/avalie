@@ -9,12 +9,6 @@
         <div class="col-sm-6">
           <h1>Avaliação</h1>
         </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item">Dashboard</li>
-              <li class="breadcrumb-item active">Avaliação</li>
-          </ol>
-        </div>
       </div>
     </div><!-- /.container-fluid -->
   </section>
@@ -38,8 +32,8 @@
 
             
 
-            <div id="blocoCadastro">
-              <div class="alert alert-danger alert-dismissible" id="divMsgErro">
+            <div id="blocoCadastro" hidden>
+              <div class="alert alert-danger alert-dismissible" id="divMsgErro" hidden>
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <h5><i class="icon fas fa-ban"></i> Erro!</h5>
                 <span id="msgErro"></span>
@@ -85,8 +79,8 @@
             <div class="row">
               <div class="col-12">
                 <button type="button" class="btn btn-success" id="btnCadastrar">Cadastrar Avaliação</button>
-                <button type="button" class="btn btn-success" id="btnIniciarAvaliacao">Iniciar Avaliação</button>
-                <button type="button" class="btn btn-danger" id="btnCancelar">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnIniciarAvaliacao" hidden>Iniciar Avaliação</button>
+                <button type="button" class="btn btn-danger" id="btnCancelar" hidden>Cancelar</button>
               </div>
             </div>
 
@@ -117,7 +111,6 @@
                   <th>Disciplina</th>
                   <th>PIN</th>
                   <th>Status</th>
-                  <th>Ação</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -137,12 +130,6 @@
                           <a class="btn btn-danger" style="color:white">Finalizado</a>
                         @endif 
                       </td>
-                      <td>
-                        @if ($avaliacao['status'] == '1')
-                          <a class="confirmationFinalizar" href="{{ route('admin.avaliacao.finalizar', $avaliacao['codigo']) }}">Finalizar</a></td>
-                        @else
-                        -
-                        @endif 
                     </tr>
                   @endforeach
                 </tbody>
@@ -155,5 +142,4 @@
     </div>
   </section>
 
-    
 @endsection

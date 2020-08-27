@@ -11,21 +11,10 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
+      <p class="login-box-msg">Digite login e senha para autenticar</p>
 
-    <div class="row">
-      <div class="col-3">
-      </div>
-      <div class="col-3">
-      </div>
-      <div class="col-3">
-      </div>
-      <div class="col-3">
-        <a href="{{ route('admin')}}" class="btn btn-block btn-primary btn-xs" style="color: white">Admin <i class="fa fa-sign-in-alt"></i></a>
-      </div>
-    </div>
-      <p class="login-box-msg">Digite o PIN no campo abaixo</p>
-
-      <form action="{{ route('admin.avaliacao.sessao')}}" method="get">
+      <form action="{{ route('admin.login.autenticar')}}" method="post">
+        @csrf
 
         @if($errors->all())
         @foreach ($errors->all() as $error)
@@ -38,13 +27,27 @@
         @endif
 
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="PIN" name='pin' id='pin' value='BDB181'>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block">Iniciar Sessão</button>
+          <input type="text" class="form-control" placeholder="Email" name='email' value='alexandre@gmail.com'>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
           </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Password" name='password' value='123321'>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block">Acessar</button>
+          </div>
+          <!-- /.col -->
         </div>
       </form>
     </div>

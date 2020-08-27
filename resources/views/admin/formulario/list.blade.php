@@ -7,12 +7,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Listar Disciplina</h1>
+          <h1>Listar Formulários</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">Dashboard</li>
-              <li class="breadcrumb-item">Disciplina</li>
+              <li class="breadcrumb-item">Formulários</li>
               <li class="breadcrumb-item active">Listar</li>
           </ol>
         </div>
@@ -24,7 +24,7 @@
   <section class="content">
     <div class="row">
       <div class="col-12">
-        <a href="{{ route('admin.disciplina.add') }}" class="btn btn-success float-right">Cadastrar Disciplina</a>
+        <a href="{{ route('admin.formulario.add') }}" class="btn btn-success float-right">Cadastrar Formulários</a>
       </div>
     </div>
     <br>
@@ -38,7 +38,6 @@
     </div>
     @endforeach
     @endif
-    
     <div class="row">
       <div class="col-md-12">
         <div class="card card-primary">
@@ -47,20 +46,16 @@
                 <thead>
                 <tr>
                   <th>Código</th>
-                  <th>Turma</th>
-                  <th>Professor</th>
-                  <th>Disciplina</th>
+                  <th>Nome</th>
                   <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
-                  @foreach ($disciplinaList as $disciplina)
+                  @foreach ($formularioList as $formulario)
                     <tr>
-                      <td>{{ $disciplina['codigo'] }}</td>
-                      <td>{{ $disciplina['turma'] }}</td>
-                      <td>{{ $disciplina['professor'] }}</td>
-                      <td>{{ $disciplina['nome'] }}</td>
-                      <td><a href="{{ route('admin.disciplina.edit', $disciplina['codigo']) }}">Editar</a> | <a href="{{ route('admin.disciplina.delete', $disciplina['codigo']) }}">Delete</a></td>
+                      <td>{{ $formulario['codigo'] }}</td>
+                      <td>{{ $formulario['nome'] }}</td>
+                      <td><a href="{{ route('admin.formulario.edit', $formulario['codigo']) }}">Editar</a> | <a href="{{ route('admin.formulario.delete', $formulario['codigo']) }}">Delete</a></td>
                     </tr>
                   @endforeach
                 </tbody>

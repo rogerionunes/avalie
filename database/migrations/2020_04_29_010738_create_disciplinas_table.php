@@ -20,6 +20,7 @@ class CreateDisciplinasTable extends Migration
             $table->integer('id_turma')->unsigned();
             $table->foreign('id_turma')->references('id')->on('turmas');
             $table->string('nm_disciplina');
+            $table->engine = 'InnoDB';
             $table->timestamps();
         });
     }
