@@ -45,7 +45,9 @@ class UsersController extends Controller
                 'codigo' => $user->id,
                 'usuario' => $user->name,
                 'email' => $user->email,
-                'tipoUsuario' => $tipoUsuarioList[$user->tp_usuario]
+                'tipoUsuario' => $tipoUsuarioList[$user->tp_usuario],
+                'tipoUsuarioCode' => $user->tp_usuario,
+                'idUser' => $user->id,
             ];
         }
 

@@ -55,7 +55,7 @@
                     <tr>
                       <td>{{ $formulario['codigo'] }}</td>
                       <td>{{ $formulario['nome'] }}</td>
-                      <td><a href="{{ route('admin.formulario.edit', $formulario['codigo']) }}">Editar</a> | <a href="{{ route('admin.formulario.delete', $formulario['codigo']) }}">Delete</a></td>
+                      <td><a href="{{ route('admin.formulario.edit', $formulario['codigo']) }}">Editar</a> | <a href="{{ route('admin.formulario.delete', $formulario['codigo']) }}" class="confirmationDeleteAll"> Excluir</a></td>
                     </tr>
                   @endforeach
                 </tbody>

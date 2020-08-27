@@ -42,6 +42,14 @@
   <link rel="icon" href="{{url('assets/dist/img/favicon.ico')}}" type="image/x-icon">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+<style>
+  .isDisabled {
+    color: currentColor;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+  }
+</style>
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -438,6 +446,10 @@
   
   $('.confirmationFinalizar').on('click', function () {
     return confirm('Você tem certeza que deseja FINALIZAR a avaliação?');
+  });
+  
+  $('.confirmationDeleteAll').on('click', function () {
+    return confirm('Você tem certeza que deseja EXCLUIR?');
   });
 </script>
 </body>

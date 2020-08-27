@@ -60,7 +60,7 @@
                       <td>{{ $disciplina['turma'] }}</td>
                       <td>{{ $disciplina['professor'] }}</td>
                       <td>{{ $disciplina['nome'] }}</td>
-                      <td><a href="{{ route('admin.disciplina.edit', $disciplina['codigo']) }}">Editar</a> | <a href="{{ route('admin.disciplina.delete', $disciplina['codigo']) }}">Delete</a></td>
+                      <td><a href="{{ route('admin.disciplina.edit', $disciplina['codigo']) }}">Editar</a> | <a href="{{ route('admin.disciplina.delete', $disciplina['codigo']) }}" class="confirmationDeleteAll"> Excluir</a></td>
                     </tr>
                   @endforeach
                 </tbody>

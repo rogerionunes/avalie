@@ -59,7 +59,17 @@
                       <td>{{ $user['usuario'] }}</td>
                       <td>{{ $user['email'] }}</td>
                       <td>{{ $user['tipoUsuario'] }}</td>
-                      <td><a href="{{ route('admin.users.edit', $user['codigo']) }}">Editar</a> | <a href="{{ route('admin.users.delete', $user['codigo']) }}">Delete</a></td>
+                        <td> 
+                          @if ($user['idUser'] == Auth::user()->id)
+                            <a href=" {{ route('admin.users.edit', $user['codigo'])}}" >Editar</a>
+                          @elseif ($user['tipoUsuarioCode'] != 'C')
+                            <a href="#" class="isDisabled">Editar</a> | 
+                            <a href="#" class="isDisabled" class="confirmationDeleteAll"> Excluir</a> 
+                          @else
+                            <a href="{{ route('admin.users.edit', $user['codigo'])}}">Editar</a> | 
+                            <a href="{{ route('admin.users.delete', $user['codigo'])}}" class="confirmationDeleteAll" class="confirmationDeleteAll"> Excluir</a> 
+                          @endif
+                        </td>
                     </tr>
                   @endforeach
                 </tbody>

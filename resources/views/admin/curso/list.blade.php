@@ -56,7 +56,7 @@
                     <tr>
                       <td>{{ $curso['codigo'] }}</td>
                       <td>{{ $curso['nome'] }}</td>
-                      <td><a href="{{ route('admin.curso.edit', $curso['codigo']) }}">Editar</a> | <a href="{{ route('admin.curso.delete', $curso['codigo']) }}">Delete</a></td>
+                      <td><a href="{{ route('admin.curso.edit', $curso['codigo']) }}">Editar</a> | <a href="{{ route('admin.curso.delete', $curso['codigo']) }}" class="confirmationDeleteAll" class="confirmationDeleteAll"> Excluir</a></td>
                     </tr>
                   @endforeach
                 </tbody>

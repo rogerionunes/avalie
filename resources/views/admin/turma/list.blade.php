@@ -65,7 +65,7 @@
                       <td>{{ $turma['semestre'] }}</td>
                       <td>{{ $turma['turno'] }}</td>
                       <td>{{ $turma['status'] }}</td>
-                      <td><a href="{{ route('admin.turma.edit', $turma['codigo']) }}">Editar</a> | <a href="{{ route('admin.turma.delete', $turma['codigo']) }}">Delete</a></td>
+                      <td><a href="{{ route('admin.turma.edit', $turma['codigo']) }}">Editar</a> | <a href="{{ route('admin.turma.delete', $turma['codigo']) }}" class="confirmationDeleteAll"> Excluir</a></td>
                     </tr>
                   @endforeach
                 </tbody>
