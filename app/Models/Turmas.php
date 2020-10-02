@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Turma extends Model
+class Turmas extends Model
 {
     protected $table = 'turmas';
 

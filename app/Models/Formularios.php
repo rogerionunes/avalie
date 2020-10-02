@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Avaliacoes extends Model
+class Formularios extends Model
 {
-    protected $table = 'avaliacoes';
+    protected $table = 'formularios';
 
     /**
      * The attributes that are mass assignable.
@@ -14,14 +14,14 @@ class Avaliacoes extends Model
      * @var array
      */
     protected $fillable = [
-        'id_professor', 'id_curso', 'id_turma', 'id_disciplina', 'pin', 'dataValidade', 'status', 'created_at'
+        'id_curso', 'name', 'descricao'
     ];
 
     /**
      * Get the phone record associated with the user.
      */
-    public function professor()
+    public function formulariosPerguntas()
     {
-        return $this->hasOne('App\Models\Users', 'id');
+        return $this->hasMany('App\Models\FormulariosPerguntas', 'id_formulario')->orderBy('ordem');
     }
 }

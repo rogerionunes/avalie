@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Avaliacoes;
+use App\Models\Cursos;
+use App\Models\Disciplinas;
+use App\Models\Turmas;
+use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -40,10 +44,10 @@ class AvaliacaoController extends Controller
 
             $avaliacaoList[] = [
                 'codigo' => $avaliacao->id,
-                'professor' => DB::table('users')->find($avaliacao->id_professor)->name,
-                'curso' => DB::table('cursos')->find($avaliacao->id_curso)->nm_curso,
-                'turma' => DB::table('turmas')->find($avaliacao->id_turma)->nm_turma,
-                'disciplina' => DB::table('disciplinas')->find($avaliacao->id_disciplina)->nm_disciplina,
+                'professor' => Users::find($avaliacao->id_professor)->name,
+                'curso' => Cursos::find($avaliacao->id_curso)->nm_curso,
+                'turma' => Turmas::find($avaliacao->id_turma)->nm_turma,
+                'disciplina' => Disciplinas::find($avaliacao->id_disciplina)->nm_disciplina,
                 'pin' => $avaliacao->pin,
                 'data' => date('d/m/Y h:i:00', strtotime($avaliacao->created_at)),
                 'status' => $avaliacao->status
@@ -78,111 +82,10 @@ class AvaliacaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function listTurma(Request $request)
+    public function addSessao(Request $request)
     {
-        $turmas = DB::table('turmas')->where('id_curso', $request->idCurso)->get();
-        $turmaAux = [];
-        
-        foreach ($turmas as $turma) {
-            
-            $disciplinas = DB::table('disciplinas')->where('id_turma', $turma->id)->get();
-            
-            foreach ($disciplinas as $disciplina) {
-                if ($disciplina->id_professor == Auth::user()->id) {
-                    $turmaAux[$turma->id] = $turma;
-                }
-            }
-        }
-        
-        if ($turmaAux) {
-            $response = ['status' => '1', 'dados' => $turmaAux];
-        } else {
-            $response = ['status' => '0', 'dados' => []];
-        }
-        
-        return json_encode($response);
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function listDisciplina(Request $request)
-    {
-        $disciplinas = DB::table('disciplinas')->where(['id_turma' => $request->idTurma, 'id_professor' => Auth::user()->id])->get();
-        
-        if ($disciplinas) {
-            $response = ['status' => '1', 'dados' => $disciplinas];
-        } else {
-            $response = ['status' => '0', 'dados' => []];
-        }
-        
-        return json_encode($response);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function add(Request $request)
-    {
-        //valida se campos estao preenchidos
-        $campos = ['turma' => 'Turma', 'curso' => 'Curso', 'disciplina' => 'Disciplina'];
-        
-        foreach($campos as $name => $campo) {
-            if ($request->$name == ''){
-                return json_encode(['status' => '0', 'erro' => 'O campo '.$campo.' é obrigatório.']);
-            }
-        }
-        
-        //gera pin diferente dos pins ativos
-        $listaPins = array_map(function($value) {
-            return $value->pin;
-        }, DB::table('avaliacoes')->where('status', '1')->get()->toArray());
-        
-        $pin = $this->geraPin();
-        
-        while (in_array($pin, $listaPins)) {
-            $pin = $this->geraPin();
-        }
-        
-        $avaliacao = DB::table('avaliacoes')
-        ->where(['id_professor' => Auth::user()->id, 
-        'id_curso' => $request->curso,
-        'id_turma' => $request->turma,
-        'id_disciplina' => $request->disciplina,
-        'status' => '1',
-        'DAY(created_at)' => date('d'),
-        'MONTH(created_at)' => date('m'),
-        'YEAR(created_at)' => date('Y')])
-        ->first();
-
-        if ($avaliacao) {
-            $dateCreated = explode(' ', $avaliacao->created_at);
-            $dateCreated = $dateCreated[0];
-            if ($dateCreated == date('Y-m-d')) {
-                return json_encode(['status' => '0', 'erro' => 'Só é permitido criar uma avaliação por dia da mesma turma']);
-            }
-        }
-        
-        //insercao da avaliacao
-        $avaliacaoAdd = Avaliacoes::create(
-            ['id_professor' => Auth::user()->id, 
-            'id_curso' => $request->curso,
-            'id_turma' => $request->turma,
-            'id_disciplina' => $request->disciplina,
-            'pin' => $this->geraPin(),
-            'dataValidade' => date('Y-m-d H:i:s', strtotime('now+1day'))]
-        );
-        
-        if ($avaliacaoAdd) {
-            return json_encode(['status' => '1']);
-        }
-        
-        
-        return json_encode(['status' => '0', 'erro' => 'Ocorreu algum erro ao cadastrar avaliacao']);
+        dd('teste');
     }
     
     public function sessao(Request $request)
@@ -197,17 +100,40 @@ class AvaliacaoController extends Controller
                 return redirect()->back()->withInput()->withErrors(['Sessão expirada.']);
             }
 
-        
-            $curso = DB::table('cursos')->find($avaliacao->id_curso);
+            $curso = Cursos::find($avaliacao->id_curso);
             $turma = DB::table('turmas')->find($avaliacao->id_turma);
             $disciplina = DB::table('disciplinas')->find($avaliacao->id_disciplina);
             $professor = DB::table('users')->find($avaliacao->id_professor);
+            $formularios = $curso->formularios->where('ativo', '1')->first();
+            $formulariosPerguntas = $formularios->formulariosPerguntas;
+
+            $listPerguntasDP = [];
+            $listPerguntasIA = [];
+            $listPerguntasN = [];
+
+            foreach ($formulariosPerguntas as $pergunta) {
+                switch ($pergunta->bloco) {
+                    case 'DP':
+                        $listPerguntasDP[] = $pergunta;
+                        break;
+                    case 'IA':
+                        $listPerguntasIA[] = $pergunta;
+                        break;
+                    case 'N':
+                        $listPerguntasN[] = $pergunta;
+                        break;
+                }
+            }
 
             return view('admin.avaliacao.sessao', [
                 'disciplina' => $disciplina,
                 'curso' => $curso,
                 'turma' => $turma,
-                'professor' => $professor
+                'professor' => $professor,
+                'formularios' => $formularios,
+                'listPerguntasDP' => $listPerguntasDP,
+                'listPerguntasIA' => $listPerguntasIA,
+                'listPerguntasN' => $listPerguntasN,
             ]);
 
         }

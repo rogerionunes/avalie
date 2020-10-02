@@ -46,6 +46,7 @@
                 <thead>
                 <tr>
                   <th>Código</th>
+                  <th>Curso</th>
                   <th>Nome</th>
                   <th>Ações</th>
                 </tr>
@@ -54,6 +55,7 @@
                   @foreach ($formularioList as $formulario)
                     <tr>
                       <td>{{ $formulario['codigo'] }}</td>
+                      <td>{{ $formulario['curso'] }}</td>
                       <td>{{ $formulario['nome'] }}</td>
                       <td><a href="{{ route('admin.formulario.edit', $formulario['codigo']) }}">Editar</a> | <a href="{{ route('admin.formulario.delete', $formulario['codigo']) }}" class="confirmationDeleteAll"> Excluir</a></td>
                     </tr>

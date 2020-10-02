@@ -98,8 +98,8 @@
               </a>
             </li>
             @if (Auth::user()->tp_usuario != 'P')
-              <li class="nav-item has-treeview @if (Request::segment(2) == 'user' || Request::segment(2) == 'curso' || Request::segment(2) ==  'turma' || Request::segment(2) ==  'disciplina')) menu-open @endif">
-                <a href="#" class="nav-link @if (Request::segment(2) == 'user' || Request::segment(2) == 'curso' || Request::segment(2) ==  'turma' || Request::segment(2) ==  'disciplina')) active @endif">
+              <li class="nav-item has-treeview @if (Request::segment(2) == 'user' || Request::segment(2) == 'curso' || Request::segment(2) ==  'turma' || Request::segment(2) ==  'disciplina' || Request::segment(2) ==  'formulario')) menu-open @endif">
+                <a href="#" class="nav-link @if (Request::segment(2) == 'user' || Request::segment(2) == 'curso' || Request::segment(2) ==  'turma' || Request::segment(2) ==  'disciplina' || Request::segment(2) ==  'formulario')) active @endif">
                   <i class="fas fa-plus-square nav-icon"></i>
                   <p>
                     Cadastros
@@ -133,7 +133,7 @@
                   </li>
                   <li class="nav-item">
                     <a href="{{ route('admin.formulario.list') }}" class="nav-link @if (Request::segment(2) == 'formulario') active @endif">
-                    <i class="fas fa-layer-group"></i>
+                    <i class="fas fa-align-justify nav-icon"></i>
                       <p>Formulários</p>
                     </a>
                   </li>
@@ -145,7 +145,7 @@
                   <p>
                     Relatórios
                     <i class="right fas fa-angle-left"></i>
-                  </p>
+                  </p>                                                                           
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">

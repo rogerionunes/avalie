@@ -21,4 +21,12 @@ class Cursos extends Model
     {
         return $this->hasMany('App\Models\Turma', 'id_curso');
     }
+
+    /**
+     * Get the phone record associated with the user.
+     */
+    public function formularios()
+    {
+        return $this->hasMany('App\Models\Formularios', 'id_curso');
+    }
 }

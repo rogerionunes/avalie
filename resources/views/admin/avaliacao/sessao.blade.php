@@ -76,128 +76,65 @@
     <div class="container-fluid">
       <div class="card card-default">
         <div class="card-body">
-          <form>
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Avaliação sobre a Disciplina do Professor</th>
-                  <th scope="col">1</th>
-                  <th scope="col">2</th>
-                  <th scope="col">3</th>
-                  <th scope="col">4</th>
-                  <th scope="col">5</th>
-                  <th scope="col">6</th>
-                  <th scope="col">7</th>
-                  <th scope="col">8</th>
-                  <th scope="col">9</th>
-                  <th scope="col">10</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>O professor mostrou domínio do conteúdo apresentado?</td>
-                  <td><input type="radio" value="1" name="1"></td>
-                  <td><input type="radio" value="2" name="1"></td>
-                  <td><input type="radio" value="3" name="1"></td>
-                  <td><input type="radio" value="4" name="1"></td>
-                  <td><input type="radio" value="5" name="1"></td>
-                  <td><input type="radio" value="6" name="1"></td>
-                  <td><input type="radio" value="7" name="1"></td>
-                  <td><input type="radio" value="8" name="1"></td>
-                  <td><input type="radio" value="9" name="1"></td>
-                  <td><input type="radio" value="10" name="1"></td>
-                  
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Houve articulação entre teoria e prática do mercado?</td>
-                  <td><input type="radio" value="1" value="2"></td>
-                  <td><input type="radio" value="2" value="2"></td>
-                  <td><input type="radio" value="3" value="2"></td>
-                  <td><input type="radio" value="4" value="2"></td>
-                  <td><input type="radio" value="5" value="2"></td>
-                  <td><input type="radio" value="6" value="2"></td>
-                  <td><input type="radio" value="7" value="2"></td>
-                  <td><input type="radio" value="8" value="2"></td>
-                  <td><input type="radio" value="9" value="2"></td>
-                  <td><input type="radio" value="10" value="2"></td>
-                      
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>O material apresentado auxiliou no processo de aprendizagem?</td>
-                  <td><input type="radio" value="1" value="3"></td>
-                  <td><input type="radio" value="2" value="3"></td>
-                  <td><input type="radio" value="3" value="3"></td>
-                  <td><input type="radio" value="4" value="3"></td>
-                  <td><input type="radio" value="5" value="3"></td>
-                  <td><input type="radio" value="6" value="3"></td>
-                  <td><input type="radio" value="7" value="3"></td>
-                  <td><input type="radio" value="8" value="3"></td>
-                  <td><input type="radio" value="9" value="3"></td>
-                  <td><input type="radio" value="10" value="3"></td>
-                      
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>O professor cumpriu a carga horaria integral da disciplina?</td>
-                  <td><input type="radio" value="1" value="4"></td>
-                  <td><input type="radio" value="2" value="4"></td>
-                  <td><input type="radio" value="3" value="4"></td>
-                  <td><input type="radio" value="4" value="4"></td>
-                  <td><input type="radio" value="5" value="4"></td>
-                  <td><input type="radio" value="6" value="4"></td>
-                  <td><input type="radio" value="7" value="4"></td>
-                  <td><input type="radio" value="8" value="4"></td>
-                  <td><input type="radio" value="9" value="4"></td>
-                  <td><input type="radio" value="10" value="4"></td>
-                      
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td>O seu grau de satisfação total da disciplina foi:</td>
-                  <td><input type="radio" value="1" value="5"></td>
-                  <td><input type="radio" value="2" value="5"></td>
-                  <td><input type="radio" value="3" value="5"></td>
-                  <td><input type="radio" value="4" value="5"></td>
-                  <td><input type="radio" value="5" value="5"></td>
-                  <td><input type="radio" value="6" value="5"></td>
-                  <td><input type="radio" value="7" value="5"></td>
-                  <td><input type="radio" value="8" value="5"></td>
-                  <td><input type="radio" value="9" value="5"></td>
-                  <td><input type="radio" value="10" value="5"></td>
-                      
-                </tr>
-              </tbody>
-            </table>
+          <form action='{{ route('admin.avaliacao.addSessao') }}' method='POST'>
 
-            <p>Na sua avaliação, o ponto mais <b>estimulante</b> desta disciplina foi:</p>
+            @foreach ([$listPerguntasDP, $listPerguntasIA] as $list)
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" width="50%">
+                        Avaliação sobre a 
+                        @if ($list[0]->bloco == 'DP') 
+                          Disciplina e Professor 
+                        @else 
+                          Instituição e Atendimento 
+                        @endif
+                    </th>
+                    <th scope="col">1</th>
+                    <th scope="col">2</th>
+                    <th scope="col">3</th>
+                    <th scope="col">4</th>
+                    <th scope="col">5</th>
+                    <th scope="col">6</th>
+                    <th scope="col">7</th>
+                    <th scope="col">8</th>
+                    <th scope="col">9</th>
+                    <th scope="col">10</th>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                    @foreach ($list as $pergunta)
+                      <tr>
+                          <th scope="row">{{$pergunta->ordem}}</th>
+                          <td>{{$pergunta->titulo}}?</td>
+                          <td><input class="fieldsForms" type="radio" value="1" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                          <td><input class="fieldsForms" type="radio" value="2" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                          <td><input class="fieldsForms" type="radio" value="3" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                          <td><input class="fieldsForms" type="radio" value="4" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                          <td><input class="fieldsForms" type="radio" value="5" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                          <td><input class="fieldsForms" type="radio" value="6" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                          <td><input class="fieldsForms" type="radio" value="7" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                          <td><input class="fieldsForms" type="radio" value="8" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                          <td><input class="fieldsForms" type="radio" value="9" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                          <td><input class="fieldsForms" type="radio" value="10" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                      </tr>
+                    @endforeach
+                </tbody>
+              </table>
+            @endforeach
 
-            <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Conteúdo</label>
-            </div>
+            @foreach ($listPerguntasN as $pergunta)
+              <p>{{$pergunta->ordem.' - '.$pergunta->titulo}}?</p>
 
-            <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck2">
-              <label class="form-check-label" for="exampleCheck2">Professor</label>
-            </div>
+              <textarea type="text" class="form-control fieldText" aria-describedby="Outros" name="pergunta_{{$pergunta->id}}[]" placeholder="Insira outros motivos"> </textarea>
+            @endforeach
 
-            <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck3">
-              <label class="form-check-label" for="exampleCheck3">Prática</label>
-            </div>
-
-            <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck4">
-              <label class="form-check-label" for="exampleCheck4">Outros, Quais?</label>
-            </div>
-
-            <textarea type="text" class="form-control" aria-describedby="Outros" placeholder="Insira outros motivos"> </textarea>
             <br>
-            <button type="button" class="btn btn-success float-right">Finalizar Avaliação</button>
+
+            <button type="submit" class="btn btn-success float-right" id="btnFinalizarAvaliacao">Finalizar Avaliação</button>
+
           </form>
         </div>
       </div>

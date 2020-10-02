@@ -40,6 +40,20 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
+                  <label>Cursos</label>
+                  <select class="select2" data-placeholder="Selecione uma opção" name='curso' style="width: 100%;" require>
+                    <option value=""></option>
+                    @foreach ($cursos as $curso)
+                    <option value="{{ $curso->id }}">{{ $curso->nm_curso }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
                   <label>Nome do Formulário</label>
                   <input type="text" class="form-control" name="nome" require>
                 </div>
@@ -47,7 +61,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Descrição Inicial</label>
-                  <textarea class="form-control" rows="3" name="descrição" require></textarea>
+                  <textarea class="form-control" rows="3" name="descricao" require></textarea>
                 </div>
               </div>
             </div>
@@ -55,14 +69,13 @@
               <div class="col-md-1">
                 <div class="form-group">
                   <label>Ordem</label>
-                  <input class="form-control" type="number" name='ordem' value="1" min="1" style="width: 100%;" require>
+                  <input class="form-control" type="number" name='ordem'  id='ordem' value="1" min="1" readonly style="width: 100%;" require>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
                   <label>Tipo</label>
-                  <select class="select2" data-placeholder="Selecione o Tipo..." name='tipo' style="width: 100%;" require>
-                    <option value=""></option>
+                  <select class="select2" data-placeholder="Selecione o Tipo..." name='tipo' id='tipo' style="width: 100%;" require>
                     <option value="notas">Notas</option>
                     <option value="opcoes">Opções</option>
                     <option value="texto">Texto</option>
@@ -73,17 +86,28 @@
                 <div class="form-group">
                   <label>Bloco</label>
                   <select class="select2" data-placeholder="Selecione o Bloco..." name='bloco' id='bloco' style="width: 100%;" require>
-                    <option value=""></option>
                     <option value="DP">Disciplina/Professor</option>
                     <option value="IA">Infraestrutura/Atendimento</option>
                     <option value="N">Nenhum</option>
                   </select>
                 </div>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-5">
                 <div class="form-group">
                   <label>Titulo Pergunta</label>
                   <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Digite o título da pergunta" require>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>Adicionar</label>
+                  <button type="button" class="form-control btn btn-primary" id="addLista" title="Adicionar item na lista"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>Remover</label>
+                  <button type="button" class="form-control btn btn-primary" id="remLista" title="Remover item da lista"><i class="fas fa-trash"></i></button>
                 </div>
               </div>
             </div>
@@ -99,14 +123,13 @@
                   </tr>
                   </thead>
                   <tbody id="tbodyPerguntas">
-                    <td colspan="4" align="center">Nenhuma Pergunta Cadastrada</td>
+                    <td colspan="4" align="center" id="nenhumaPergunta">Nenhuma Pergunta Cadastrada</td>
                   </tbody>
                 </table>
               </div>
             </div>
             <div class="row">
               <div class="col-12">
-                <button type="button" class="btn btn-info" id="addLista">Adicionar Pergunta em Lista</button>
                 <button type="submit" class="btn btn-success">Salvar</button>
                 <a class="btn btn-danger" href="{{ route('admin.formulario.list') }}">Cancelar</a>
               </div>

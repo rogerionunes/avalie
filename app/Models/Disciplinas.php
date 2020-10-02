@@ -19,7 +19,11 @@ class Disciplinas extends Model
         'nm_disciplina'
     ];
 
-    public function professores() {
-        return $this->hasOne(Users::class);
+    /**
+     * Get the phone record associated with the user.
+     */
+    public function turmas()
+    {
+        return $this->hasOne('App\Models\Turmas', 'id');
     }
 }

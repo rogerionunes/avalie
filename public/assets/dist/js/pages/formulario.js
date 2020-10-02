@@ -34,9 +34,11 @@ $(function () {
             return false;
         }
 
+        $('#nenhumaPergunta').remove();
+
         var conteudo = '';
 
-        conteudo = '<tr>';
+        conteudo = '<tr id="linha'+ordem+'">';
             conteudo += '<td>';
                 conteudo += ordem;
             conteudo += '</td>';
@@ -52,11 +54,23 @@ $(function () {
         conteudo += '<input type="hidden" name="perguntas[]" class="perguntas" value="'+ordem+'|'+tipo+'|'+bloco+'|'+titulo+'">';
         conteudo += '</tr>';
 
-        $('#tbodyPerguntas').html(conteudo);
+        $('#tbodyPerguntas').append(conteudo);
 
         // incrementa +1 na ordem e altera o valor minimo da ordem
         ordemIncrementada = parseInt(ordem) + 1;
         $('#ordem').val(ordemIncrementada);
+
+    });
+  
+    $('#remLista').on('click', function() {
+
+        ordem = parseInt($('#ordem').val()) - 1;
+
+        if (ordem >= 1) {
+            $('#linha'+ordem).remove();
+
+            $('#ordem').val(ordem);
+        }
 
     });
 

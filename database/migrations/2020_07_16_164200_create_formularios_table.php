@@ -15,7 +15,10 @@ class CreateFormulariosTable extends Migration
     {
         Schema::create('formularios', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('id_curso')->unsigned();
+            $table->foreign('id_curso')->references('id')->on('cursos');
             $table->text('descricao_avaliacao');
+            $table->enum('ativo', ['1','0']);
             $table->timestamps();
         });
     }

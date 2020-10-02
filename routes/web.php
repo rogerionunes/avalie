@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -82,6 +83,7 @@ Route::get('/admin/avaliacao/finalizar/{id}', ['middleware' => 'auth', 'uses' =>
 Route::get('/admin/avaliacao/listTurma', ['middleware' => 'auth', 'uses' => 'AvaliacaoController@listTurma'])->name('admin.avaliacao.listTurma');
 Route::get('/admin/avaliacao/listDisciplina', ['middleware' => 'auth', 'uses' => 'AvaliacaoController@listDisciplina'])->name('admin.avaliacao.listDisciplina');
 Route::get('/admin/avaliacao/sessao', 'AvaliacaoController@sessao')->name('admin.avaliacao.sessao');
+Route::post('/admin/avaliacao/addSessao', 'AvaliacaoController@addSessao')->name('admin.avaliacao.addSessao');
 
 // results/compare
 Route::get('/admin/results/', 'AvaliacaoController@index')->name('admin.results');

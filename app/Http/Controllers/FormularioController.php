@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cursos;
+use App\Models\Formularios;
+use App\Models\FormulariosPerguntas;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,12 +33,12 @@ class FormularioController extends Controller
 
         foreach ($formularios as $formulario) {
 
-            $turma = DB::table('turmas')->find($formulario->id_turma);
-            $cursoTurma = DB::table('cursos')->find($turma->id_curso);
+            $cursoTurma = DB::table('cursos')->find($formulario->id_curso);
 
             $formularioList[] = [
                 'codigo' => $formulario->id,
-                'nome' => $formulario->name
+                'curso' => $cursoTurma->nm_curso,
+                'nome' => $formulario->name,
             ];
         }
 
@@ -51,16 +54,10 @@ class FormularioController extends Controller
      */
     public function add()
     {
-        $professores = DB::table('users')->where('tp_usuario','P')->get();
-        $turmas = DB::table('turmas')->get();
-
-        foreach ($turmas as &$turma) {
-            $turma->curso = DB::table('cursos')->find($turma->id_curso)->nm_curso;
-        }
+        $cursos = DB::table('cursos')->get();
 
         return view('admin.formulario.add', [
-            'professores' => $professores,
-            'turmas' => $turmas
+            'cursos' => $cursos
         ]);
     }
 
@@ -71,19 +68,44 @@ class FormularioController extends Controller
      */
     public function addFormulario(Request $request)
     {
-        $campos = ['nome' => 'Nome', 'professor' => 'Professores', 'turma' => 'Turma'];
-        
+
+        $camposInvalidos = [];
+        $campos = ['curso' => 'Curso', 'nome' => 'Nome', 'descricao' => 'Descrição Inicial', 'perguntas' => 'Pelo menos 1 pergunta deve ser criada'];
+
         foreach($campos as $name => $campo) {
-            if ($request->$name == ''){
-                return redirect()->back()->withInput($campos)->withErrors(['O campo '.$campo.' é obrigatório.']);
+            if (is_array($request->$name) && count($request->$name) == 0) {
+                $camposInvalidos[] = 'Pelo menos 1 pergunta deve ser criada'; 
+            } else if ($request->$name == '') {
+                $camposInvalidos[] = 'O campo '.$campo.' é obrigatório.'; 
             }
         }
 
+        if ($camposInvalidos) {
+            return redirect()->back()->withInput($campos)->withErrors([$camposInvalidos]);
+        }
+
         try {
-            Formularios::create(['nm_formulario' => $request->nome, 'id_turma' => $request->turma, 'id_professor' => $request->professor]);
-            return redirect()->route('admin.formulario.list');
+            $formularios = Formularios::create(['name' => $request->nome, 'id_curso' => $request->curso, 'descricao' => $request->descricao]);
         } catch (Exception $e) {
             return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro:'.$e->getMessage()]);
+        }
+
+        foreach ($request->perguntas as $pergunta) {
+            $pergunta = explode('|', $pergunta);
+
+            try {
+                FormulariosPerguntas::create([
+                    'id_formulario' => $formularios->id, 
+                    'ordem' => $pergunta[0], 
+                    'titulo' => $pergunta[3], 
+                    'tipo' => $pergunta[1], 
+                    'bloco' => $pergunta[2]
+                    ]);
+                return redirect()->route('admin.formulario.list');
+            } catch (Exception $e) {
+                return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro:'.$e->getMessage()]);
+            }
+
         }
         
     }
@@ -96,19 +118,14 @@ class FormularioController extends Controller
      */
     public function edit($id)
     {
-        $professores = DB::table('users')->where('tp_usuario','P')->get();
-        $turmas = DB::table('turmas')->get();
-
-        foreach ($turmas as &$turma) {
-            $turma->curso = DB::table('cursos')->find($turma->id_curso)->nm_curso;
-        }
-
-        $formulario = DB::table('formularios')->find($id);
+        $cursos = Cursos::get();
+        $formulario = Formularios::find($id);
+        $formulariosPerguntas = $formulario->formulariosPerguntas;
 
         return view('admin.formulario.edit', [
             'formulario' => $formulario,
-            'professores' => $professores,
-            'turmas' => $turmas
+            'formulariosPerguntas' => $formulariosPerguntas,
+            'cursos' => $cursos
         ]);
     }
 
@@ -120,27 +137,62 @@ class FormularioController extends Controller
      */
     public function editFormulario($id, Request $request)
     {
-        
-        $campos = ['nome' => 'Nome', 'professor' => 'Professores', 'turma' => 'Turma'];
-        
+
+        $camposInvalidos = [];
+        $campos = ['curso' => 'Curso', 'nome' => 'Nome', 'descricao' => 'Descrição Inicial', 'perguntas' => 'Pelo menos 1 pergunta deve ser criada'];
+
         foreach($campos as $name => $campo) {
-            if ($request->$name == ''){
-                return redirect()->back()->withInput($campos)->withErrors(['O campo '.$campo.' é obrigatório.']);
+            if (is_array($request->$name) && count($request->$name) == 0) {
+                $camposInvalidos[] = 'Pelo menos 1 pergunta deve ser criada'; 
+            } else if ($request->$name == '') {
+                $camposInvalidos[] = 'O campo '.$campo.' é obrigatório.'; 
             }
         }
-        
-        $dados = ['nm_formulario' => $request->nome, 'id_professor' => $request->professor, 'id_turma' => $request->turma];
-        
-        try {
-            DB::table('formularios')
-            ->where('id', $id)
-            ->update($dados);
 
-            return redirect()->route('admin.formulario.list');
-        } catch (Exception $e) {
-            return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro ao editar o formulario:'.$e->getMessage()]);
+        if ($camposInvalidos) {
+            return redirect()->back()->withInput($campos)->withErrors([$camposInvalidos]);
         }
-        
+
+        DB::beginTransaction();
+
+        $formulario = Formularios::find($id);
+        try {
+            $formulario->name = $request->nome;
+            $formulario->id_curso = $request->curso;
+            $formulario->descricao = $request->descricao;
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->withErrors(['Erro ao salvar formularios: '.$e->getMessage()]);
+        }
+
+        $formPerguntas = [];
+
+        FormulariosPerguntas::where('id_formulario', $id)->delete();
+
+        foreach ($request->perguntas as $pergunta) {
+
+            $perguntaForm = explode('|', $pergunta);
+
+            $formPerguntas = [
+                'id_formulario' => $formulario->id, 
+                'ordem' => $perguntaForm[0], 
+                'titulo' => $perguntaForm[3], 
+                'tipo' => $perguntaForm[1], 
+                'bloco' => $perguntaForm[2]
+            ];
+
+            try {
+                FormulariosPerguntas::create($formPerguntas);
+            } catch (Exception $e) {
+                DB::rollBack();
+                return redirect()->back()->withInput()->withErrors(['Erro ao salvar formularios_perguntas:'.$e->getMessage()]);
+            }
+
+        }
+
+        DB::commit();
+
+        return redirect()->route('admin.formulario.list');
     }
 
     /**
@@ -151,9 +203,10 @@ class FormularioController extends Controller
      */
     public function delete($id)
     {
-        $formulario = DB::table('formularios')->where('id', $id)->delete();
+        $formPerguntas = FormulariosPerguntas::where('id_formulario', $id)->delete();
+        $formulario = Formularios::where('id', $id)->delete();
 
-        if ($formulario) {
+        if ($formPerguntas && $formulario) {
             return redirect()->route('admin.formulario.list');
         }
         
