@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Turmas;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,6 +25,46 @@ class CreateTurmasTable extends Migration
             $table->enum('turno', ['M','T','N']);
             $table->timestamps();
         });
+
+        Turmas::create([
+            'id' => '1',
+            'id_curso' => '1',
+            'nm_turma' => 'Turma 1',
+            'ano' => '2020',
+            'status' => '1',
+            'semestre' => '1',
+            'turno' => 'M',
+        ]);
+
+        Turmas::create([
+            'id' => '2',
+            'id_curso' => '1',
+            'nm_turma' => 'Turma 2',
+            'ano' => '2019',
+            'status' => '0',
+            'semestre' => '2',
+            'turno' => 'N',
+        ]);
+
+        Turmas::create([
+            'id' => '3',
+            'id_curso' => '2',
+            'nm_turma' => 'Turma 3',
+            'ano' => '2020',
+            'status' => '1',
+            'semestre' => '1',
+            'turno' => 'M',
+        ]);
+
+        Turmas::create([
+            'id' => '4',
+            'id_curso' => '2',
+            'nm_turma' => 'Turma 4',
+            'ano' => '2019',
+            'status' => '0',
+            'semestre' => '2',
+            'turno' => 'N',
+        ]);
     }
 
     /**
@@ -33,6 +74,7 @@ class CreateTurmasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('turmas');
+        Turmas::where('id', ['1','2','3','4'])->delete();
+        Schema::drop('turmas');
     }
 }

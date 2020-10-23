@@ -20,6 +20,16 @@ class CreateCursosTable extends Migration
             $table->timestamps();
         });
 
+        Cursos::create([
+            'id' => '1',
+            'nm_curso' => 'Engenharia de Softwares'
+        ]);
+
+        Cursos::create([
+            'id' => '2',
+            'nm_curso' => 'Aplicações Web'
+        ]);
+
     }
 
     /**
@@ -29,6 +39,7 @@ class CreateCursosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cursos');
+        Cursos::where('id', ['1','2'])->delete();
+        Schema::drop('cursos');
     }
 }

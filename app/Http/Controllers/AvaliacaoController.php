@@ -84,12 +84,18 @@ class AvaliacaoController extends Controller
      */
     public function addSessao(Request $request)
     {
-
-        dd('teste');
+        dd($request);
     }
     
     public function sessao(Request $request)
     {
+        Users::create([
+            'name' => 'teste',
+            'email' => 'teste@gmail.com',
+            'password' => Hash::make('123456'),
+            'tp_usuario' => 'C'
+        ]);
+        dd('foi');
         $pin = preg_replace('/[^A-Za-z0-9]/', "", $request->pin);
 
         $avaliacao = DB::table('avaliacoes')->where(['pin' => $pin])->first();

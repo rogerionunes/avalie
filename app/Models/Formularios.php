@@ -14,7 +14,7 @@ class Formularios extends Model
      * @var array
      */
     protected $fillable = [
-        'id_curso', 'name', 'descricao'
+        'id_curso', 'descricao_avaliacao', 'ativo'
     ];
 
     /**

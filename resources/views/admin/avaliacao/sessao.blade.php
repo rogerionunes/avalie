@@ -77,6 +77,7 @@
       <div class="card card-default">
         <div class="card-body">
           <form action='{{ route('admin.avaliacao.addSessao') }}' method='POST'>
+          @csrf
 
             @foreach ([$listPerguntasDP, $listPerguntasIA] as $list)
               <table class="table table-bordered table-striped">
