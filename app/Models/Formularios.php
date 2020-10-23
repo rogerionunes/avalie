@@ -14,7 +14,7 @@ class Formularios extends Model
      * @var array
      */
     protected $fillable = [
-        'id_curso', 'descricao_avaliacao', 'ativo'
+        'id_curso', 'name', 'descricao_avaliacao', 'ativo'
     ];
 
     /**
@@ -23,5 +23,13 @@ class Formularios extends Model
     public function formulariosPerguntas()
     {
         return $this->hasMany('App\Models\FormulariosPerguntas', 'id_formulario')->orderBy('ordem');
+    }
+
+    /**
+     * Get the phone record associated with the user.
+     */
+    public function curso()
+    {
+        return $this->hasOne('App\Models\Cursos', 'id');
     }
 }

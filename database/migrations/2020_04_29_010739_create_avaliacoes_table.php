@@ -71,7 +71,7 @@ class CreateAvaliacoesTable extends Migration
      */
     public function down()
     {
-        Avaliacoes::where('id', ['1','2','3'])->delete();
+        Avaliacoes::whereIn('id', ['1','2','3'])->delete();
         Schema::drop('avaliacoes');
     }
 }

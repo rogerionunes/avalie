@@ -29,15 +29,13 @@ class FormularioController extends Controller
     public function list(Request $request)
     {
         $formularioList = [];
-        $formularios = DB::table('formularios')->get();
+        $formularios = Formularios::get();
 
         foreach ($formularios as $formulario) {
 
-            $cursoTurma = DB::table('cursos')->find($formulario->id_curso);
-
             $formularioList[] = [
                 'codigo' => $formulario->id,
-                'curso' => $cursoTurma->nm_curso,
+                'curso' => $formulario->curso->nm_curso,
                 'nome' => $formulario->name,
             ];
         }
@@ -121,6 +119,11 @@ class FormularioController extends Controller
         $cursos = Cursos::get();
         $formulario = Formularios::find($id);
         $formulariosPerguntas = $formulario->formulariosPerguntas;
+        $faaaa = FormulariosPerguntas::get();
+
+        dd($faaaa);
+
+        if ($formulariosPerguntas)
 
         return view('admin.formulario.edit', [
             'formulario' => $formulario,
@@ -167,27 +170,29 @@ class FormularioController extends Controller
 
         $formPerguntas = [];
 
-        FormulariosPerguntas::where('id_formulario', $id)->delete();
+        if (!FormulariosPerguntas::get('id_formulario', $id)) {
+            FormulariosPerguntas::where('id_formulario', $id)->delete();
 
-        foreach ($request->perguntas as $pergunta) {
+            foreach ($request->perguntas as $pergunta) {
 
-            $perguntaForm = explode('|', $pergunta);
+                $perguntaForm = explode('|', $pergunta);
 
-            $formPerguntas = [
-                'id_formulario' => $formulario->id, 
-                'ordem' => $perguntaForm[0], 
-                'titulo' => $perguntaForm[3], 
-                'tipo' => $perguntaForm[1], 
-                'bloco' => $perguntaForm[2]
-            ];
+                $formPerguntas = [
+                    'id_formulario' => $formulario->id, 
+                    'ordem' => $perguntaForm[0], 
+                    'titulo' => $perguntaForm[3], 
+                    'tipo' => $perguntaForm[1], 
+                    'bloco' => $perguntaForm[2]
+                ];
 
-            try {
-                FormulariosPerguntas::create($formPerguntas);
-            } catch (Exception $e) {
-                DB::rollBack();
-                return redirect()->back()->withInput()->withErrors(['Erro ao salvar formularios_perguntas:'.$e->getMessage()]);
+                try {
+                    FormulariosPerguntas::create($formPerguntas);
+                } catch (Exception $e) {
+                    DB::rollBack();
+                    return redirect()->back()->withInput()->withErrors(['Erro ao salvar formularios_perguntas:'.$e->getMessage()]);
+                }
+
             }
-
         }
 
         DB::commit();

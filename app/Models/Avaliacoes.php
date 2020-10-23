@@ -14,7 +14,14 @@ class Avaliacoes extends Model
      * @var array
      */
     protected $fillable = [
-        'id_professor', 'id_curso', 'id_turma', 'id_disciplina', 'pin', 'dataValidade', 'status', 'created_at'
+        'id_professor', 
+        'id_curso', 
+        'id_turma', 
+        'id_disciplina', 
+        'pin', 
+        'dataValidade', 
+        'status', 
+        'created_at'
     ];
 
     /**

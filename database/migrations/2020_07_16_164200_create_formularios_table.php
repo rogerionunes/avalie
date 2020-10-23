@@ -18,7 +18,8 @@ class CreateFormulariosTable extends Migration
             $table->increments('id');
             $table->integer('id_curso')->unsigned();
             $table->foreign('id_curso')->references('id')->on('cursos');
-            $table->string('descricao_avaliacao');
+            $table->string('name');
+            $table->text('descricao_avaliacao');
             $table->enum('ativo', ['1','0']);
             $table->timestamps();
         });
@@ -26,6 +27,7 @@ class CreateFormulariosTable extends Migration
         Formularios::create([
             'id' => '1',
             'id_curso' => '1',
+            'name' => 'Form 1',
             'descricao_avaliacao' => 'Seja bem vindo aluno do curso 1',
             'ativo' => '1',
         ]);
@@ -33,6 +35,7 @@ class CreateFormulariosTable extends Migration
         Formularios::create([
             'id' => '2',
             'id_curso' => '2',
+            'name' => 'Form 2',
             'descricao_avaliacao' => 'Seja bem vindo aluno do curso 2',
             'ativo' => '1',
         ]);
@@ -45,7 +48,7 @@ class CreateFormulariosTable extends Migration
      */
     public function down()
     {
-        Formularios::where('id', ['1','2'])->delete();
+        Formularios::whereIn('id', ['1','2'])->delete();
         Schema::drop('formularios');
     }
 }

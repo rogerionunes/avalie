@@ -85,7 +85,7 @@ class CreateDisciplinasTable extends Migration
             'id' => '8',
             'id_professor' => '4',
             'id_turma' => '4',
-            'nm_disciplina' => 'Disciplina 8'
+            'nm_disciplina' => 'Disciplina 9'
         ]);
     }
 
@@ -96,7 +96,7 @@ class CreateDisciplinasTable extends Migration
      */
     public function down()
     {
-        Disciplinas::where('id', ['1','2','3','4','5','6','7','8'])->delete();
+        Disciplinas::whereIn('id', ['1','2','3','4','5','6','7','8'])->delete();
         Schema::drop('disciplinas');
     }
 }

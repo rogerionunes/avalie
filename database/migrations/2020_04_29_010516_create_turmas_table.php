@@ -74,7 +74,7 @@ class CreateTurmasTable extends Migration
      */
     public function down()
     {
-        Turmas::where('id', ['1','2','3','4'])->delete();
+        Turmas::whereIn('id', ['1','2','3','4'])->delete();
         Schema::drop('turmas');
     }
 }

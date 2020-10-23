@@ -39,7 +39,7 @@ class CreateCursosTable extends Migration
      */
     public function down()
     {
-        Cursos::where('id', ['1','2'])->delete();
+        Cursos::whereIn('id', ['2', '1'])->delete();
         Schema::drop('cursos');
     }
 }

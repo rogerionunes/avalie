@@ -71,7 +71,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Users::where('id', ['1','2','3','4'])->delete();
+        Users::whereIn('id', ['1','2','3','4'])->delete();
         Schema::drop('users');
     }
 }

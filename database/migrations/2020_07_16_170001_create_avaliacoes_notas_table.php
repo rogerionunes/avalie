@@ -81,7 +81,7 @@ class CreateAvaliacoesNotasTable extends Migration
      */
     public function down()
     {
-        AvaliacoesNotas::where('id', ['1','2','3','4','5','6'])->delete();
+        AvaliacoesNotas::whereIn('id', ['1','2','3','4','5','6'])->delete();
         Schema::drop('avaliacoes_notas');
     }
 }

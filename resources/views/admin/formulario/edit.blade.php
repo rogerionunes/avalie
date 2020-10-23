@@ -74,21 +74,21 @@
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <label>Tipo</label>
-                  <select class="select2" data-placeholder="Selecione o Tipo..." name='tipo' id='tipo' style="width: 100%;" require>
-                    <option value="notas">Notas</option>
-                    <option value="opcoes">Opções</option>
-                    <option value="texto">Texto</option>
+                  <label>Bloco</label>
+                  <select class="select2" data-placeholder="Selecione o Bloco..." name='bloco' id='bloco' style="width: 100%;" require>
+                    <option value="DP">Formulario/Professor</option>
+                    <option value="IA">Infraestrutura/Atendimento</option>
+                    <option value="O">Outros</option>
                   </select>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <label>Bloco</label>
-                  <select class="select2" data-placeholder="Selecione o Bloco..." name='bloco' id='bloco' style="width: 100%;" require>
-                    <option value="DP">Formulario/Professor</option>
-                    <option value="IA">Infraestrutura/Atendimento</option>
-                    <option value="N">Nenhum</option>
+                  <label>Tipo</label>
+                  <select class="select2" data-placeholder="Selecione o Tipo..." name='tipo' id='tipo' style="width: 100%;" require>
+                    <option value="notas">Notas</option>
+                    <option value="opcoes">Opções</option>
+                    <option value="texto">Texto</option>
                   </select>
                 </div>
               </div>
@@ -135,8 +135,8 @@
                               @case('IA')
                                   Infraestrutura/Atendimento
                                   @break
-                              @case('N')
-                                  Nenhum
+                              @case('O')
+                                  Outros
                                   @break
                           @endswitch
                         </td>

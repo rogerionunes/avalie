@@ -81,7 +81,7 @@ class CreateFormulariosPerguntasTable extends Migration
      */
     public function down()
     {
-        FormulariosPerguntas::where('id', ['1','2','3','4','5','6'])->delete();
+        FormulariosPerguntas::whereIn('id', ['1','2','3','4','5','6'])->delete();
         Schema::drop('formularios_perguntas');
     }
 }
