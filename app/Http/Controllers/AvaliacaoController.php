@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Avaliacoes;
+use App\Models\AvaliacoesNotas;
 use App\Models\Cursos;
 use App\Models\Disciplinas;
+use App\Models\Formularios;
 use App\Models\Turmas;
 use App\Models\Users;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -84,18 +87,39 @@ class AvaliacaoController extends Controller
      */
     public function addSessao(Request $request)
     {
-        dd($request);
+        $avaliacao = Avaliacoes::where([['pin', $request->pin],['status', '1']])->first();
+
+        $formulariosPerguntas = $avaliacao->curso->formularios->formulariosPerguntas;
+
+        DB::beginTransaction();
+
+        foreach ($formulariosPerguntas as $pergunta) {
+
+            $pergunta_id = 'pergunta_'.$pergunta->id;
+            $nota = is_numeric($request->$pergunta_id) ? $request->$pergunta_id : null;
+            $texto = !is_numeric($request->$pergunta_id) ? $request->$pergunta_id : null;
+
+            try {
+                AvaliacoesNotas::create([
+                    'avaliacao_id' => $avaliacao->id,
+                    'pergunta_id' => $pergunta->id,
+                    'nota' => $nota,
+                    'texto' => $texto,
+                ]);
+            } catch (Exception $e) {
+                DB::rollBack();
+                return redirect()->back()->withInput()->withErrors(['Erro ao salvar perguntas: '.$e->getMessage()]);
+            }
+        }
+
+        DB::commit();
+
+        return redirect()->route('/');
     }
     
     public function sessao(Request $request)
     {
-        Users::create([
-            'name' => 'teste',
-            'email' => 'teste@gmail.com',
-            'password' => Hash::make('123456'),
-            'tp_usuario' => 'C'
-        ]);
-        dd('foi');
+        
         $pin = preg_replace('/[^A-Za-z0-9]/', "", $request->pin);
 
         $avaliacao = DB::table('avaliacoes')->where(['pin' => $pin])->first();
@@ -115,7 +139,7 @@ class AvaliacaoController extends Controller
 
             $listPerguntasDP = [];
             $listPerguntasIA = [];
-            $listPerguntasN = [];
+            $listPerguntasO = [];
 
             foreach ($formulariosPerguntas as $pergunta) {
                 switch ($pergunta->bloco) {
@@ -125,8 +149,8 @@ class AvaliacaoController extends Controller
                     case 'IA':
                         $listPerguntasIA[] = $pergunta;
                         break;
-                    case 'N':
-                        $listPerguntasN[] = $pergunta;
+                    case 'O':
+                        $listPerguntasO[] = $pergunta;
                         break;
                 }
             }
@@ -139,7 +163,7 @@ class AvaliacaoController extends Controller
                 'formularios' => $formularios,
                 'listPerguntasDP' => $listPerguntasDP,
                 'listPerguntasIA' => $listPerguntasIA,
-                'listPerguntasN' => $listPerguntasN,
+                'listPerguntasO' => $listPerguntasO,
             ]);
 
         }

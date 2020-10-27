@@ -76,7 +76,7 @@
     <div class="container-fluid">
       <div class="card card-default">
         <div class="card-body">
-          <form action='{{ route('admin.avaliacao.addSessao') }}' method='POST'>
+          <form action='{{ route('admin.avaliacao.addSessao', 'pin='.app('request')->input('pin')) }}' method='POST'>
           @csrf
 
             @foreach ([$listPerguntasDP, $listPerguntasIA] as $list)
@@ -110,26 +110,26 @@
                       <tr>
                           <th scope="row">{{$pergunta->ordem}}</th>
                           <td>{{$pergunta->titulo}}?</td>
-                          <td><input class="fieldsForms" type="radio" value="1" name="pergunta_{{$pergunta->ordem}}[]"></td>
-                          <td><input class="fieldsForms" type="radio" value="2" name="pergunta_{{$pergunta->ordem}}[]"></td>
-                          <td><input class="fieldsForms" type="radio" value="3" name="pergunta_{{$pergunta->ordem}}[]"></td>
-                          <td><input class="fieldsForms" type="radio" value="4" name="pergunta_{{$pergunta->ordem}}[]"></td>
-                          <td><input class="fieldsForms" type="radio" value="5" name="pergunta_{{$pergunta->ordem}}[]"></td>
-                          <td><input class="fieldsForms" type="radio" value="6" name="pergunta_{{$pergunta->ordem}}[]"></td>
-                          <td><input class="fieldsForms" type="radio" value="7" name="pergunta_{{$pergunta->ordem}}[]"></td>
-                          <td><input class="fieldsForms" type="radio" value="8" name="pergunta_{{$pergunta->ordem}}[]"></td>
-                          <td><input class="fieldsForms" type="radio" value="9" name="pergunta_{{$pergunta->ordem}}[]"></td>
-                          <td><input class="fieldsForms" type="radio" value="10" name="pergunta_{{$pergunta->ordem}}[]"></td>
+                          <td><input class="fieldsForms" type="radio" value="1" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td><input class="fieldsForms" type="radio" value="2" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td><input class="fieldsForms" type="radio" value="3" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td><input class="fieldsForms" type="radio" value="4" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td><input class="fieldsForms" type="radio" value="5" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td><input class="fieldsForms" type="radio" value="6" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td><input class="fieldsForms" type="radio" value="7" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td><input class="fieldsForms" type="radio" value="8" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td><input class="fieldsForms" type="radio" value="9" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td><input class="fieldsForms" type="radio" value="10" name="pergunta_{{$pergunta->ordem}}"></td>
                       </tr>
                     @endforeach
                 </tbody>
               </table>
             @endforeach
 
-            @foreach ($listPerguntasN as $pergunta)
+            @foreach ($listPerguntasO as $pergunta)
               <p>{{$pergunta->ordem.' - '.$pergunta->titulo}}?</p>
 
-              <textarea type="text" class="form-control fieldText" aria-describedby="Outros" name="pergunta_{{$pergunta->id}}[]" placeholder="Insira outros motivos"> </textarea>
+              <textarea type="text" class="form-control fieldText" aria-describedby="Outros" name="pergunta_{{$pergunta->id}}" placeholder="Insira outros motivos"> </textarea>
             @endforeach
 
             <br>

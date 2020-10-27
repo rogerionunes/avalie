@@ -71,7 +71,11 @@
         @endif
       </li>
       <li class="nav-item d-none d-sm-inline-block">
+      @if (Request::segment(3) != 'sessao')
         <a href="{{ route('admin.login.logout') }}" class="nav-link">Sair</a>
+      @else
+        <a href="{{ route('/') }}" class="nav-link">Cancelar</a>
+      @endif
       </li>
     </ul>
   </nav>

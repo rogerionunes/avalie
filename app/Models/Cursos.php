@@ -27,6 +27,6 @@ class Cursos extends Model
      */
     public function formularios()
     {
-        return $this->hasMany('App\Models\Formularios', 'id_curso');
+        return $this->hasOne('App\Models\Formularios', 'id_curso');
     }
 }

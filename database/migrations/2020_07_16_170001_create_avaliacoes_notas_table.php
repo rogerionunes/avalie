@@ -20,8 +20,8 @@ class CreateAvaliacoesNotasTable extends Migration
             $table->foreign('avaliacao_id')->references('id')->on('avaliacoes');
             $table->integer('pergunta_id')->unsigned();
             $table->foreign('pergunta_id')->references('id')->on('formularios_perguntas');
-            $table->integer('nota');
-            $table->text('texto');
+            $table->integer('nota')->nullable(true);
+            $table->text('texto')->nullable(true);
             $table->timestamps();
         });
 
@@ -30,7 +30,6 @@ class CreateAvaliacoesNotasTable extends Migration
             'avaliacao_id' => '1',
             'pergunta_id' => '1',
             'nota' => '0',
-            'texto' => '',
         ]);
 
         AvaliacoesNotas::create([
@@ -38,7 +37,6 @@ class CreateAvaliacoesNotasTable extends Migration
             'avaliacao_id' => '1',
             'pergunta_id' => '2',
             'nota' => '1',
-            'texto' => '',
         ]);
 
         AvaliacoesNotas::create([
@@ -46,7 +44,6 @@ class CreateAvaliacoesNotasTable extends Migration
             'avaliacao_id' => '1',
             'pergunta_id' => '3',
             'nota' => '2',
-            'texto' => '',
         ]);
 
         AvaliacoesNotas::create([
@@ -54,14 +51,12 @@ class CreateAvaliacoesNotasTable extends Migration
             'avaliacao_id' => '1',
             'pergunta_id' => '4',
             'nota' => '3',
-            'texto' => '',
         ]);
 
         AvaliacoesNotas::create([
             'id' => '5',
             'avaliacao_id' => '1',
             'pergunta_id' => '5',
-            'nota' => '4',
             'texto' => 'teste',
         ]);
 
@@ -69,7 +64,6 @@ class CreateAvaliacoesNotasTable extends Migration
             'id' => '6',
             'avaliacao_id' => '1',
             'pergunta_id' => '6',
-            'nota' => '5',
             'texto' => 'teste',
         ]);
     }

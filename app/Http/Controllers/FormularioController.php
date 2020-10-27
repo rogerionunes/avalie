@@ -119,11 +119,6 @@ class FormularioController extends Controller
         $cursos = Cursos::get();
         $formulario = Formularios::find($id);
         $formulariosPerguntas = $formulario->formulariosPerguntas;
-        $faaaa = FormulariosPerguntas::get();
-
-        dd($faaaa);
-
-        if ($formulariosPerguntas)
 
         return view('admin.formulario.edit', [
             'formulario' => $formulario,
@@ -163,6 +158,7 @@ class FormularioController extends Controller
             $formulario->name = $request->nome;
             $formulario->id_curso = $request->curso;
             $formulario->descricao = $request->descricao;
+            $formulario->save();
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->back()->withInput()->withErrors(['Erro ao salvar formularios: '.$e->getMessage()]);
