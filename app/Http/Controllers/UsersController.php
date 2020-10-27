@@ -162,13 +162,13 @@ class UsersController extends Controller
      */
     public function delete($id)
     {
-        $disciplinas = DB::table('disciplinas')->where('id_professor', $id)->get();
+        $disciplinas = DB::table('disciplinas')->where('id_professor', $id)->first();
 
         if ($disciplinas) {
             return redirect()->back()->withInput()->withErrors(['O usuário está associado à uma disciplina.']);
         }
 
-        $avaliacoes = DB::table('avaliacoes')->where('id_professor', $id)->get();
+        $avaliacoes = DB::table('avaliacoes')->where('id_professor', $id)->first();
 
         if ($avaliacoes) {
             return redirect()->back()->withInput()->withErrors(['O usuário está associado à uma avaliação.']);

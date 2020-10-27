@@ -7,12 +7,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Adicionar Disciplina</h1>
+          <h1>Adicionar Formulário</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">Dashboard</li>
-              <li class="breadcrumb-item">Disciplina</li>
+              <li class="breadcrumb-item">Formulário</li>
               <li class="breadcrumb-item active">Adicionar</li>
           </ol>
         </div>

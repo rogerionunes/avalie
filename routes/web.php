@@ -84,6 +84,8 @@ Route::get('/admin/avaliacao/listTurma', ['middleware' => 'auth', 'uses' => 'Ava
 Route::get('/admin/avaliacao/listDisciplina', ['middleware' => 'auth', 'uses' => 'AvaliacaoController@listDisciplina'])->name('admin.avaliacao.listDisciplina');
 Route::get('/admin/avaliacao/sessao', 'AvaliacaoController@sessao')->name('admin.avaliacao.sessao');
 Route::post('/admin/avaliacao/addSessao', 'AvaliacaoController@addSessao')->name('admin.avaliacao.addSessao');
+Route::get('/admin/avaliacao/results', 'AvaliacaoController@results')->name('admin.avaliacao.results');
+Route::get('/admin/avaliacao/sendEmail', 'AvaliacaoController@sendEmail')->name('admin.avaliacao.sendEmail');
 
 // results/compare
 Route::get('/admin/results/', 'AvaliacaoController@index')->name('admin.results');

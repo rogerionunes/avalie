@@ -166,7 +166,7 @@ class DisciplinaController extends Controller
     public function delete($id)
     {
 
-        $avaliacao = $this->avaliacoes->where('id_disciplina', $id)->get();
+        $avaliacao = $this->avaliacoes->where('id_disciplina', $id)->first();
 
         if ($avaliacao) {
             return redirect()->back()->withInput()->withErrors(['A Disciplina esta associada à uma avaliação.']);

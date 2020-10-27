@@ -143,8 +143,8 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item has-treeview @if (Request::segment(2) == 'results' || Request::segment(2) == 'compare')) menu-open @endif">
-                <a href="#" class="nav-link @if (Request::segment(2) == 'results' || Request::segment(2) == 'compare')) active @endif">
+              <li class="nav-item has-treeview @if (Request::segment(2) == 'compare')) menu-open @endif">
+                <a href="#" class="nav-link @if (Request::segment(2) == 'compare')) active @endif">
                   <i class="fas fa-chart-pie nav-icon"></i>
                   <p>
                     Relatórios
@@ -152,12 +152,6 @@
                   </p>                                                                           
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="{{ route('admin.results') }}" class="nav-link @if (Request::segment(2) == 'results') active @endif">
-                      <i class="fas fa-poll nav-icon"></i>
-                      <p>Resultados</p>
-                    </a>
-                  </li>
                   <li class="nav-item">
                     <a href="{{ route('admin.compare') }}" class="nav-link @if (Request::segment(2) == 'compare') active @endif">
                       <i class="fas fa-project-diagram nav-icon"></i>

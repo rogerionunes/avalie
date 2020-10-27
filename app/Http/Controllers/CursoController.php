@@ -131,12 +131,12 @@ class CursoController extends Controller
      */
     public function delete($id)
     {
-        $turmas = DB::table('turmas')->where('id_curso', $id)->get();
+        $turmas = DB::table('turmas')->where('id_curso', $id)->first();
 
         if ($turmas) {
             return redirect()->back()->withInput()->withErrors(['O Curso está associado à uma turma.']);
         }
-        $avaliacoes = DB::table('avaliacoes')->where('id_curso', $id)->get();
+        $avaliacoes = DB::table('avaliacoes')->where('id_curso', $id)->first();
 
         if ($avaliacoes) {
             return redirect()->back()->withInput()->withErrors(['O Curso está associado à uma avaliação.']);

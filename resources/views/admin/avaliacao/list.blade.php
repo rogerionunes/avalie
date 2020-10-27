@@ -111,6 +111,7 @@
                   <th>Disciplina</th>
                   <th>PIN</th>
                   <th>Status</th>
+                  <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -130,6 +131,7 @@
                           <a class="btn btn-danger" style="color:white">Finalizado</a>
                         @endif 
                       </td>
+                      <td><a target="_blank" href="{{ route('admin.avaliacao.results', $avaliacao['codigo']) }}">Resultado</a> | <a href="{{ route('admin.avaliacao.sendEmail', $avaliacao['codigo']) }}"> Receber por Email</a></td>
                     </tr>
                   @endforeach
                 </tbody>

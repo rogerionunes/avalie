@@ -41,7 +41,7 @@ class AvaliacaoController extends Controller
             $avaliacoes->where('id_professor', Auth::user()->id);
         }
         
-        $avaliacoes = $avaliacoes->orderBy('status', 'desc')->get();
+        $avaliacoes = $avaliacoes->orderBy('status', 'desc')->orderBy('id', 'desc')->get();
 
         foreach ($avaliacoes as $avaliacao) {
 
@@ -169,6 +169,103 @@ class AvaliacaoController extends Controller
         }
 
         return redirect()->back()->withInput()->withErrors(['PIN incorreto, digite novamente.']);
+    }
+    
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function listTurma(Request $request)
+    {
+        $turmas = DB::table('turmas')->where('id_curso', $request->idCurso)->get();
+        $turmaAux = [];
+
+        foreach ($turmas as $turma) {
+
+            $disciplinas = DB::table('disciplinas')->where('id_turma', $turma->id)->get();
+
+            foreach ($disciplinas as $disciplina) {
+                if ($disciplina->id_professor == Auth::user()->id) {
+                    $turmaAux[$turma->id] = $turma;
+                }
+            }
+        }
+
+        if ($turmaAux) {
+            $response = ['status' => '1', 'dados' => $turmaAux];
+        } else {
+            $response = ['status' => '0', 'dados' => []];
+        }
+
+        return json_encode($response);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function listDisciplina(Request $request)
+    {
+        $disciplinas = DB::table('disciplinas')->where(['id_turma' => $request->idTurma, 'id_professor' => Auth::user()->id])->get();
+
+        if ($disciplinas) {
+            $response = ['status' => '1', 'dados' => $disciplinas];
+        } else {
+            $response = ['status' => '0', 'dados' => []];
+        }
+
+        return json_encode($response);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function add(Request $request)
+    {
+        //valida se campos estao preenchidos
+        $campos = ['turma' => 'Turma', 'curso' => 'Curso', 'disciplina' => 'Disciplina'];
+
+        foreach($campos as $name => $campo) {
+            if ($request->$name == ''){
+                return json_encode(['status' => '0', 'erro' => 'O campo '.$campo.' é obrigatório.']);
+            }
+        }
+
+        //gera pin diferente dos pins ativos
+        $listaPins = array_map(function($value) {
+            return $value->pin;
+        }, DB::table('avaliacoes')->where('status', '1')->get()->toArray());
+
+        $pin = $this->geraPin();
+
+        while (in_array($pin, $listaPins)) {
+            $pin = $this->geraPin();
+        }
+
+        //insercao da avaliacao
+        $avaliacao = Avaliacoes::firstOrcreate(['id_professor' => Auth::user()->id, 
+            'id_curso' => $request->curso,
+            'id_turma' => $request->turma,
+            'id_disciplina' => $request->disciplina,
+            'status' => '1',
+        ], [
+        'pin' => $this->geraPin(),
+        'dataValidade' => date('Y-m-d H:i:s', strtotime('now+1day')),
+        ]);
+
+        if ($avaliacao) {
+            if (!$avaliacao->wasRecentlyCreated) {
+                return json_encode(['status' => '0', 'erro' => 'já possui uma avaliação ativa para esse curso, turma e disciplina.']);
+            }
+            return json_encode(['status' => '1']);
+        }
+
+        return json_encode(['status' => '0', 'erro' => 'Ocorreu algum erro ao cadastrar avaliacao']);
     }
 
     /**

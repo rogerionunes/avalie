@@ -64,7 +64,7 @@
                             <a href=" {{ route('admin.users.edit', $user['codigo'])}}" >Editar</a>
                           @elseif ($user['tipoUsuarioCode'] != 'C')
                             <a href="#" class="isDisabled">Editar</a> | 
-                            <a href="#" class="isDisabled" class="confirmationDeleteAll"> Excluir</a> 
+                            <a href="{{ route('admin.users.delete', $user['codigo'])}}" class="confirmationDeleteAll" class="confirmationDeleteAll"> Excluir</a> 
                           @else
                             <a href="{{ route('admin.users.edit', $user['codigo'])}}">Editar</a> | 
                             <a href="{{ route('admin.users.delete', $user['codigo'])}}" class="confirmationDeleteAll" class="confirmationDeleteAll"> Excluir</a> 

@@ -12,7 +12,7 @@
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">Dashboard</li>
-              <li class="breadcrumb-item">Formulario</li>
+              <li class="breadcrumb-item">Formulário</li>
               <li class="breadcrumb-item active">Adicionar</li>
           </ol>
         </div>
