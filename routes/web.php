@@ -87,6 +87,10 @@ Route::post('/admin/avaliacao/addSessao', 'AvaliacaoController@addSessao')->name
 Route::get('/admin/avaliacao/results', 'AvaliacaoController@results')->name('admin.avaliacao.results');
 Route::get('/admin/avaliacao/sendEmail', 'AvaliacaoController@sendEmail')->name('admin.avaliacao.sendEmail');
 
-// results/compare
+// Relatorios
+
+//Comparar Avaliações
+Route::get('/admin/comparar/', 'CompararController@index')->name('admin.comparar');
+Route::get('/admin/comparar/filter', 'CompararController@filter')->name('admin.comparar.filter');
+
 Route::get('/admin/results/', 'AvaliacaoController@index')->name('admin.results');
-Route::get('/admin/compare/', 'AvaliacaoController@index')->name('admin.compare');

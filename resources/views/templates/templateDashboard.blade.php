@@ -143,8 +143,8 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item has-treeview @if (Request::segment(2) == 'compare')) menu-open @endif">
-                <a href="#" class="nav-link @if (Request::segment(2) == 'compare')) active @endif">
+              <li class="nav-item has-treeview @if (Request::segment(2) == 'comparar')) menu-open @endif">
+                <a href="#" class="nav-link @if (Request::segment(2) == 'comparar')) active @endif">
                   <i class="fas fa-chart-pie nav-icon"></i>
                   <p>
                     Relatórios
@@ -153,7 +153,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{ route('admin.compare') }}" class="nav-link @if (Request::segment(2) == 'compare') active @endif">
+                    <a href="{{ route('admin.comparar') }}" class="nav-link @if (Request::segment(2) == 'comparar') active @endif">
                       <i class="fas fa-project-diagram nav-icon"></i>
                       <p>Comparar Avaliações</p>
                     </a>
