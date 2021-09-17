@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Avalie | Dashboard </title>
+  <title>Avalie </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -30,8 +30,9 @@
   <!-- Bootstrap Color Picker -->
   <link rel="stylesheet" href="{{url('assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
   <!-- Select2 -->
-  <link rel="stylesheet" href="{{url('assets/plugins/select2/css/select2.min.css')}}">
-  <link rel="stylesheet" href="{{url('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <!-- <link rel="stylesheet" href="{{url('assets/plugins/select2/css/select2.min.css')}}"> -->
+  <!-- <link rel="stylesheet" href="{{url('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}"> -->
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="{{url('assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css')}}">
   <!-- Theme style -->
@@ -228,12 +229,7 @@
 <script src="{{url('assets/plugins/summernote/summernote-bs4.min.js')}}"></script>
 <!-- overlayScrollbars -->
 <script src="{{url('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
-<!-- AdminLTE App -->
-<script src="{{url('assets/dist/js/adminlte.js')}}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="@if (Request::segment(2) == '') {{url('assets/dist/js/pages/dashboard.js')}} @else {{url('assets/dist/js/pages/'.Request::segment(2).'.js')}} @endif"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{url('assets/dist/js/demo.js')}}"></script>
+
 <!-- DataTables -->
 <script src="{{url('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -242,18 +238,43 @@
 <!-- bootstrap color picker -->
 <script src="{{url('assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
 <!-- Select2 -->
-<script src="{{url('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- <script src="{{url('assets/plugins/select2/js/select2.full.min.js')}}"></script> -->
 <!-- Bootstrap4 Duallistbox -->
 <script src="{{url('assets/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
 <!-- InputMask -->
 <script src="{{url('assets/plugins/moment/moment.min.js')}}"></script>
 <script src="{{url('assets/plugins/inputmask/min/jquery.inputmask.bundle.min.js')}}"></script>
+<!-- ChartJS -->
+<!-- <script src="{{url('assets/plugins/chart.js/Chart.min.js')}}"></script> -->
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script> -->
+
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script> 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.4.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+<!-- AdminLTE App -->
+<script src="{{url('assets/dist/js/adminlte.js')}}"></script>
+
+<!-- AdminLTE for demo purposes -->
+<script src="{{url('assets/dist/js/demo.js')}}"></script>
+
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="@if (Request::segment(2) == '') {{url('assets/dist/js/pages/dashboard.js')}} @else {{url('assets/dist/js/pages/'.Request::segment(2).'.js')}} @endif"></script>
+
 <script>
-  //Initialize Select2 Elements
-  $('.select2').select2();
   
   //datatables
   $(function () {
+  const selector = $('.select2');
+
+  //Initialize Select2 Elements
+  selector.select2();
 
     var url = window.location.pathname,
     url = url.split('/');
@@ -449,6 +470,40 @@
   $('.confirmationDeleteAll').on('click', function () {
     return confirm('Você tem certeza que deseja EXCLUIR?');
   });
+  
+  $('#btnBaixarPdf').on('click', function () {
+    setInterval(function(){ CreatePDFfromHTML(); }, 1000);
+  });
+
+  function CreatePDFfromHTML() {
+    var HTML_Width = $(".content-wrapper").width();
+    var HTML_Height = $(".content-wrapper").height();
+    var top_left_margin = 15;
+    var PDF_Width = HTML_Width + (top_left_margin * 2);
+    var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+    var canvas_image_width = HTML_Width;
+    var canvas_image_height = HTML_Height;
+
+    var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+    html2canvas($(".content-wrapper")[0]).then(function (canvas) {
+        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+        var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+        pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+        for (var i = 1; i <= totalPDFPages; i++) { 
+            pdf.addPage(PDF_Width, PDF_Height);
+            pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+        }
+        pdf.save("Resultado.pdf");
+        return;
+    });
+  }
+
+  <?php if(isset($download)): ?>
+    // setInterval(function(){ CreatePDFfromHTML(); }, 1000);
+    // setInterval(function(){ window.close(); }, 2000);
+  <?php endif; ?>
+
 </script>
 </body>
 </html>

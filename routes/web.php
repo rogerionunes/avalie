@@ -93,4 +93,6 @@ Route::get('/admin/avaliacao/sendEmail', 'AvaliacaoController@sendEmail')->name(
 Route::get('/admin/comparar/', 'CompararController@index')->name('admin.comparar');
 Route::get('/admin/comparar/filter', 'CompararController@filter')->name('admin.comparar.filter');
 
-Route::get('/admin/results/', 'AvaliacaoController@index')->name('admin.results');
+Route::get('/admin/results/', 'ResultsController@index')->name('admin.results');
+Route::get('/admin/results/filter/{id}', 'ResultsController@filter')->name('admin.results.filter');
+Route::get('/admin/results/ajaxFilter', 'ResultsController@ajaxFilter')->name('admin.results.ajaxFilter');

@@ -14,7 +14,7 @@ services:
    - gestor_avalie_network
 
  mysql:
-  image: mysql:5.7
+  image: mysql:8.0
   ports:
     - 3338:3306
   environment:

@@ -42,9 +42,9 @@ class AvaliacaoController extends Controller
         }
         
         $avaliacoes = $avaliacoes->orderBy('status', 'desc')->orderBy('id', 'desc')->get();
-
+        
         foreach ($avaliacoes as $avaliacao) {
-
+            
             $avaliacaoList[] = [
                 'codigo' => $avaliacao->id,
                 'professor' => Users::find($avaliacao->id_professor)->name,
@@ -53,7 +53,8 @@ class AvaliacaoController extends Controller
                 'disciplina' => Disciplinas::find($avaliacao->id_disciplina)->nm_disciplina,
                 'pin' => $avaliacao->pin,
                 'data' => date('d/m/Y h:i:00', strtotime($avaliacao->created_at)),
-                'status' => $avaliacao->status
+                'status' => $avaliacao->status,
+                'resultados' => AvaliacoesNotas::where('avaliacao_id', $avaliacao->id)->count() > 0,
             ];
         }
         

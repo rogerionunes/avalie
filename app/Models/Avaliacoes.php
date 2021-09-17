@@ -39,4 +39,12 @@ class Avaliacoes extends Model
     {
         return $this->hasOne('App\Models\Cursos', 'id');
     }
+
+    /**
+     * Get the phone record associated with the user.
+     */
+    public function avaliacaoNotas()
+    {
+        return $this->hasMany('App\Models\AvaliacoesNotas', 'avaliacao_id');
+    }
 }
