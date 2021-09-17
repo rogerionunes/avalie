@@ -30,6 +30,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '1',
             'ordem' => '1',
             'titulo' => 'pergunta 1?',
+            'tipo' => 'notas',
             'bloco' => 'DP',
         ]);
 
@@ -38,6 +39,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '1',
             'ordem' => '2',
             'titulo' => 'pergunta 2?',
+            'tipo' => 'notas',
             'bloco' => 'DP',
         ]);
 
@@ -46,6 +48,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '1',
             'ordem' => '3',
             'titulo' => 'pergunta 3?',
+            'tipo' => 'notas',
             'bloco' => 'IA',
         ]);
 
@@ -54,6 +57,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '1',
             'ordem' => '4',
             'titulo' => 'pergunta 4?',
+            'tipo' => 'notas',
             'bloco' => 'IA',
         ]);
 
@@ -62,6 +66,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '1',
             'ordem' => '5',
             'titulo' => 'pergunta 5?',
+            'tipo' => 'texto',
             'bloco' => 'O',
         ]);
 
@@ -70,6 +75,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '1',
             'ordem' => '6',
             'titulo' => 'pergunta 6?',
+            'tipo' => 'texto',
             'bloco' => 'O',
         ]);
 
@@ -78,6 +84,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '2',
             'ordem' => '1',
             'titulo' => 'pergunta 1?',
+            'tipo' => 'notas',
             'bloco' => 'DP',
         ]);
 
@@ -86,6 +93,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '2',
             'ordem' => '2',
             'titulo' => 'pergunta 2?',
+            'tipo' => 'notas',
             'bloco' => 'DP',
         ]);
 
@@ -94,6 +102,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '2',
             'ordem' => '3',
             'titulo' => 'pergunta 3?',
+            'tipo' => 'notas',
             'bloco' => 'IA',
         ]);
 
@@ -102,6 +111,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '2',
             'ordem' => '4',
             'titulo' => 'pergunta 4?',
+            'tipo' => 'notas',
             'bloco' => 'IA',
         ]);
 
@@ -110,6 +120,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '2',
             'ordem' => '5',
             'titulo' => 'pergunta 5?',
+            'tipo' => 'texto',
             'bloco' => 'O',
         ]);
 
@@ -118,6 +129,7 @@ class CreateFormulariosPerguntasTable extends Migration
             'id_formulario' => '2',
             'ordem' => '6',
             'titulo' => 'pergunta 6?',
+            'tipo' => 'texto',
             'bloco' => 'O',
         ]);
     }
