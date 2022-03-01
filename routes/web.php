@@ -90,9 +90,12 @@ Route::get('/admin/avaliacao/sendEmail', 'AvaliacaoController@sendEmail')->name(
 // Relatorios
 
 //Comparar Avaliações
-Route::get('/admin/comparar/', 'CompararController@index')->name('admin.comparar');
-Route::get('/admin/comparar/filter', 'CompararController@filter')->name('admin.comparar.filter');
+Route::get('/admin/comparar/', ['middleware' => 'auth', 'uses' => 'CompararController@index'])->name('admin.comparar');
+Route::get('/admin/comparar/filter', ['middleware' => 'auth', 'uses' => 'CompararController@filter'])->name('admin.comparar.filter');
+Route::get('/admin/comparar/relatorio/{curso}/{turma}/{disciplinas}', ['middleware' => 'auth', 'uses' => 'CompararController@relatorio'])->name('admin.comparar.relatorio');
+Route::get('/admin/comparar/listDisciplina', ['middleware' => 'auth', 'uses' => 'CompararController@listDisciplina'])->name('admin.comparar.listDisciplina');
+Route::get('/admin/comparar/listTurma', ['middleware' => 'auth', 'uses' => 'CompararController@listTurma'])->name('admin.comparar.listTurma');
 
 Route::get('/admin/results/', 'ResultsController@index')->name('admin.results');
-Route::get('/admin/results/filter/{id}', 'ResultsController@filter')->name('admin.results.filter');
+Route::get('/admin/results/filter/{id}/{download?}', 'ResultsController@filter')->name('admin.results.filter');
 Route::get('/admin/results/ajaxFilter', 'ResultsController@ajaxFilter')->name('admin.results.ajaxFilter');

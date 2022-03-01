@@ -7,7 +7,10 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Resultado da Avaliação</h1>
+          <h1>
+            Resultado da Avaliação
+            <button class="btn btn-info" id="btnPdf">Baixar PDF</button>
+          </h1> 
           
         </div>
       </div>

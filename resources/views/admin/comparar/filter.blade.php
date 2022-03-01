@@ -17,7 +17,7 @@
       <div class="container-fluid">
         <div class="card card-default">
           <div class="card-body">
-          <form action='{{ route('admin.users.addUser') }}' method='POST'>
+          <form id="formCompararRel">
             @csrf
 
             @if($errors->all())
@@ -30,7 +30,7 @@
               @endforeach
             @endif
 
-            <div id="blocoCadastro" hidden>
+            <div id="blocoCadastro">
               <div class="alert alert-danger alert-dismissible" id="divMsgErro" hidden>
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <h5><i class="icon fas fa-ban"></i> Erro!</h5>
@@ -40,8 +40,22 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>Cursos</label>
-                    <select class="select2" data-placeholder="Selecione uma opção" name='curso' id='curso' style="width: 100%;" require>
+                    <label>Curso</label>
+                    <select class="select2" data-placeholder="Selecione uma opção" name='curso' id='cursoComparar' style="width: 100%;" require>
+                      <option value=""></option>
+                      @foreach ($cursos as $curso)
+                        <option value="{{ $curso->id }}">{{ $curso->nm_curso }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Disciplinas </label>
+                    <select class="select2" data-placeholder="Selecione uma opção" name='disciplina' id='disciplinaComparar' require disabled >
                       <option value=""></option>
                     </select>
                   </div>
@@ -51,19 +65,8 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>Turmas</label>
-                    <select class="select2" data-placeholder="Selecione uma opção" name='turma' id='turma' style="width: 100%;" require disabled>
-                      <option value=""></option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Disciplina</label>
-                    <select class="select2" data-placeholder="Selecione uma opção" name='disciplina' id='disciplina' style="width: 100%;" require disabled>
+                    <label>Turmas <span style="color:red;font-size: 9px;">(mínimo - 2 | máximo - 3)</span></label>
+                    <select class="select2" data-placeholder="Selecione uma opção" name='turma[]' id='turmaComparar' style="width: 100%;" require disabled multiple>
                       <option value=""></option>
                     </select>
                   </div>
@@ -73,9 +76,7 @@
             
             <div class="row">
               <div class="col-12">
-                <button type="button" class="btn btn-success" id="btnCadastrar">Cadastrar Avaliação</button>
-                <button type="button" class="btn btn-success" id="btnIniciarAvaliacao" hidden>Iniciar Avaliação</button>
-                <button type="button" class="btn btn-danger" id="btnCancelar" hidden>Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnGerarRelComparar">Gerar Relatório</button>
               </div>
             </div>
 
@@ -88,36 +89,5 @@
       </div>
       <!-- /.container-fluid -->
     </section>
-
-  <!-- Main content -->
-  <section class="content">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card card-primary">
-          <div class="card-body">
-              <table id="table" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Professor</th>
-                  <th>Data</th>
-                  <th>Curso</th>
-                  <th>Turma</th>
-                  <th>Disciplina</th>
-                  <th>PIN</th>
-                  <th>Status</th>
-                  <th>Ações</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-      </div>
-    </div>
-  </section>
 
 @endsection

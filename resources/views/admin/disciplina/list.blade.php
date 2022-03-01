@@ -45,19 +45,17 @@
           <div class="card-body">
               <table id="table" class="table table-bordered table-striped">
                 <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Turma</th>
-                  <th>Professor</th>
-                  <th>Disciplina</th>
-                  <th>Ações</th>
-                </tr>
+                  <tr>
+                    <th>Código</th>
+                    <th>Professor</th>
+                    <th>Disciplina</th>
+                    <th>Ações</th>
+                  </tr>
                 </thead>
                 <tbody>
                   @foreach ($disciplinaList as $disciplina)
                     <tr>
                       <td>{{ $disciplina['codigo'] }}</td>
-                      <td>{{ $disciplina['turma'] }}</td>
                       <td>{{ $disciplina['professor'] }}</td>
                       <td>{{ $disciplina['nome'] }}</td>
                       <td><a href="{{ route('admin.disciplina.edit', $disciplina['codigo']) }}">Editar</a> | <a href="{{ route('admin.disciplina.delete', $disciplina['codigo']) }}" class="confirmationDeleteAll"> Excluir</a></td>

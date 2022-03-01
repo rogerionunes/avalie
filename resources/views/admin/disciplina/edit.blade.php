@@ -28,13 +28,13 @@
             @csrf
 
             @if($errors->all())
-            @foreach ($errors->all() as $error)
-            <div class="alert alert-danger alert-dismissible">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-              <h5><i class="icon fas fa-ban"></i> Erro!</h5>
-              {{ $error }}
-            </div>
-            @endforeach
+              @foreach ($errors->all() as $error)
+                <div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h5><i class="icon fas fa-ban"></i> Erro!</h5>
+                  {{ $error }}
+                </div>
+              @endforeach
             @endif
 
             <div class="row">
@@ -46,16 +46,6 @@
                     <option value=""></option>
                     @foreach ($professores as $professor)
                     <option value="{{ $professor->id }}" @if ($disciplina->id_professor == $professor->id) selected @endif>{{ $professor->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label>Turmas</label>
-                  <select class="select2" data-placeholder="Selecione uma opção" name='turma' style="width: 100%;" require>
-                    <option value=""></option>
-                    @foreach ($turmas as $turma)
-                      <option value="{{ $turma->id }}" @if ($disciplina->id_turma == $turma->id) selected @endif>{{ $turma->curso.' - '.$turma->nm_turma }}</option>
                     @endforeach
                   </select>
                 </div>

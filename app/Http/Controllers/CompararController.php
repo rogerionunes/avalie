@@ -34,10 +34,75 @@ class CompararController extends Controller
      */
     public function filter(Request $request)
     {
-        $compararList = [];
-        $avaliacoes = DB::table('avaliacoes');
+        $disciplinas = DB::table('disciplinas')->where('id_professor', Auth::user()->id)->get();
+        
+        $turmas = [];
+        $cursos = [];
 
-        return view('admin.comparar.filter');
+        foreach ($disciplinas as $disciplina) {
+            $turma = DB::table('turmas')->find($disciplina->id_turma);
+            $turmas[$turma->id] = $turma;
+        }
+        
+        foreach ($turmas as $turma) {
+            $curso = DB::table('cursos')->find($turma->id_curso);
+            $cursos[$curso->id] = $curso;
+        }
+
+        return view('admin.comparar.filter', [
+            'cursos' => DB::table('cursos')->get()
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function relatorio($cursoId, $turmasIds, $disciplinaId)
+    {
+        $curso = DB::table('cursos')->find($cursoId);
+
+        $disciplina = DB::table('disciplinas')->find($disciplinaId);
+
+        $turmas = explode(',', $turmasIds);
+        $turmaAux = [];
+
+        foreach ($turmas as $turma) {
+            $turmaAux[] = DB::table('turmas')->find($turma);
+        }
+
+        $avaliacaoTurma1 = DB::table('avaliacoes')->where(['id_turma' => $turmas[0], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId])->latest('id')->first();
+        $avaliacaoTurma1->notas = DB::table('avaliacoes_notas')->select('*', DB::raw('count(*) as qtde'))->where('avaliacao_id', $avaliacaoTurma1->id)->groupBy('pergunta_id', 'nota')->get();
+        
+        $avaliacaoTurma2 = DB::table('avaliacoes')->where(['id_turma' => $turmas[1], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId])->latest('id')->first();
+        $avaliacaoTurma2->notas = DB::table('avaliacoes_notas')->select('*', DB::raw('count(*) as qtde'))->where('avaliacao_id', $avaliacaoTurma2->id)->groupBy('pergunta_id')->get();
+        
+        $arrAvaliacao = [];
+        
+        foreach ($avaliacaoTurma1->notas as $nota1) {
+            foreach($avaliacaoTurma2->notas as $nota2) {
+                if ($nota1->pergunta_id == $nota2->pergunta_id) {
+                    $pergunta = DB::table('formularios_perguntas')->find($nota1->pergunta_id);
+                    $qtdeTotalNotas1 = DB::table('avaliacoes_notas')->select('*', DB::raw('count(*) as qtde'))->where(['avaliacao_id' => $avaliacaoTurma1->id, 'pergunta_id' => $nota1->pergunta_id])->count();
+                    $qtdeTotalNotas2 = DB::table('avaliacoes_notas')->select('*', DB::raw('count(*) as qtde'))->where(['avaliacao_id' => $avaliacaoTurma1->id, 'pergunta_id' => $nota2->pergunta_id])->count();
+                    $nota1->porcentagem = $nota1->qtde / $qtdeTotalNotas1 * 100;
+                    $nota2->porcentagem = $nota2->qtde / $qtdeTotalNotas2 * 100;
+                    
+                    $arrAvaliacoes[$nota1->pergunta_id]['pergunta'] = $pergunta;
+                    $arrAvaliacoes[$nota1->pergunta_id]['nota1'][] = $nota1;
+                    $arrAvaliacoes[$nota1->pergunta_id]['nota2'][] = $nota2;
+                }
+            }
+        }
+        dd($arrAvaliacoes);
+        
+        return view('admin.comparar.rel', [
+            'curso' => $curso,
+            'disciplina' => $disciplina,
+            'turmas' => $turmaAux,
+            'arrAvaliacoes' => $arrAvaliacoes
+        ]);
     }
 
     /**
@@ -130,31 +195,32 @@ class CompararController extends Controller
 
         return redirect()->back()->withInput()->withErrors(['PIN incorreto, digite novamente.']);
     }
-    
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function listTurma(Request $request)
-    {
+    public function listDisciplina(Request $request)
+    {   
         $turmas = DB::table('turmas')->where('id_curso', $request->idCurso)->get();
         $turmaAux = [];
 
         foreach ($turmas as $turma) {
 
-            $disciplinas = DB::table('disciplinas')->where('id_turma', $turma->id)->get();
-
+            $disciplinas = DB::table('turmas_disciplinas')->where('turma_id', $turma->id)->get();
+            
             foreach ($disciplinas as $disciplina) {
-                if ($disciplina->id_professor == Auth::user()->id) {
-                    $turmaAux[$turma->id] = $turma;
+                $disc = DB::table('disciplinas')->find($disciplina->disciplina_id);
+
+                if (in_array(Auth::user()->tp_usuario, ['S','C']) || $disc->id_professor == Auth::user()->id) {
+                    $discAux[$disc->id] = $disc;
                 }
             }
         }
 
-        if ($turmaAux) {
-            $response = ['status' => '1', 'dados' => $turmaAux];
+        if ($discAux) {
+            $response = ['status' => '1', 'dados' => $discAux];
         } else {
             $response = ['status' => '0', 'dados' => []];
         }
@@ -167,12 +233,20 @@ class CompararController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function listDisciplina(Request $request)
+    public function listTurma(Request $request)
     {
-        $disciplinas = DB::table('disciplinas')->where(['id_turma' => $request->idTurma, 'id_professor' => Auth::user()->id])->get();
+        $turmasDisciplinas = DB::table('turmas_disciplinas')->where('disciplina_id', $request->idDisciplina)->get();
 
-        if ($disciplinas) {
-            $response = ['status' => '1', 'dados' => $disciplinas];
+        $turmaAux = [];
+
+        foreach ($turmasDisciplinas as $turmasDisciplina) {
+            $turma = DB::table('turmas')->find($turmasDisciplina->turma_id);
+
+            $turmaAux[$turma->id] = $turma;
+        }
+
+        if ($turmaAux) {
+            $response = ['status' => '1', 'dados' => $turmaAux];
         } else {
             $response = ['status' => '0', 'dados' => []];
         }

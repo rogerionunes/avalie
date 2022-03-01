@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Turma;
 use App\Models\Turmas;
+use App\Models\TurmasDisciplinas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -61,9 +62,11 @@ class TurmaController extends Controller
     public function add()
     {
         $cursos = DB::table('cursos')->get();
+        $disciplinas = DB::table('disciplinas')->get();
 
         return view('admin.turma.add', [
-            'cursos' => $cursos
+            'cursos' => $cursos,
+            'disciplinas' => $disciplinas,
         ]);
     }
 
@@ -74,22 +77,30 @@ class TurmaController extends Controller
      */
     public function addTurma(Request $request)
     {
-        $campos = ['nome' => 'Nome', 'curso' => 'Curso', 'ano' => 'Ano', 'semestre' => 'Semestre', 'turno' => 'Turno'];
+        $campos = ['nome' => 'Nome', 'curso' => 'Curso', 'ano' => 'Ano', 'semestre' => 'Semestre', 'turno' => 'Turno', 'disciplinas' => 'Disciplinas'];
         
         foreach($campos as $name => $campo) {
             if ($request->$name == ''){
                 return redirect()->back()->withInput($campos)->withErrors(['O campo '.$campo.' é obrigatório.']);
             }
         }
-
-        $turma = Turma::create(
-            ['nm_turma' => $request->nome, 
+        
+        $turma = Turmas::create([
+            'nm_turma' => $request->nome, 
             'id_curso' => $request->curso,
             'ano' => $request->ano,
             'status' => '1',
             'semestre' => $request->semestre,
             'turno' => $request->turno,
+        ]);
+
+        foreach ($request->disciplinas as $disciplina) {
+            $turmaDisciplina = TurmasDisciplinas::create([
+                'turma_id' => $turma->id, 
+                'disciplina_id' => $disciplina
             ]);
+        }
+
         
         if ($turma) {
             return redirect()->route('admin.turma.list');
@@ -108,10 +119,21 @@ class TurmaController extends Controller
     public function edit($id)
     {
         $cursos = DB::table('cursos')->get();
+        $disciplinas = DB::table('disciplinas')->get();
         $turma = DB::table('turmas')->find($id);
+        $turmasDisciplinas = DB::table('turmas_disciplinas')->where('turma_id', $turma->id)->get();
+
+        $turmasDisciplinasTemp = [];
+
+        foreach ($turmasDisciplinas as $turmaDisciplina) {
+            $turmasDisciplinasTemp[] = $turmaDisciplina->disciplina_id;
+        }
+        
         return view('admin.turma.edit', [
             'turma' => $turma,
-            'cursos' => $cursos
+            'cursos' => $cursos,
+            'disciplinas' => $disciplinas,
+            'turmasDisciplinas' => $turmasDisciplinasTemp
         ]);
     }
 
@@ -124,7 +146,7 @@ class TurmaController extends Controller
     public function editTurma($id, Request $request)
     {
         
-        $campos = ['nome' => 'Nome', 'curso' => 'Curso', 'ano' => 'Ano', 'semestre' => 'Semestre', 'turno' => 'Turno'];
+        $campos = ['nome' => 'Nome', 'curso' => 'Curso', 'ano' => 'Ano', 'semestre' => 'Semestre', 'turno' => 'Turno', 'disciplinas' => 'Disciplinas'];
         
         foreach($campos as $name => $campo) {
             if ($request->$name == ''){
@@ -132,16 +154,27 @@ class TurmaController extends Controller
             }
         }
         
-        $dados = ['nm_turma' => $request->nome, 
-        'id_curso' => $request->curso,
-        'ano' => $request->ano,
-        'status' => '1',
-        'semestre' => $request->semestre,
-        'turno' => $request->turno];
+        $dados = [
+            'nm_turma' => $request->nome, 
+            'id_curso' => $request->curso,
+            'ano' => $request->ano,
+            'status' => '1',
+            'semestre' => $request->semestre,
+            'turno' => $request->turno
+        ];
 
         $turma = DB::table('turmas')
               ->where('id', $id)
               ->update($dados);
+
+        $turma = DB::table('turmas_disciplinas')->where('turma_id', $id)->delete();
+
+        foreach ($request->disciplinas as $disciplina) {
+            TurmasDisciplinas::create([
+                'turma_id' => $id, 
+                'disciplina_id' => $disciplina
+            ]);
+        }
 
         if ($turma) {
             return redirect()->route('admin.turma.list');
@@ -158,16 +191,14 @@ class TurmaController extends Controller
      */
     public function delete($id)
     {
-        $disciplinas = DB::table('disciplinas')->where('id_turma', $id)->first();
 
-        if ($disciplinas) {
-            return redirect()->back()->withInput()->withErrors(['A Turma está associado à uma disciplina.']);
-        }
         $avaliacoes = DB::table('avaliacoes')->where('id_turma', $id)->first();
 
         if ($avaliacoes) {
             return redirect()->back()->withInput()->withErrors(['A Turma está associado à uma avaliação.']);
         }
+
+        $turma = DB::table('turmas_disciplinas')->where('turma_id', $id)->delete();
 
         $turma = DB::table('turmas')->where('id', $id)->delete();
 

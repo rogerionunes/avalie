@@ -18,8 +18,6 @@ class CreateDisciplinasTable extends Migration
             $table->increments('id');
             $table->integer('id_professor')->unsigned();
             $table->foreign('id_professor')->references('id')->on('users');
-            $table->integer('id_turma')->unsigned();
-            $table->foreign('id_turma')->references('id')->on('turmas');
             $table->string('nm_disciplina');
             $table->engine = 'InnoDB';
             $table->timestamps();
@@ -28,63 +26,54 @@ class CreateDisciplinasTable extends Migration
         Disciplinas::create([
             'id' => '1',
             'id_professor' => '2',
-            'id_turma' => '1',
             'nm_disciplina' => 'Disciplina 1'
         ]);
 
         Disciplinas::create([
             'id' => '2',
             'id_professor' => '2',
-            'id_turma' => '1',
             'nm_disciplina' => 'Disciplina 2'
         ]);
 
         Disciplinas::create([
             'id' => '3',
             'id_professor' => '4',
-            'id_turma' => '2',
             'nm_disciplina' => 'Disciplina 3'
         ]);
 
         Disciplinas::create([
             'id' => '4',
             'id_professor' => '4',
-            'id_turma' => '2',
             'nm_disciplina' => 'Disciplina 4'
         ]);
 
         Disciplinas::create([
             'id' => '5',
             'id_professor' => '2',
-            'id_turma' => '3',
             'nm_disciplina' => 'Disciplina 5'
         ]);
 
         Disciplinas::create([
             'id' => '6',
             'id_professor' => '2',
-            'id_turma' => '3',
             'nm_disciplina' => 'Disciplina 6'
         ]);
 
         Disciplinas::create([
             'id' => '7',
             'id_professor' => '4',
-            'id_turma' => '4',
             'nm_disciplina' => 'Disciplina 7'
         ]);
 
         Disciplinas::create([
             'id' => '8',
             'id_professor' => '4',
-            'id_turma' => '4',
             'nm_disciplina' => 'Disciplina 8'
         ]);
 
         Disciplinas::create([
             'id' => '8',
             'id_professor' => '4',
-            'id_turma' => '4',
             'nm_disciplina' => 'Disciplina 9'
         ]);
     }

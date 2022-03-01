@@ -86,6 +86,16 @@
                     <label for="turnoN">Noite</label>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label>Disciplinas</label>
+                  <select class="select2Simple" data-placeholder="Selecione uma opção" name='disciplinas[]' style="width: 100%;" require multiple>
+                    <option value=""></option>
+                    @foreach ($disciplinas as $disciplina)
+                      <option value="{{ $disciplina->id }}">{{ $disciplina->nm_disciplina }}</option>
+                    @endforeach
+                  </select>
+                </div>
               </div>
             </div>
             <div class="row">

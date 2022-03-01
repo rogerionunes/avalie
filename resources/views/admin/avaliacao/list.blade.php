@@ -131,19 +131,11 @@
                           <a class="btn btn-danger" style="color:white">Finalizado</a>
                         @endif 
                       </td>
-                      <td>
+                      <td align="center">
                       @if ($avaliacao['resultados'])
                         <a target="_blank" href="{{ route('admin.results.filter', $avaliacao['codigo']) }}" title="VISUALIZAR"><i class="far fa-eye"></i></a> 
-                        | 
-                        <a target="_blank" href="{{ route('admin.results.filter', [$avaliacao['codigo'],'download'=>1]) }}" title="BAIXAR"><i class="fas fa-download"></i></a>
-                        | 
-                        <a href="{{ route('admin.avaliacao.sendEmail', $avaliacao['codigo']) }}" title="ENVIAR POR EMAIL"><i class="fas fa-envelope-open"></i></a>
                       @else
                         <a href="#" class="disabled" style="color:gray"><i class="far fa-eye"></i></a> 
-                        | 
-                        <a href="#" class="disabled" style="color:gray"><i class="fas fa-download"></i></a>
-                        | 
-                        <a href="#" class="disabled" style="color:gray"><i class="fas fa-envelope-open"></i></a>
                       @endif 
                       </td>
                     </tr>

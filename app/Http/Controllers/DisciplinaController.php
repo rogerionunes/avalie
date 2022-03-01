@@ -42,13 +42,9 @@ class DisciplinaController extends Controller
 
         foreach ($disciplinas as $disciplina) {
 
-            $turma = DB::table('turmas')->find($disciplina->id_turma);
-            $cursoTurma = DB::table('cursos')->find($turma->id_curso);
-
             $disciplinaList[] = [
                 'codigo' => $disciplina->id,
                 'professor' => DB::table('users')->find($disciplina->id_professor)->name,
-                'turma' => $cursoTurma->nm_curso.' - '.$turma->nm_turma,
                 'nome' => $disciplina->nm_disciplina
             ];
         }
@@ -111,18 +107,12 @@ class DisciplinaController extends Controller
     public function edit($id)
     {
         $professores = DB::table('users')->whereIn('tp_usuario',['P', 'C'])->get();
-        $turmas = DB::table('turmas')->get();
-
-        foreach ($turmas as &$turma) {
-            $turma->curso = DB::table('cursos')->find($turma->id_curso)->nm_curso;
-        }
 
         $disciplina = DB::table('disciplinas')->find($id);
 
         return view('admin.disciplina.edit', [
             'disciplina' => $disciplina,
-            'professores' => $professores,
-            'turmas' => $turmas
+            'professores' => $professores
         ]);
     }
 

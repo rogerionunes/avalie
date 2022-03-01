@@ -35,11 +35,9 @@ class ResultsController extends Controller
      */
     public function filter(Request $request)
     {
-        
         $id = $request->id;
 
         $avaliacao = Avaliacoes::find($id);
-
         if ($avaliacao) {
             
             $curso = Cursos::find($avaliacao->id_curso);
@@ -74,6 +72,7 @@ class ResultsController extends Controller
                     }
                 }
             }
+            
             $dados = [
                 'disciplina' => $disciplina,
                 'curso' => $curso,
@@ -85,40 +84,7 @@ class ResultsController extends Controller
                 'listPerguntasIA' => $listPerguntasIA,
                 'download' => isset($request->download),
             ];
-            
-            if (isset($request->download)) {
-                return 
-                $pdf = \PDF::loadView('admin.results.filter', compact(
-                    'disciplina',
-                    'curso',
-                    'turma',
-                    'professor',
-                    'formularios',
-                    'listPerguntasO',
-                    'listPerguntasDP',
-                    'listPerguntasIA'
-                ));
-
-                $pdf->setOptions(['defaultFont' => 'sans-serif']);
-                $pdf->download('nome-arquivo-pdf-gerado.pdf');
-
-                // return \PDF::loadView('admin.results.filter', compact('dados'))
-                // // Se quiser que fique no formato a4 retrato: ->setPaper('a4', 'landscape')
-                // ->download('nome-arquivo-pdf-gerado.pdf');
-            } else {
-                return view('admin.results.filter', [
-                    'disciplina' => $disciplina,
-                    'curso' => $curso,
-                    'turma' => $turma,
-                    'professor' => $professor,
-                    'formularios' => $formularios,
-                    'listPerguntasO' => $listPerguntasO,
-                    'listPerguntasDP' => $listPerguntasDP,
-                    'listPerguntasIA' => $listPerguntasIA,
-                    'download' => isset($request->download),
-                ]);
-            }
-
+            return view('admin.results.filter', $dados);
         }
 
         return view('admin.results.filter');

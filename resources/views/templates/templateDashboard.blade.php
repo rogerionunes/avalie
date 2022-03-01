@@ -30,9 +30,9 @@
   <!-- Bootstrap Color Picker -->
   <link rel="stylesheet" href="{{url('assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
   <!-- Select2 -->
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  <!-- <link rel="stylesheet" href="{{url('assets/plugins/select2/css/select2.min.css')}}"> -->
-  <!-- <link rel="stylesheet" href="{{url('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}"> -->
+  <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
+  <link rel="stylesheet" href="{{url('assets/plugins/select2/css/select2.min.css')}}">
+  <link rel="stylesheet" href="{{url('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="{{url('assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css')}}">
   <!-- Theme style -->
@@ -238,8 +238,8 @@
 <!-- bootstrap color picker -->
 <script src="{{url('assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
 <!-- Select2 -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<!-- <script src="{{url('assets/plugins/select2/js/select2.full.min.js')}}"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+<script src="{{url('assets/plugins/select2/js/select2.full.min.js')}}"></script>
 <!-- Bootstrap4 Duallistbox -->
 <script src="{{url('assets/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
 <!-- InputMask -->
@@ -258,6 +258,13 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
 <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
+<!-- FLOT CHARTS -->
+<script src="{{url('assets/plugins/flot/jquery.flot.js')}}"></script>
+<!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+<script src="{{url('assets/plugins/flot-old/jquery.flot.resize.min.js')}}"></script>
+<!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+<script src="{{url('assets/plugins/flot-old/jquery.flot.pie.min.js')}}"></script>
+
 <!-- AdminLTE App -->
 <script src="{{url('assets/dist/js/adminlte.js')}}"></script>
 
@@ -271,10 +278,28 @@
   
   //datatables
   $(function () {
-  const selector = $('.select2');
 
   //Initialize Select2 Elements
-  selector.select2();
+  $('.select2').select2({
+    maximumSelectionLength: 3,
+    width:'100%',
+    allowClear : false,
+    language: "pt"
+  });
+
+  $('#turmaComparar').select2({
+    maximumSelectionLength: 3,
+    minimumSelectionLength: 2,
+    width:'100%',
+    allowClear : false,
+    language: "pt"
+  });
+
+  $('.select2Simple').select2({
+    width:'100%',
+    allowClear : false,
+    language: "pt"
+  });
 
     var url = window.location.pathname,
     url = url.split('/');
@@ -333,73 +358,73 @@
       $(this).attr('hidden', true);
     });
   
-  $('#curso').on('change', function() {
-    if($(this).val() != '') {
-      $.ajax({
-        url: "{{ route('admin.avaliacao.listTurma') }}",
-        dataType: "json",
-        type: 'get',
-        data: {
-          idCurso : $(this).val()
-        },
-        beforeSend : function() {
-          $("#turma").html('<option>Pesquisando...</option>');
-          $("#turma").attr('disabled', true);
-        }
-      })
-      .done(function(response) {
-        var conteudo = '';
-        if (response.status == '1') {
-          $("#turma").attr('disabled', false);
-          conteudo += '<option value=""></option>';
-          $.each(response.dados, function(index, value) {
-            conteudo += '<option value="'+value.id+'">'+value.nm_turma+'</option>';
-          });
-          
-        } else {
-          conteudo += '<option value="">Nenhuma turma encontrada neste Curso para este professor</option>';
-        }
-        $("#turma").html(conteudo);
-      })
-      .fail(function(jqXHR, textStatus, msg) {
-        console.log(msg);
-      }); 
-    }
-  });
-  
-  $('#turma').on('change', function() {
-    if($(this).val() != '') {
-      $.ajax({
-        url: "{{ route('admin.avaliacao.listDisciplina') }}",
-        dataType: "json",
-        type: 'get',
-        data: {
-          idTurma : $(this).val()
-        },
-        beforeSend : function() {
-          $("#disciplina").html('<option>Pesquisando...</option>');
-          $("#disciplina").attr('disabled', true);
-        }
-      })
-      .done(function(response) {
-        var conteudo = '';
-        if (response.status == '1') {
-          $("#disciplina").attr('disabled', false);
-          conteudo += '<option value=""></option>';
-          $.each(response.dados, function(index, value) {
-            conteudo += '<option value="'+value.id+'">'+value.nm_disciplina+'</option>';
-          });
-          
-        } else {
-          conteudo += '<option value="">Nenhuma Disciplina encontrada nesta Turma para este professor</option>';
-        }
-        $("#disciplina").html(conteudo);
-      })
-      .fail(function(jqXHR, textStatus, msg) {
-        console.log(msg);
-      }); 
-    }
-  });
+    $('#curso').on('change', function() {
+      if($(this).val() != '') {
+        $.ajax({
+          url: "{{ route('admin.avaliacao.listTurma') }}",
+          dataType: "json",
+          type: 'get',
+          data: {
+            idCurso : $(this).val()
+          },
+          beforeSend : function() {
+            $("#turma").html('<option>Pesquisando...</option>');
+            $("#turma").attr('disabled', true);
+          }
+        })
+        .done(function(response) {
+          var conteudo = '';
+          if (response.status == '1') {
+            $("#turma").attr('disabled', false);
+            conteudo += '<option value=""></option>';
+            $.each(response.dados, function(index, value) {
+              conteudo += '<option value="'+value.id+'">'+value.nm_turma+'</option>';
+            });
+            
+          } else {
+            conteudo += '<option value="">Nenhuma turma encontrada neste Curso para este professor</option>';
+          }
+          $("#turma").html(conteudo);
+        })
+        .fail(function(jqXHR, textStatus, msg) {
+          console.log(msg);
+        }); 
+      }
+    });
+    
+    $('#turma').on('change', function() {
+      if($(this).val() != '') {
+        $.ajax({
+          url: "{{ route('admin.avaliacao.listDisciplina') }}",
+          dataType: "json",
+          type: 'get',
+          data: {
+            idTurma : $(this).val()
+          },
+          beforeSend : function() {
+            $("#disciplina").html('<option>Pesquisando...</option>');
+            $("#disciplina").attr('disabled', true);
+          }
+        })
+        .done(function(response) {
+          var conteudo = '';
+          if (response.status == '1') {
+            $("#disciplina").attr('disabled', false);
+            conteudo += '<option value=""></option>';
+            $.each(response.dados, function(index, value) {
+              conteudo += '<option value="'+value.id+'">'+value.nm_disciplina+'</option>';
+            });
+            
+          } else {
+            conteudo += '<option value="">Nenhuma Disciplina encontrada nesta Turma para este professor</option>';
+          }
+          $("#disciplina").html(conteudo);
+        })
+        .fail(function(jqXHR, textStatus, msg) {
+          console.log(msg);
+        }); 
+      }
+    });
   
   $('#btnIniciarAvaliacao').on('click', function() {
     
@@ -457,7 +482,6 @@
       });
     }
   });
-  // AVALIAÇÃO (FIM)
   
   $('.confirmationDelete').on('click', function () {
     return confirm('Você tem certeza que deseja CANCELAR a avaliação?');
@@ -471,8 +495,8 @@
     return confirm('Você tem certeza que deseja EXCLUIR?');
   });
   
-  $('#btnBaixarPdf').on('click', function () {
-    setInterval(function(){ CreatePDFfromHTML(); }, 1000);
+  $('#btnPdf').on('click', function () {
+    CreatePDFfromHTML();
   });
 
   function CreatePDFfromHTML() {
@@ -499,10 +523,98 @@
     });
   }
 
-  <?php if(isset($download)): ?>
-    // setInterval(function(){ CreatePDFfromHTML(); }, 1000);
-    // setInterval(function(){ window.close(); }, 2000);
-  <?php endif; ?>
+  //COMPARAR AVALIAÇÕES
+  
+  $('#cursoComparar').on('change', function() {
+      if($(this).val() != '') {
+        $.ajax({
+          url: "{{ route('admin.comparar.listDisciplina') }}",
+          dataType: "json",
+          type: 'get',
+          data: {
+            idCurso : $(this).val()
+          },
+          beforeSend : function() {
+            $("#disciplinaComparar").html('<option>Pesquisando...</option>');
+            $("#disciplinaComparar").attr('disabled', true);
+          }
+        })
+        .done(function(response) {
+          var conteudo = '';
+          if (response.status == '1') {
+            $("#disciplinaComparar").attr('disabled', false);
+            conteudo += '<option value=""></option>';
+            $.each(response.dados, function(index, value) {
+              conteudo += '<option value="'+value.id+'">'+value.nm_disciplina+'</option>';
+            });
+            
+          } else {
+            conteudo += '<option value="">Nenhuma turma encontrada neste Curso para este professor</option>';
+          }
+          $("#disciplinaComparar").html(conteudo);
+        })
+        .fail(function(jqXHR, textStatus, msg) {
+          console.log(msg);
+        }); 
+      }
+    });
+    
+    $('#disciplinaComparar').on('change', function() {
+      if($(this).val() != '') {
+        $.ajax({
+          url: "{{ route('admin.comparar.listTurma') }}",
+          dataType: "json",
+          type: 'get',
+          data: {
+            idDisciplina : $(this).val()
+          },
+          beforeSend : function() {
+            $("#turmaComparar").html('<option>Pesquisando...</option>');
+            $("#turmaComparar").attr('disabled', true);
+          }
+        })
+        .done(function(response) {
+          var conteudo = '';
+          if (response.status == '1') {
+            $("#turmaComparar").attr('disabled', false);
+            conteudo += '<option value=""></option>';
+            $.each(response.dados, function(index, value) {
+              conteudo += '<option value="'+value.id+'">'+value.nm_turma+'</option>';
+            });
+            
+          } else {
+            conteudo += '<option value="">Nenhuma Disciplina encontrada nesta Turma para este professor</option>';
+          }
+          $("#turmaComparar").html(conteudo);
+        })
+        .fail(function(jqXHR, textStatus, msg) {
+          console.log(msg);
+        }); 
+      }
+    });
+  
+  $('#btnGerarRelComparar').on('click', function () {
+    
+    if ($('#cursoComparar').val() == '') {
+      $('#divMsgErro').attr('hidden', false);
+      $('#msgErro').html('O campo Curso é obrigatorio.');
+      return;
+    }
+    
+    if ($('#turmaComparar').val() == '') {
+      $('#divMsgErro').attr('hidden', false);
+      $('#msgErro').html('O campo Turma é obrigatorio.');
+      return;
+    }
+    
+    if ($('#disciplinaComparar').val() == '') {
+      $('#divMsgErro').attr('hidden', false);
+      $('#msgErro').html('O campo Disciplina é obrigatorio.');
+      return;
+    }
+    window.open('/admin/comparar/relatorio/'+$('#cursoComparar').val()+'/'+$('#turmaComparar').val()+'/'+$('#disciplinaComparar').val()+'', '_blank');
+
+  });
 
 </script>
 </body>

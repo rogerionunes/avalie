@@ -49,15 +49,6 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>Turmas</label>
-                  <select class="select2" data-placeholder="Selecione uma opção" name='turma' style="width: 100%;" require>
-                    <option value=""></option>
-                    @foreach ($turmas as $turma)
-                      <option value="{{ $turma->id }}">{{ $turma->curso.' - '.$turma->nm_turma }}</option>
-                    @endforeach
-                  </select>
-                </div>
-                <div class="form-group">
                   <label>Nome</label>
                   <input type="text" class="form-control" name="nome" require>
                 </div>

@@ -58,14 +58,24 @@ class AvaliacaoController extends Controller
             ];
         }
         
-        $disciplinas = DB::table('disciplinas')->where('id_professor', Auth::user()->id)->get();
+        
+        if (!in_array(Auth::user()->tp_usuario, ['S','C'])) {
+            $disciplinas = DB::table('disciplinas')->where('id_professor', Auth::user()->id)->get();
+        } else {
+            $disciplinas = DB::table('disciplinas')->get();
+        }
         
         $turmas = [];
         $cursos = [];
 
         foreach ($disciplinas as $disciplina) {
-            $turma = DB::table('turmas')->find($disciplina->id_turma);
-            $turmas[$turma->id] = $turma;
+            $turmasDisciplinas = DB::table('turmas_disciplinas')->where('disciplina_id', $disciplina->id)->get();
+
+            
+            foreach ($turmasDisciplinas as $turmasDisciplina) {
+                $turma = DB::table('turmas')->find($turmasDisciplina->turma_id);
+                $turmas[$turma->id] = $turma;
+            }
         }
         
         foreach ($turmas as $turma) {
@@ -185,12 +195,17 @@ class AvaliacaoController extends Controller
 
         foreach ($turmas as $turma) {
 
-            $disciplinas = DB::table('disciplinas')->where('id_turma', $turma->id)->get();
+            $turmasDisciplinas = DB::table('turmas_disciplinas')->where('turma_id', $turma->id)->get();
+            
+            foreach ($turmasDisciplinas as $turmaDisciplina) {
+                $disciplina = DB::table('disciplinas')->find($turmaDisciplina->disciplina_id);
 
-            foreach ($disciplinas as $disciplina) {
-                if ($disciplina->id_professor == Auth::user()->id) {
-                    $turmaAux[$turma->id] = $turma;
+                if (Auth::user()->tp_usuario != 'C') {
+                    if ($disciplina->id_professor != Auth::user()->id && Auth::user()->tp_usuario == 'P') {
+                        continue;
+                    }
                 }
+                $turmaAux[$turma->id] = $turma;
             }
         }
 
@@ -210,10 +225,30 @@ class AvaliacaoController extends Controller
      */
     public function listDisciplina(Request $request)
     {
-        $disciplinas = DB::table('disciplinas')->where(['id_turma' => $request->idTurma, 'id_professor' => Auth::user()->id])->get();
+        $where = [];
+        $disciplinasAux = [];
+        
+        $turmasDisciplinas = DB::table('turmas_disciplinas')->where(['turma_id' => $request->idTurma])->get();
+        foreach ($turmasDisciplinas as $turmaDisciplina) {
 
-        if ($disciplinas) {
-            $response = ['status' => '1', 'dados' => $disciplinas];
+            if (Auth::user()->tp_usuario == 'P') {
+                $where['id_professor'] = Auth::user()->id; 
+            }
+            
+            $where['id'] = $turmaDisciplina->disciplina_id;
+            
+            $disciplina =  DB::table('disciplinas')->where($where)->first();
+
+            if ($disciplina) {
+                $disciplinasAux[$disciplina->id] = $disciplina;
+            }
+
+        }
+
+        // $disciplinas = DB::table('disciplinas')->where($where)->get();
+
+        if ($disciplinasAux) {
+            $response = ['status' => '1', 'dados' => $disciplinasAux];
         } else {
             $response = ['status' => '0', 'dados' => []];
         }
