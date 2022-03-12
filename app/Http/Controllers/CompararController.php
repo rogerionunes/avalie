@@ -73,29 +73,82 @@ class CompararController extends Controller
         }
 
         $avaliacaoTurma1 = DB::table('avaliacoes')->where(['id_turma' => $turmas[0], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId])->latest('id')->first();
-        $avaliacaoTurma1->notas = DB::table('avaliacoes_notas')->select('*', DB::raw('count(*) as qtde'))->where('avaliacao_id', $avaliacaoTurma1->id)->groupBy('pergunta_id', 'nota')->get();
+        $avaliacaoTurma1->notas = DB::table('avaliacoes_notas')->where(['avaliacao_id' => $avaliacaoTurma1->id])->get();
         
         $avaliacaoTurma2 = DB::table('avaliacoes')->where(['id_turma' => $turmas[1], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId])->latest('id')->first();
-        $avaliacaoTurma2->notas = DB::table('avaliacoes_notas')->select('*', DB::raw('count(*) as qtde'))->where('avaliacao_id', $avaliacaoTurma2->id)->groupBy('pergunta_id')->get();
+        $avaliacaoTurma2->notas = DB::table('avaliacoes_notas')->where(['avaliacao_id' => $avaliacaoTurma2->id])->get();
         
-        $arrAvaliacao = [];
+        $arrAvaliacoes = [];
+        // pergunta 1
+        // qtde nota 1
+        // qtde nota 2
+        // qtde nota 3 (...)
         
         foreach ($avaliacaoTurma1->notas as $nota1) {
-            foreach($avaliacaoTurma2->notas as $nota2) {
-                if ($nota1->pergunta_id == $nota2->pergunta_id) {
-                    $pergunta = DB::table('formularios_perguntas')->find($nota1->pergunta_id);
-                    $qtdeTotalNotas1 = DB::table('avaliacoes_notas')->select('*', DB::raw('count(*) as qtde'))->where(['avaliacao_id' => $avaliacaoTurma1->id, 'pergunta_id' => $nota1->pergunta_id])->count();
-                    $qtdeTotalNotas2 = DB::table('avaliacoes_notas')->select('*', DB::raw('count(*) as qtde'))->where(['avaliacao_id' => $avaliacaoTurma1->id, 'pergunta_id' => $nota2->pergunta_id])->count();
-                    $nota1->porcentagem = $nota1->qtde / $qtdeTotalNotas1 * 100;
-                    $nota2->porcentagem = $nota2->qtde / $qtdeTotalNotas2 * 100;
-                    
-                    $arrAvaliacoes[$nota1->pergunta_id]['pergunta'] = $pergunta;
-                    $arrAvaliacoes[$nota1->pergunta_id]['nota1'][] = $nota1;
-                    $arrAvaliacoes[$nota1->pergunta_id]['nota2'][] = $nota2;
+            $pergunta = DB::table('formularios_perguntas')->find($nota1->pergunta_id);
+                
+            $arrAvaliacoes[$nota1->pergunta_id]['pergunta'] = $pergunta;
+
+            if (!isset($arrAvaliacoes[$nota1->pergunta_id]['qtdeTotal1'])) {
+                $arrAvaliacoes[$nota1->pergunta_id]['qtdeTotal1'] = 0;
+            }
+
+            $arrAvaliacoes[$nota1->pergunta_id]['qtdeTotal1'] += 1;
+                
+            if ($nota1->nota >= '0') {
+
+                if (!isset($arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][$nota1->nota]['qtde1'])) {
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][0]['qtde1'] = 0;
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][1]['qtde1'] = 0;
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][2]['qtde1'] = 0;
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][3]['qtde1'] = 0;
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][4]['qtde1'] = 0;
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][5]['qtde1'] = 0;
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][6]['qtde1'] = 0;
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][7]['qtde1'] = 0;
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][8]['qtde1'] = 0;
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][9]['qtde1'] = 0;
+                    $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][10]['qtde1'] = 0;
                 }
+            
+                $arrAvaliacoes[$nota1->pergunta_id]['avaliacoes'][$nota1->nota]['qtde1'] += 1;
+            } else {
+                $arrAvaliacoes[$nota1->pergunta_id]['respostas1'][] = $nota1->texto;
             }
         }
-        dd($arrAvaliacoes);
+        
+        foreach ($avaliacaoTurma2->notas as $nota2) {
+            $pergunta = DB::table('formularios_perguntas')->find($nota2->pergunta_id);
+                
+            $arrAvaliacoes[$nota2->pergunta_id]['pergunta'] = $pergunta;
+
+            if (!isset($arrAvaliacoes[$nota1->pergunta_id]['qtdeTotal2'])) {
+                $arrAvaliacoes[$nota2->pergunta_id]['qtdeTotal2'] = 0;
+            }
+            
+            $arrAvaliacoes[$nota2->pergunta_id]['qtdeTotal2'] += 1;
+                
+            if ($nota2->nota >= '0') {
+
+                if (!isset($arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][$nota2->nota]['qtde2'])) {
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][0]['qtde2'] = 0;
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][1]['qtde2'] = 0;
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][2]['qtde2'] = 0;
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][3]['qtde2'] = 0;
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][4]['qtde2'] = 0;
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][5]['qtde2'] = 0;
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][6]['qtde2'] = 0;
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][7]['qtde2'] = 0;
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][8]['qtde2'] = 0;
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][9]['qtde2'] = 0;
+                    $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][10]['qtde2'] = 0;
+                }
+
+                $arrAvaliacoes[$nota2->pergunta_id]['avaliacoes'][$nota2->nota]['qtde2'] += 1;
+            } else {
+                $arrAvaliacoes[$nota2->pergunta_id]['respostas2'][] = $nota2->texto;
+            }
+        }
         
         return view('admin.comparar.rel', [
             'curso' => $curso,

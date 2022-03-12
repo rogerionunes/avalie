@@ -75,58 +75,105 @@
             <legend><b>Comparar Avaliações</b></legend>
             <br>
 
-
-            <div class="row">
-              <div align="center" class="col-md-5">
-                  <span><b>Turma</b> 1</span>
-              </div>
-              <div align="center" class="col-md-1">
-                  <span><b>|</b></span>
-              </div>
-              <div align="center" class="col-md-5">
-                <span><b>Turma</b> 2</span>
-              </div>
-            </div>
-
             @foreach ($arrAvaliacoes as $avaliacao)
 
-              <div class="row">
-                <div class="col-md-5">
-                  <div class="progress-group">
-                    {{ $avaliacao['pergunta']->titulo }}
 
-                    @if ($avaliacao['pergunta']->tipo == 'texto')
-                    <br><span><b>Resposta: </b>{{ $avaliacao['nota1']->texto }}</span>
-                    @else
-                      <span class="float-right"><b>Nota: </b>{{ $avaliacao['nota1']->nota }}</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-primary" style="width: {{ $avaliacao['nota1']->porcentagem }}%"></div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-info">
+                  <div class="card-header">
+                    {{ $avaliacao['pergunta']->titulo }}
+                  </div>
+
+                    <div class="card-body">
+                      <div class="row">
+                        <div align="center" class="col-md-5">
+                            <span><b>Turma 1 ( {{ isset($avaliacao['qtdeTotal1']) ? $avaliacao['qtdeTotal1'] : 0 }} avaliações)</b></span>
+                          </div>
+                          <div align="center" class="col-md-1">
+                            <span><b>|</b></span>
+                          </div>
+                          <div align="center" class="col-md-5">
+                          <span><b>Turma 2 ( {{ isset($avaliacao['qtdeTotal2']) ? $avaliacao['qtdeTotal2'] : 0 }} avaliações)</b></span>
+                        </div>
                       </div>
-                    @endif 
+
+                      @if(isset($avaliacao['avaliacoes']))
+                        @foreach ($avaliacao['avaliacoes'] as $i => $nota)
+
+                          <div class="row">
+                            <div class="col-md-5">
+                              <div class="progress-group">
+                                <span><b>Nota {{ $i }} ( {{ $avaliacao['avaliacoes'][$i]['qtde1'] }} notas)</b></span>
+                                <span class="float-right"><b>{{ $nota['qtde1'] > 0 ? $nota['qtde1'] / $avaliacao['qtdeTotal1'] * 100 : 0 }}%</b></span>
+
+                                <div class="progress progress-lg"> 
+                                  <div class="progress-bar bg-primary" style="width: {{ $avaliacao['avaliacoes'][$i]['qtde1'] > 0 ? $avaliacao['avaliacoes'][$i]['qtde1'] / $avaliacao['qtdeTotal1'] * 100 : 0 }}%"></div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!--
+                                @if(isset($nota['resposta1']))
+                                  @foreach ($nota['resposta1'] as $resposta)
+                                    <span><b>Resposta: {{ $resposta }}</b></span><br>
+                                  @endforeach
+                                @else
+                                  <span><b>Nota {{ $i }} ( {{ $avaliacao['avaliacoes'][$i]['qtde1'] }} notas)</b></span>
+                                  <span class="float-right"><b>{{ $avaliacao['avaliacoes'][$i]['qtde1'] > 0 ? $avaliacao['avaliacoes'][$i]['qtde1'] / $avaliacao['qtdeTotal1'] * 100 : 0 }}%</b></span>
+
+                                  <div class="progress progress-lg"> 
+                                    <div class="progress-bar bg-primary" style="width: {{ $avaliacao['avaliacoes'][$i]['qtde1'] > 0 ? $avaliacao['avaliacoes'][$i]['qtde1'] / $avaliacao['qtdeTotal1'] * 100 : 0 }}%"></div>
+                                  </div>
+                                @endif 
+                            -->
+
+                            <div align="center" class="col-md-1">
+                                <span><b>|</b></span>
+                            </div>
+                            <div class="col-md-5">
+                              <div class="progress-group">
+                                <span><b>Nota {{ $i }} ({{ $avaliacao['avaliacoes'][$i]['qtde2']  }} notas)</b></span>
+                                <span class="float-right"><b>{{ $avaliacao['avaliacoes'][$i]['qtde2'] > 0 ? $avaliacao['avaliacoes'][$i]['qtde2'] / $avaliacao['qtdeTotal2'] * 100 : 0 }}%</b></span>
+                                <div class="progress progress-lg"> 
+                                <div class="progress-bar bg-danger" style="width: {{ $avaliacao['avaliacoes'][$i]['qtde2'] > 0 ? $avaliacao['avaliacoes'][$i]['qtde2'] / $avaliacao['qtdeTotal2'] * 100 : 0 }}%"></div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+
+                        @endforeach
+                      @else
+
+                        <div class="row">
+                          <div class="col-md-5">
+                            <div class="progress-group">
+                                @foreach ($avaliacao['respostas1'] as $i => $resposta)
+                                  <span><b>Resposta {{$i+1}}: {{ $resposta }}</b></span><br>
+                                @endforeach
+                            </div>
+                          </div>
+
+                          <div align="center" class="col-md-1">
+                              <span><b>|</b></span>
+                          </div>
+
+                          <div class="col-md-5">
+                            <div class="progress-group">
+                                @foreach ($avaliacao['respostas2'] as $i => $resposta)
+                                  <span><b>Resposta {{$i+1}}: {{ $resposta }}</b></span><br>
+                                @endforeach
+                            </div>
+                          </div>
+
+                        </div>
+                      
+                      @endif
+                    </div>
                   </div>
                 </div>
-
-                <div align="center" class="col-md-1">
-                    <span><b>|</b></span><br>
-                    <span><b>|</b></span>
-                </div>
-
-                <div class="col-md-5">
-                  <div class="progress-group">
-                    {{ $avaliacao['pergunta']->titulo }}
-
-                    @if ($avaliacao['pergunta']->tipo == 'texto')
-                    <br><span><b>Resposta: </b>{{ $avaliacao['nota2']->texto }}</span>
-                    @else
-                      <span class="float-right"><b>Nota: </b>{{ $avaliacao['nota2']->nota }}</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-primary" style="width: {{ $avaliacao['nota2']->porcentagem }}%"></div>
-                      </div>
-                    @endif 
-                  </div>
-                </div>
-              </div>
-
+            </div>
             @endforeach
 
           </div>
