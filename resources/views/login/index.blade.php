@@ -38,7 +38,7 @@
         @endif
 
         <div class="input-group mb-3">
-          <input type="text" class="form-control" maxlength="6" placeholder="PIN" name='pin' id='pin' value='BDB181'>
+          <input type="text" class="form-control" maxlength="6" placeholder="PIN" name='pin' id='pin'>
         </div>
 
         <div class="row">
