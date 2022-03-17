@@ -31,37 +31,37 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        Users::create([
-            'id' => '1',
-            'name' => 'Rogerio Nunes',
-            'email' => 'rogerio@gmail.com',
-            'password' => Hash::make('123456'),
-            'tp_usuario' => 'C'
-        ]);
+        // Users::create([
+        //     'id' => '1',
+        //     'name' => 'Rogerio Nunes',
+        //     'email' => 'rogerio@gmail.com',
+        //     'password' => Hash::make('123456'),
+        //     'tp_usuario' => 'C'
+        // ]);
 
-        Users::create([
-            'id' => '2',
-            'name' => 'Alexandre Barbosa',
-            'email' => 'alexandre@gmail.com',
-            'password' => Hash::make('123456'),
-            'tp_usuario' => 'P'
-        ]);
+        // Users::create([
+        //     'id' => '2',
+        //     'name' => 'Alexandre Barbosa',
+        //     'email' => 'alexandre@gmail.com',
+        //     'password' => Hash::make('123456'),
+        //     'tp_usuario' => 'P'
+        // ]);
 
-        Users::create([
-            'id' => '3',
-            'name' => 'Francisco Henrique',
-            'email' => 'francisco@gmail.com',
-            'password' => Hash::make('123456'),
-            'tp_usuario' => 'C'
-        ]);
+        // Users::create([
+        //     'id' => '3',
+        //     'name' => 'Francisco Henrique',
+        //     'email' => 'francisco@gmail.com',
+        //     'password' => Hash::make('123456'),
+        //     'tp_usuario' => 'C'
+        // ]);
 
-        Users::create([
-            'id' => '4',
-            'name' => 'Accacio Valente',
-            'email' => 'accacio@gmail.com',
-            'password' => Hash::make('123456'),
-            'tp_usuario' => 'P'
-        ]);
+        // Users::create([
+        //     'id' => '4',
+        //     'name' => 'Accacio Valente',
+        //     'email' => 'accacio@gmail.com',
+        //     'password' => Hash::make('123456'),
+        //     'tp_usuario' => 'P'
+        // ]);
     }
 
     /**
@@ -71,7 +71,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Users::whereIn('id', ['1','2','3','4'])->delete();
+        // Users::whereIn('id', ['1','2','3','4'])->delete();
         Schema::drop('users');
     }
 }

@@ -30,38 +30,38 @@ class CreateAvaliacoesTable extends Migration
             $table->timestamps();
         });
 
-        Avaliacoes::create([
-            'id' => '1',
-            'id_professor' => '2',
-            'id_curso' => '1',
-            'id_turma' => '1',
-            'id_disciplina' => '1',
-            'pin' => 'BDB181',
-            'dataValidade' => '2020-12-31 00:00:00',
-            'status' => '1',
-        ]);
+        // Avaliacoes::create([
+        //     'id' => '1',
+        //     'id_professor' => '2',
+        //     'id_curso' => '1',
+        //     'id_turma' => '1',
+        //     'id_disciplina' => '1',
+        //     'pin' => 'BDB181',
+        //     'dataValidade' => '2020-12-31 00:00:00',
+        //     'status' => '1',
+        // ]);
 
-        Avaliacoes::create([
-            'id' => '2',
-            'id_professor' => '2',
-            'id_curso' => '1',
-            'id_turma' => '2',
-            'id_disciplina' => '1',
-            'pin' => 'ABS987',
-            'dataValidade' => '2020-12-31 00:00:00',
-            'status' => '0',
-        ]);
+        // Avaliacoes::create([
+        //     'id' => '2',
+        //     'id_professor' => '2',
+        //     'id_curso' => '1',
+        //     'id_turma' => '2',
+        //     'id_disciplina' => '1',
+        //     'pin' => 'ABS987',
+        //     'dataValidade' => '2020-12-31 00:00:00',
+        //     'status' => '0',
+        // ]);
 
-        Avaliacoes::create([
-            'id' => '3',
-            'id_professor' => '4',
-            'id_curso' => '2',
-            'id_turma' => '3',
-            'id_disciplina' => '1',
-            'pin' => 'JUH213',
-            'dataValidade' => '2020-12-31 00:00:00',
-            'status' => '1',
-        ]);
+        // Avaliacoes::create([
+        //     'id' => '3',
+        //     'id_professor' => '4',
+        //     'id_curso' => '2',
+        //     'id_turma' => '3',
+        //     'id_disciplina' => '1',
+        //     'pin' => 'JUH213',
+        //     'dataValidade' => '2020-12-31 00:00:00',
+        //     'status' => '1',
+        // ]);
     }
 
     /**
@@ -71,7 +71,7 @@ class CreateAvaliacoesTable extends Migration
      */
     public function down()
     {
-        Avaliacoes::whereIn('id', ['1','2','3'])->delete();
+        // Avaliacoes::whereIn('id', ['1','2','3'])->delete();
         Schema::drop('avaliacoes');
     }
 }
