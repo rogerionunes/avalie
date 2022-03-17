@@ -39,7 +39,7 @@ class AdminController extends Controller
 
                     foreach ($turmasDisciplinas as $turmasDisciplina) {
                         $turma = DB::table('turmas')->find($turmasDisciplina->turma_id);
-                        $turmas[$turma->id_turma] = $turma;
+                        $turmas[$turma->id] = $turma;
                     }
                 }
                 
