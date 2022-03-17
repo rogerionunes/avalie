@@ -35,9 +35,12 @@ class AdminController extends Controller
                 $turmas = [];
 
                 foreach ($disciplinas as $disciplina) {
-                    $turmasDisciplinas = DB::table('turmas_disciplinas')->where(['disciplina_id' => $disciplina->id]);
-                    $turma = DB::table('turmas')->find($turmasDisciplinas->id_turma);
-                    $turmas[$turmasDisciplinas->id_turma] = $turma;
+                    $turmasDisciplinas = DB::table('turmas_disciplinas')->where(['disciplina_id' => $disciplina->id])->get();
+
+                    foreach ($turmasDisciplinas as $turmasDisciplina) {
+                        $turma = DB::table('turmas')->find($turmasDisciplina->id_turma);
+                        $turmas[$turmasDisciplinas->id_turma] = $turma;
+                    }
                 }
                 
                 // total cursos
