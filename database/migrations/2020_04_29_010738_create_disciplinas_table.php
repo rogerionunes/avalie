@@ -15,7 +15,7 @@ class CreateDisciplinasTable extends Migration
     public function up()
     {
         Schema::create('disciplinas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('id_professor')->unsigned();
             $table->foreign('id_professor')->references('id')->on('users');
             $table->string('nm_disciplina');

@@ -15,7 +15,7 @@ class CreateAvaliacoesTable extends Migration
     public function up()
     {
         Schema::create('avaliacoes', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('id_professor')->unsigned();
             $table->foreign('id_professor')->references('id')->on('users');
             $table->integer('id_curso')->unsigned();

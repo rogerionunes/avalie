@@ -15,7 +15,7 @@ class CreateTurmasTable extends Migration
     public function up()
     {
         Schema::create('turmas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('id_curso')->unsigned();
             $table->foreign('id_curso')->references('id')->on('cursos');
             $table->string('nm_turma');
