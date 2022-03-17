@@ -26,45 +26,45 @@ class CreateTurmasTable extends Migration
             $table->timestamps();
         });
 
-        // Turmas::create([
-        //     'id' => '1',
-        //     'id_curso' => '1',
-        //     'nm_turma' => 'Turma 1',
-        //     'ano' => '2020',
-        //     'status' => '1',
-        //     'semestre' => '1',
-        //     'turno' => 'M',
-        // ]);
+        Turmas::create([
+            'id' => '1',
+            'id_curso' => '1',
+            'nm_turma' => 'Turma 1',
+            'ano' => '2020',
+            'status' => '1',
+            'semestre' => '1',
+            'turno' => 'M',
+        ]);
 
-        // Turmas::create([
-        //     'id' => '2',
-        //     'id_curso' => '1',
-        //     'nm_turma' => 'Turma 2',
-        //     'ano' => '2019',
-        //     'status' => '0',
-        //     'semestre' => '2',
-        //     'turno' => 'N',
-        // ]);
+        Turmas::create([
+            'id' => '2',
+            'id_curso' => '1',
+            'nm_turma' => 'Turma 2',
+            'ano' => '2019',
+            'status' => '0',
+            'semestre' => '2',
+            'turno' => 'N',
+        ]);
 
-        // Turmas::create([
-        //     'id' => '3',
-        //     'id_curso' => '2',
-        //     'nm_turma' => 'Turma 3',
-        //     'ano' => '2020',
-        //     'status' => '1',
-        //     'semestre' => '1',
-        //     'turno' => 'M',
-        // ]);
+        Turmas::create([
+            'id' => '3',
+            'id_curso' => '2',
+            'nm_turma' => 'Turma 3',
+            'ano' => '2020',
+            'status' => '1',
+            'semestre' => '1',
+            'turno' => 'M',
+        ]);
 
-        // Turmas::create([
-        //     'id' => '4',
-        //     'id_curso' => '2',
-        //     'nm_turma' => 'Turma 4',
-        //     'ano' => '2019',
-        //     'status' => '0',
-        //     'semestre' => '2',
-        //     'turno' => 'N',
-        // ]);
+        Turmas::create([
+            'id' => '4',
+            'id_curso' => '2',
+            'nm_turma' => 'Turma 4',
+            'ano' => '2019',
+            'status' => '0',
+            'semestre' => '2',
+            'turno' => 'N',
+        ]);
     }
 
     /**
@@ -74,7 +74,7 @@ class CreateTurmasTable extends Migration
      */
     public function down()
     {
-        // Turmas::whereIn('id', ['1','2','3','4'])->delete();
+        Turmas::whereIn('id', ['1','2','3','4'])->delete();
         Schema::drop('turmas');
     }
 }

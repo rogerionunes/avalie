@@ -20,15 +20,15 @@ class CreateCursosTable extends Migration
             $table->timestamps();
         });
 
-        // Cursos::create([
-        //     'id' => '1',
-        //     'nm_curso' => 'Engenharia de Softwares'
-        // ]);
+        Cursos::create([
+            'id' => '1',
+            'nm_curso' => 'Engenharia de Softwares'
+        ]);
 
-        // Cursos::create([
-        //     'id' => '2',
-        //     'nm_curso' => 'Aplicações Web'
-        // ]);
+        Cursos::create([
+            'id' => '2',
+            'nm_curso' => 'Aplicações Web'
+        ]);
 
     }
 
@@ -39,7 +39,7 @@ class CreateCursosTable extends Migration
      */
     public function down()
     {
-        // Cursos::whereIn('id', ['2', '1'])->delete();
+        Cursos::whereIn('id', ['2', '1'])->delete();
         Schema::drop('cursos');
     }
 }
