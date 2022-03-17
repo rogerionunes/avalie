@@ -305,7 +305,8 @@
     url = url.split('/');
 
     colunaForm = (url[2] != 'avaliacao')?0:7;
-    order = (url[2] != 'avaliacao')?'desc':'asc';
+    // order = (url[2] != 'avaliacao')?'desc':'asc';
+    order = 'asc';
 
     var table = $('#table').DataTable({
       dom: 'Bfrtip',
