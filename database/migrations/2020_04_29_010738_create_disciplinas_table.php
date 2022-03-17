@@ -23,59 +23,17 @@ class CreateDisciplinasTable extends Migration
             $table->timestamps();
         });
 
-        Disciplinas::create([
-            'id' => '1',
-            'id_professor' => '2',
-            'nm_disciplina' => 'Disciplina 1'
-        ]);
+        $users = DB::table('users')->where('tp_usuario', 'P')->get();
 
-        Disciplinas::create([
-            'id' => '2',
-            'id_professor' => '2',
-            'nm_disciplina' => 'Disciplina 2'
-        ]);
+        foreach ($users as $user) {
 
-        Disciplinas::create([
-            'id' => '3',
-            'id_professor' => '4',
-            'nm_disciplina' => 'Disciplina 3'
-        ]);
-
-        Disciplinas::create([
-            'id' => '4',
-            'id_professor' => '4',
-            'nm_disciplina' => 'Disciplina 4'
-        ]);
-
-        Disciplinas::create([
-            'id' => '5',
-            'id_professor' => '2',
-            'nm_disciplina' => 'Disciplina 5'
-        ]);
-
-        Disciplinas::create([
-            'id' => '6',
-            'id_professor' => '2',
-            'nm_disciplina' => 'Disciplina 6'
-        ]);
-
-        Disciplinas::create([
-            'id' => '7',
-            'id_professor' => '4',
-            'nm_disciplina' => 'Disciplina 7'
-        ]);
-
-        Disciplinas::create([
-            'id' => '8',
-            'id_professor' => '4',
-            'nm_disciplina' => 'Disciplina 8'
-        ]);
-
-        Disciplinas::create([
-            'id' => '8',
-            'id_professor' => '4',
-            'nm_disciplina' => 'Disciplina 9'
-        ]);
+            for ($i=1; $i<=10; $i++) {
+                Disciplinas::create([
+                    'id_professor' => $user->id,
+                    'nm_disciplina' => 'Disciplina '.$i,
+                ]);
+            }
+        }
     }
 
     /**
@@ -85,7 +43,7 @@ class CreateDisciplinasTable extends Migration
      */
     public function down()
     {
-        Disciplinas::whereIn('id', ['1','2','3','4','5','6','7','8'])->delete();
+        Disciplinas::truncate();
         Schema::drop('disciplinas');
     }
 }

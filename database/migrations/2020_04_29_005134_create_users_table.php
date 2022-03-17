@@ -1,12 +1,5 @@
 <?php
 
-use App\Models\Avaliacoes;
-use App\Models\AvaliacoesNotas;
-use App\Models\Cursos;
-use App\Models\Disciplinas;
-use App\Models\Formularios;
-use App\Models\FormulariosPerguntas;
-use App\Models\Turmas;
 use App\Models\Users;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -32,33 +25,43 @@ class CreateUsersTable extends Migration
         });
 
         Users::create([
-            'id' => '1',
-            'name' => 'Rogerio Nunes',
-            'email' => 'rogerio@gmail.com',
+            'name' => 'Super Usuário',
+            'email' => 'superusuario@gmail.com',
+            'password' => Hash::make('123456'),
+            'tp_usuario' => 'S'
+        ]);
+
+        Users::create([
+            'name' => 'Coordenador 1',
+            'email' => 'coordenador1@gmail.com',
             'password' => Hash::make('123456'),
             'tp_usuario' => 'C'
         ]);
 
         Users::create([
-            'id' => '2',
-            'name' => 'Alexandre Barbosa',
-            'email' => 'alexandre@gmail.com',
+            'name' => 'Coordenador 2',
+            'email' => 'coordenador2@gmail.com',
+            'password' => Hash::make('123456'),
+            'tp_usuario' => 'C'
+        ]);
+
+        Users::create([
+            'name' => 'Professor 1',
+            'email' => 'professor1@gmail.com',
             'password' => Hash::make('123456'),
             'tp_usuario' => 'P'
         ]);
 
         Users::create([
-            'id' => '3',
-            'name' => 'Francisco Henrique',
-            'email' => 'francisco@gmail.com',
+            'name' => 'Professor 2',
+            'email' => 'professor2@gmail.com',
             'password' => Hash::make('123456'),
-            'tp_usuario' => 'C'
+            'tp_usuario' => 'P'
         ]);
 
         Users::create([
-            'id' => '4',
-            'name' => 'Accacio Valente',
-            'email' => 'accacio@gmail.com',
+            'name' => 'Professor 3',
+            'email' => 'professor3@gmail.com',
             'password' => Hash::make('123456'),
             'tp_usuario' => 'P'
         ]);
@@ -71,7 +74,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Users::whereIn('id', ['1','2','3','4'])->delete();
+        Users::truncate();
         Schema::drop('users');
     }
 }

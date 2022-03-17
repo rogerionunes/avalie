@@ -25,113 +25,32 @@ class CreateFormulariosPerguntasTable extends Migration
             $table->timestamps();
         });
 
-        FormulariosPerguntas::create([
-            'id' => '1',
-            'id_formulario' => '1',
-            'ordem' => '1',
-            'titulo' => 'pergunta 1?',
-            'tipo' => 'notas',
-            'bloco' => 'DP',
-        ]);
+        $formularios = DB::table('formularios')->get();
 
-        FormulariosPerguntas::create([
-            'id' => '2',
-            'id_formulario' => '1',
-            'ordem' => '2',
-            'titulo' => 'pergunta 2?',
-            'tipo' => 'notas',
-            'bloco' => 'DP',
-        ]);
+        foreach ($formularios as $formulario) {
 
-        FormulariosPerguntas::create([
-            'id' => '3',
-            'id_formulario' => '1',
-            'ordem' => '3',
-            'titulo' => 'pergunta 3?',
-            'tipo' => 'notas',
-            'bloco' => 'IA',
-        ]);
+            for ($i=1; $i<=6; $i++) {
 
-        FormulariosPerguntas::create([
-            'id' => '4',
-            'id_formulario' => '1',
-            'ordem' => '4',
-            'titulo' => 'pergunta 4?',
-            'tipo' => 'notas',
-            'bloco' => 'IA',
-        ]);
+                $tipo = 'notas';
 
-        FormulariosPerguntas::create([
-            'id' => '5',
-            'id_formulario' => '1',
-            'ordem' => '5',
-            'titulo' => 'pergunta 5?',
-            'tipo' => 'texto',
-            'bloco' => 'O',
-        ]);
+                if ($i <= 2) {
+                    $bloco = 'DP';
+                } else if ($i <= 4) {
+                    $bloco = 'IA';
+                } else {
+                    $bloco = 'O';
+                    $tipo = 'texto';
+                }
 
-        FormulariosPerguntas::create([
-            'id' => '6',
-            'id_formulario' => '1',
-            'ordem' => '6',
-            'titulo' => 'pergunta 6?',
-            'tipo' => 'texto',
-            'bloco' => 'O',
-        ]);
-
-        FormulariosPerguntas::create([
-            'id' => '1',
-            'id_formulario' => '2',
-            'ordem' => '1',
-            'titulo' => 'pergunta 1?',
-            'tipo' => 'notas',
-            'bloco' => 'DP',
-        ]);
-
-        FormulariosPerguntas::create([
-            'id' => '2',
-            'id_formulario' => '2',
-            'ordem' => '2',
-            'titulo' => 'pergunta 2?',
-            'tipo' => 'notas',
-            'bloco' => 'DP',
-        ]);
-
-        FormulariosPerguntas::create([
-            'id' => '3',
-            'id_formulario' => '2',
-            'ordem' => '3',
-            'titulo' => 'pergunta 3?',
-            'tipo' => 'notas',
-            'bloco' => 'IA',
-        ]);
-
-        FormulariosPerguntas::create([
-            'id' => '4',
-            'id_formulario' => '2',
-            'ordem' => '4',
-            'titulo' => 'pergunta 4?',
-            'tipo' => 'notas',
-            'bloco' => 'IA',
-        ]);
-
-        FormulariosPerguntas::create([
-            'id' => '5',
-            'id_formulario' => '2',
-            'ordem' => '5',
-            'titulo' => 'pergunta 5?',
-            'tipo' => 'texto',
-            'bloco' => 'O',
-        ]);
-
-        FormulariosPerguntas::create([
-            'id' => '6',
-            'id_formulario' => '2',
-            'ordem' => '6',
-            'titulo' => 'pergunta 6?',
-            'tipo' => 'texto',
-            'bloco' => 'O',
-        ]);
+                FormulariosPerguntas::create([
+                    'id_formulario' => $formulario->id,
+                    'ordem' => $i,
+                    'titulo' => 'Pergunta '.$i.' do '.$formulario->name,
+                    'tipo' => $tipo,
+                    'bloco' => $bloco,
+                ]);
+            }
+        }
     }
 
     /**
@@ -141,7 +60,7 @@ class CreateFormulariosPerguntasTable extends Migration
      */
     public function down()
     {
-        FormulariosPerguntas::whereIn('id', ['1','2','3','4','5','6'])->delete();
+        FormulariosPerguntas::truncate();
         Schema::drop('formularios_perguntas');
     }
 }

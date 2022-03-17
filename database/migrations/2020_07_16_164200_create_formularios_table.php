@@ -24,21 +24,19 @@ class CreateFormulariosTable extends Migration
             $table->timestamps();
         });
 
-        Formularios::create([
-            'id' => '1',
-            'id_curso' => '1',
-            'name' => 'Form 1',
-            'descricao_avaliacao' => 'Seja bem vindo aluno do curso 1',
-            'ativo' => '1',
-        ]);
+        $cursos = DB::table('cursos')->get();
 
-        Formularios::create([
-            'id' => '2',
-            'id_curso' => '2',
-            'name' => 'Form 2',
-            'descricao_avaliacao' => 'Seja bem vindo aluno do curso 2',
-            'ativo' => '1',
-        ]);
+        foreach ($cursos as $curso) {
+
+            for ($i=1; $i<=2; $i++) {
+                Formularios::create([
+                    'id_curso' => $curso->id,
+                    'name' => 'Formulário '.$i,
+                    'descricao_avaliacao' => 'Seja bem vindo alunos do curso '.$curso->nm_curso,
+                    'ativo' => '1',
+                ]);
+            }
+        }
     }
 
     /**
@@ -48,7 +46,7 @@ class CreateFormulariosTable extends Migration
      */
     public function down()
     {
-        Formularios::whereIn('id', ['1','2'])->delete();
+        Formularios::truncate();
         Schema::drop('formularios');
     }
 }
