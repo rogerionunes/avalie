@@ -30,7 +30,7 @@ class CreateTurmasTable extends Migration
 
         foreach ($cursos as $curso) {
 
-            for ($i; $i<=5; $i++) {
+            for ($i=1; $i<=5; $i++) {
                 Turmas::create([
                     'id_curso' => $curso->id,
                     'nm_turma' => 'Turma '.$i,
