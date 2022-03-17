@@ -16,7 +16,7 @@ class CreateTurmasTable extends Migration
     {
         Schema::create('turmas', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_curso')->unsigned();
+            $table->foreignId('id_curso');
             $table->foreign('id_curso')->references('id')->on('cursos');
             $table->string('nm_turma');
             $table->string('ano');

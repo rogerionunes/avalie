@@ -16,9 +16,9 @@ class CreateTurmasDisciplinasTable extends Migration
     {
         Schema::create('turmas_disciplinas', function (Blueprint $table) {
             $table->id();
-            $table->integer('turma_id')->unsigned();
+            $table->foreignId('turma_id');
             $table->foreign('turma_id')->references('id')->on('turmas');
-            $table->integer('disciplina_id')->unsigned();
+            $table->foreignId('disciplina_id');
             $table->foreign('disciplina_id')->references('id')->on('disciplinas');
             $table->engine = 'InnoDB';
             $table->timestamps();

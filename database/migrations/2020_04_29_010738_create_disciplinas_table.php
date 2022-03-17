@@ -16,7 +16,7 @@ class CreateDisciplinasTable extends Migration
     {
         Schema::create('disciplinas', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_professor')->unsigned();
+            $table->foreignId('id_professor');
             $table->foreign('id_professor')->references('id')->on('users');
             $table->string('nm_disciplina');
             $table->engine = 'InnoDB';

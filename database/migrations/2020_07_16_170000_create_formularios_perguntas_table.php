@@ -16,7 +16,7 @@ class CreateFormulariosPerguntasTable extends Migration
     {
         Schema::create('formularios_perguntas', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_formulario')->unsigned();
+            $table->foreignId('id_formulario');
             $table->foreign('id_formulario')->references('id')->on('formularios');
             $table->integer('ordem');
             $table->string('titulo');

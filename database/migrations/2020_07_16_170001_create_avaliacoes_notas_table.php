@@ -16,9 +16,9 @@ class CreateAvaliacoesNotasTable extends Migration
     {
         Schema::create('avaliacoes_notas', function (Blueprint $table) {
             $table->id();
-            $table->integer('avaliacao_id')->unsigned();
+            $table->foreignId('avaliacao_id');
             $table->foreign('avaliacao_id')->references('id')->on('avaliacoes');
-            $table->integer('pergunta_id')->unsigned();
+            $table->foreignId('pergunta_id');
             $table->foreign('pergunta_id')->references('id')->on('formularios_perguntas');
             $table->integer('nota')->nullable(true);
             $table->text('texto')->nullable(true);

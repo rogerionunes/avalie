@@ -16,13 +16,13 @@ class CreateAvaliacoesTable extends Migration
     {
         Schema::create('avaliacoes', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_professor')->unsigned();
+            $table->foreignId('id_professor');
             $table->foreign('id_professor')->references('id')->on('users');
-            $table->integer('id_curso')->unsigned();
+            $table->foreignId('id_curso');
             $table->foreign('id_curso')->references('id')->on('cursos');
-            $table->integer('id_turma')->unsigned();
+            $table->foreignId('id_turma');
             $table->foreign('id_turma')->references('id')->on('turmas');
-            $table->integer('id_disciplina')->unsigned();
+            $table->foreignId('id_disciplina');
             $table->foreign('id_disciplina')->references('id')->on('disciplinas');
             $table->string('pin');
             $table->dateTime('dataValidade');
