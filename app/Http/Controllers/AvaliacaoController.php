@@ -45,7 +45,7 @@ class AvaliacaoController extends Controller
         
         foreach ($avaliacoes as $avaliacao) {
         
-            $qtdeAvaliacoes = DB::table('avaliacoes_notas')->where('avaliacao_id', $avaliacao)->get()->count();
+            $qtdeAvaliacoes = DB::table('avaliacoes_notas')->where('avaliacao_id', $avaliacao->id)->count();
             
             $avaliacaoList[] = [
                 'codigo' => $avaliacao->id,
