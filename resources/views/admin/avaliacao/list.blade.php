@@ -111,6 +111,7 @@
                   <th>Disciplina</th>
                   <th>PIN</th>
                   <th>Status</th>
+                  <th>Qtde Avaliações</th>
                   <th>Ações</th>
                 </tr>
                 </thead>
@@ -131,6 +132,7 @@
                           <a class="btn btn-danger" style="color:white">Finalizado</a>
                         @endif 
                       </td>
+                      <td>{{ $avaliacao['qtdeAvaliacoes'] }}</td>
                       <td align="center">
                       @if ($avaliacao['resultados'])
                         <a target="_blank" href="{{ route('admin.results.filter', $avaliacao['codigo']) }}" title="VISUALIZAR"><i class="far fa-eye"></i></a> 
