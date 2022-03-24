@@ -45,7 +45,7 @@ class AvaliacaoController extends Controller
         
         foreach ($avaliacoes as $avaliacao) {
         
-            $qtdeAvaliacoes = DB::table('avaliacoes_notas')->where('avaliacao_id', $avaliacao->id)->count();
+            $avaliacoesNotas = DB::table('avaliacoes_notas')->select(DB::raw('COUNT(*) as qtdeAvaliacoes'))->where('avaliacao_id', $avaliacao->id)->group('pergunta_id')->get();
             
             $avaliacaoList[] = [
                 'codigo' => $avaliacao->id,
@@ -56,7 +56,7 @@ class AvaliacaoController extends Controller
                 'pin' => $avaliacao->pin,
                 'data' => date('d/m/Y h:i:00', strtotime($avaliacao->created_at)),
                 'status' => $avaliacao->status,
-                'qtdeAvaliacoes' => $qtdeAvaliacoes,
+                'qtdeAvaliacoes' => $avaliacoesNotas[0]->qtdeAvaliacoes,
                 'resultados' => AvaliacoesNotas::where('avaliacao_id', $avaliacao->id)->count() > 0,
             ];
         }
