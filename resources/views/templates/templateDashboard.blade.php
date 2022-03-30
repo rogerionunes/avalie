@@ -499,6 +499,15 @@
   $('#btnPdf').on('click', function () {
     CreatePDFfromHTML();
   });
+  
+  function CopyToClipboard(id) {
+    var r = document.createRange();
+    r.selectNode(document.getElementById(id));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+  }
 
   function CreatePDFfromHTML() {
     var HTML_Width = $(".content-wrapper").width();
