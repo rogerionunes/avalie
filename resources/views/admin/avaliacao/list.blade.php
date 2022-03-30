@@ -125,8 +125,8 @@
                       <td>{{ $avaliacao['turma'] }}</td>
                       <td>{{ $avaliacao['disciplina'] }}</td>
                       <td>
-                        <button title="CLIQUE PARA COPIAR O LINK" onclick="copyToClipboard('#pin');">{{ $avaliacao['pin'] }}</button>  
-                        <span style="display:none" id="pin">{{ route('admin.avaliacao.sessao', ['pin'=>$avaliacao['pin']]) }}</span> 
+                        <button title="CLIQUE PARA COPIAR O LINK" onclick="copyToClipboard('#pin{{ $avaliacao['pin'] }}');">{{ $avaliacao['pin'] }}</button>  
+                        <span style="display:none" id="pin{{ $avaliacao['pin'] }}">{{ route('admin.avaliacao.sessao', ['pin'=>$avaliacao['pin']]) }}</span> 
                       </td>
                       <td>
                         @if ($avaliacao['status'] == '1')
