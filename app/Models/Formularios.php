@@ -30,6 +30,6 @@ class Formularios extends Model
      */
     public function curso()
     {
-        return $this->hasOne('App\Models\Cursos', 'id');
+        return $this->hasOne('App\Models\Cursos', 'id', 'id_curso');
     }
 }

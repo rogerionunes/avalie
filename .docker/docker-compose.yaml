@@ -11,10 +11,10 @@ services:
   ports:
    - "85:80"
   networks:
-   - gestor_avalie_network
+   - avalie_network
 
  mysql:
-  image: mysql:8.0
+  image: mysql:5.7
   ports:
     - 3338:3306
   environment:
@@ -23,12 +23,12 @@ services:
    MYSQL_USER: avalie
    MYSQL_PASSWORD: 123
   networks: 
-    - gestor_avalie_network
+    - avalie_network
   volumes:
     - mysql_avalie_data:/var/lib/mysql
 
 networks:
- gestor_avalie_network:
+ avalie_network:
 
 volumes:
   mysql_avalie_data:
