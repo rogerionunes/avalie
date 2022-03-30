@@ -57,7 +57,7 @@ class AvaliacaoController extends Controller
                 'data' => date('d/m/Y h:i:00', strtotime($avaliacao->created_at)),
                 'status' => $avaliacao->status,
                 'qtdeAvaliacoes' => isset($avaliacoesNotas[0]) ? $avaliacoesNotas[0]->qtdeAvaliacoes : 0,
-                'resultados' => AvaliacoesNotas::where('avaliacao_id', $avaliacao->id)->count() > 0,
+                'resultados' => in_array(Auth::user()->tp_usuario, ['S','C']) ? AvaliacoesNotas::where('avaliacao_id', $avaliacao->id)->count() > 0 : 0,
             ];
         }
         

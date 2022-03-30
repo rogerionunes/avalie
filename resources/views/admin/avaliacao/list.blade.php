@@ -125,8 +125,8 @@
                       <td>{{ $avaliacao['turma'] }}</td>
                       <td>{{ $avaliacao['disciplina'] }}</td>
                       <td>
-                        <button title="CLIQUE PARA COPIAR O LINK" onclick="copyToClipboard('#pin{{ $avaliacao['pin'] }}');">{{ $avaliacao['pin'] }}</button>  
-                        <span style="display:none" id="pin{{ $avaliacao['pin'] }}">{{ route('admin.avaliacao.sessao', ['pin'=>$avaliacao['pin']]) }}</span> 
+                        <button title="CLIQUE PARA COPIAR O LINK" onclick="copyToClipboard('#pin{{ $avaliacao['pin'].$avaliacao['status'] }}');">{{ $avaliacao['pin'] }}</button>  
+                        <span style="display:none" id="pin{{ $avaliacao['pin'].$avaliacao['status'] }}">{{ route('admin.avaliacao.sessao', ['pin'=>$avaliacao['pin']]) }}</span> 
                       </td>
                       <td>
                         @if ($avaliacao['status'] == '1')
@@ -139,7 +139,6 @@
                       <td align="center">
                       @if ($avaliacao['resultados'])
                         <a target="_blank" href="{{ route('admin.results.filter', $avaliacao['codigo']) }}" title="VISUALIZAR"><i class="far fa-eye"></i></a> 
-                        <a target="_blank" href="{{ route('admin.avaliacao.sessao', $avaliacao['codigo']) }}" title="VISUALIZAR"><i class="far fa-eye"></i></a> 
                       @else
                         <a href="#" class="disabled" style="color:gray"><i class="far fa-eye"></i></a> 
                       @endif 
