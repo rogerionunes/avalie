@@ -124,7 +124,10 @@
                       <td>{{ $avaliacao['curso'] }}</td>
                       <td>{{ $avaliacao['turma'] }}</td>
                       <td>{{ $avaliacao['disciplina'] }}</td>
-                      <td>{{ $avaliacao['pin'] }}</td>
+                      <td>
+                        <button title="CLIQUE PARA COPIAR O LINK" onclick="CopyToClipboard('pin');return false;">{{ $avaliacao['pin'] }}</button>  
+                        <input type="hidden" id="pin">{{ route('admin.avaliacao.sessao', ['pin'=>$avaliacao['pin']]) }}</button>  
+                      </td>
                       <td>
                         @if ($avaliacao['status'] == '1')
                           <a class="btn btn-success" style="color:white">Andamento</a>
@@ -136,6 +139,7 @@
                       <td align="center">
                       @if ($avaliacao['resultados'])
                         <a target="_blank" href="{{ route('admin.results.filter', $avaliacao['codigo']) }}" title="VISUALIZAR"><i class="far fa-eye"></i></a> 
+                        <a target="_blank" href="{{ route('admin.avaliacao.sessao', $avaliacao['codigo']) }}" title="VISUALIZAR"><i class="far fa-eye"></i></a> 
                       @else
                         <a href="#" class="disabled" style="color:gray"><i class="far fa-eye"></i></a> 
                       @endif 
@@ -150,6 +154,17 @@
         <!-- /.card -->
       </div>
     </div>
+
+    <script>
+      function CopyToClipboard(id) {
+        var r = document.createRange();
+        r.selectNode(document.getElementById(id));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(r);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+      }
+    </script>
   </section>
 
 @endsection
