@@ -343,6 +343,30 @@
   });
   
   // AVALIAÇÃO (INICIO)
+    $('#btnFinalizarAvaliacao').on('click', function() {
+
+      var valid = true;
+      var name = '';
+
+      $( ".fieldsForms" ).each(function() {
+        if (!$('[name="'+$(this).attr('name')+'"]:checked').val()) {
+          valid = false
+        }
+      });
+
+      $( ".fieldText" ).each(function() {
+        if ($(this).val() == '') {
+          valid = false
+        }
+      });
+
+      
+      if (valid) {
+        $('form').submit();
+      }
+        
+      alert('É obrigatório preencher todas opções!!');
+    });
     $('#btnCadastrar').on('click', function() {
       $('#blocoCadastro').attr('hidden', false);
       $('#btnIniciarAvaliacao').attr('hidden', false);

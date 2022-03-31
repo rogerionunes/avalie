@@ -76,7 +76,7 @@
     <div class="container-fluid">
       <div class="card card-default">
         <div class="card-body">
-          <form action='{{ route('admin.avaliacao.addSessao', 'pin='.app('request')->input('pin')) }}' method='POST'>
+          <form action="{{ route('admin.avaliacao.addSessao', 'pin='.app('request')->input('pin')) }}" method='POST'>
           @csrf
 
             @foreach ([$listPerguntasDP, $listPerguntasIA] as $list)
@@ -129,12 +129,12 @@
             @foreach ($listPerguntasO as $pergunta)
               <p>{{$pergunta->ordem.' - '.$pergunta->titulo}}?</p>
 
-              <textarea type="text" class="form-control fieldText" aria-describedby="Outros" name="pergunta_{{$pergunta->id}}" placeholder="Insira outros motivos"> </textarea>
+              <textarea type="text" class="form-control fieldText" aria-describedby="Outros" name="pergunta_{{$pergunta->id}}" placeholder="Escreva a resposta aqui"></textarea>
             @endforeach
 
             <br>
 
-            <button type="submit" class="btn btn-success float-right" id="btnFinalizarAvaliacao">Finalizar Avaliação</button>
+            <button type="button" class="btn btn-success float-right" id="btnFinalizarAvaliacao">Finalizar Avaliação</button>
 
           </form>
         </div>
