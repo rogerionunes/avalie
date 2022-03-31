@@ -84,7 +84,7 @@ class CompararController extends Controller
             $turmaAux[] = DB::table('turmas')->find($turma);
         }
 
-        if (!$turmas[0] || !$turmas[1]) {
+        if (!isset($turmas[0]) || !isset($turmas[1])) {
             return redirect()->back()->withInput()->withErrors(['Turma não existente ']);
         }
 
