@@ -67,13 +67,13 @@ class CompararController extends Controller
         
         $curso = DB::table('cursos')->find($cursoId);
 
-        if ($curso) {
+        if (!$curso) {
             return redirect()->back()->withInput()->withErrors(['Curso não existente ']);
         }
 
         $disciplina = DB::table('disciplinas')->find($disciplinaId);
 
-        if ($disciplina) {
+        if (!$disciplina) {
             return redirect()->back()->withInput()->withErrors(['Disciplina não existente ']);
         }
 
