@@ -101,7 +101,17 @@ class AvaliacaoController extends Controller
      */
     public function addSessao(Request $request)
     {
+        if (!isset($request->pin)) {
+            return redirect()->back()->withInput()->withErrors(['PIN inexistente!']);
+        }
+
+        $request->pin = preg_replace('/[^A-Za-z0-9]/', "", $request->pin);
+
         $avaliacao = Avaliacoes::where([['pin', $request->pin],['status', '1']])->first();
+
+        if (!$avaliacao) {
+            return redirect()->back()->withInput()->withErrors(['PIN não encontrado!']);
+        }
 
         $formulariosPerguntas = $avaliacao->curso->formularios->formulariosPerguntas;
 

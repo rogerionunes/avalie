@@ -61,9 +61,21 @@ class CompararController extends Controller
      */
     public function relatorio($cursoId, $turmasIds, $disciplinaId)
     {
+        $cursoId = preg_replace('/[^0-9]/', "", $cursoId);
+        $turmasIds = preg_replace('/[^0-9]/', "", $turmasIds);
+        $disciplinaId = preg_replace('/[^0-9]/', "", $disciplinaId);
+        
         $curso = DB::table('cursos')->find($cursoId);
 
+        if ($curso) {
+            return redirect()->back()->withInput()->withErrors(['Curso não existente ']);
+        }
+
         $disciplina = DB::table('disciplinas')->find($disciplinaId);
+
+        if ($disciplina) {
+            return redirect()->back()->withInput()->withErrors(['Disciplina não existente ']);
+        }
 
         $turmas = explode(',', $turmasIds);
         $turmaAux = [];
@@ -72,11 +84,33 @@ class CompararController extends Controller
             $turmaAux[] = DB::table('turmas')->find($turma);
         }
 
+        if (!$turmas[0] || !$turmas[1]) {
+            return redirect()->back()->withInput()->withErrors(['Turma não existente ']);
+        }
+
         $avaliacaoTurma1 = DB::table('avaliacoes')->where(['id_turma' => $turmas[0], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId])->latest('id')->first();
+
+        if (!$avaliacaoTurma1) {
+            return redirect()->back()->withInput()->withErrors(['A Turma não possui avaliação criada: ']);
+        }
+
         $avaliacaoTurma1->notas = DB::table('avaliacoes_notas')->where(['avaliacao_id' => $avaliacaoTurma1->id])->get();
+
+        if (!$avaliacaoTurma1->notas) {
+            return redirect()->back()->withInput()->withErrors(['A Turma  não possui avaliação respondida ']);
+        }
         
         $avaliacaoTurma2 = DB::table('avaliacoes')->where(['id_turma' => $turmas[1], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId])->latest('id')->first();
+        
+        if (!$avaliacaoTurma2) {
+            return redirect()->back()->withInput()->withErrors(['A Turma não possui avaliação criada: ']);
+        }
+        
         $avaliacaoTurma2->notas = DB::table('avaliacoes_notas')->where(['avaliacao_id' => $avaliacaoTurma2->id])->get();
+
+        if (!$avaliacaoTurma2->notas) {
+            return redirect()->back()->withInput()->withErrors(['A Turma  não possui avaliação respondida ']);
+        }
         
         $arrAvaliacoes = [];
         // pergunta 1

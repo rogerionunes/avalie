@@ -343,30 +343,7 @@
   });
   
   // AVALIAÇÃO (INICIO)
-    $('#btnFinalizarAvaliacao').on('click', function() {
 
-      var valid = true;
-      var name = '';
-
-      $( ".fieldsForms" ).each(function() {
-        if (!$('[name="'+$(this).attr('name')+'"]:checked').val()) {
-          valid = false
-        }
-      });
-
-      $( ".fieldText" ).each(function() {
-        if ($(this).val() == '') {
-          valid = false
-        }
-      });
-
-      
-      if (valid) {
-        $('form').submit();
-      }
-        
-      alert('É obrigatório preencher todas opções!!');
-    });
     $('#btnCadastrar').on('click', function() {
       $('#blocoCadastro').attr('hidden', false);
       $('#btnIniciarAvaliacao').attr('hidden', false);
@@ -451,110 +428,135 @@
       }
     });
   
-  $('#btnIniciarAvaliacao').on('click', function() {
-    
-    $('#divMsgErro').attr('hidden', true);
-    
-    if ($('#curso').val() == '') {
-      $('#divMsgErro').attr('hidden', false);
-      $('#msgErro').html('O campo Curso é obrigatorio.');
-      return;
-    }
-    
-    if ($('#turma').val() == '') {
-      $('#divMsgErro').attr('hidden', false);
-      $('#msgErro').html('O campo Turma é obrigatorio.');
-      return;
-    }
-    
-    if ($('#disciplina').val() == '') {
-      $('#divMsgErro').attr('hidden', false);
-      $('#msgErro').html('O campo Disciplina é obrigatorio.');
-      return;
-    }
-    
-    if (confirm("Tem certeza que deseja INICIAR a avaliação?")) {
-      $.ajax({
-        url: "{{ route('admin.avaliacao.add') }}",
-        dataType: "json",
-        type: 'get',
-        data: {
-          curso : $('#curso').val(),
-          turma : $('#turma').val(),
-          disciplina : $('#disciplina').val()
-        },
-        beforeSend : function() {
-          $('#btnIniciarAvaliacao').html('<i class="fa fa-spinner fa-spin"></i> Criando...');
-          $('#btnIniciarAvaliacao, #btnCancelar').attr('disabled', true);
-        }
-      })
-      .done(function(response) {
-        var conteudo = '';
-        if (response.status == '1') {
-          
-          location.reload();
-          
-        } else {
-          $('#btnIniciarAvaliacao').html('Iniciar Avaliação');
-          $('#btnIniciarAvaliacao, #btnCancelar').attr('disabled', false);
+    $('#btnIniciarAvaliacao').on('click', function() {
+      
+      $('#divMsgErro').attr('hidden', true);
+      
+      if ($('#curso').val() == '') {
+        $('#divMsgErro').attr('hidden', false);
+        $('#msgErro').html('O campo Curso é obrigatorio.');
+        return;
+      }
+      
+      if ($('#turma').val() == '') {
+        $('#divMsgErro').attr('hidden', false);
+        $('#msgErro').html('O campo Turma é obrigatorio.');
+        return;
+      }
+      
+      if ($('#disciplina').val() == '') {
+        $('#divMsgErro').attr('hidden', false);
+        $('#msgErro').html('O campo Disciplina é obrigatorio.');
+        return;
+      }
+      
+      if (confirm("Tem certeza que deseja INICIAR a avaliação?")) {
+        $.ajax({
+          url: "{{ route('admin.avaliacao.add') }}",
+          dataType: "json",
+          type: 'get',
+          data: {
+            curso : $('#curso').val(),
+            turma : $('#turma').val(),
+            disciplina : $('#disciplina').val()
+          },
+          beforeSend : function() {
+            $('#btnIniciarAvaliacao').html('<i class="fa fa-spinner fa-spin"></i> Criando...');
+            $('#btnIniciarAvaliacao, #btnCancelar').attr('disabled', true);
+          }
+        })
+        .done(function(response) {
+          var conteudo = '';
+          if (response.status == '1') {
+            
+            location.reload();
+            
+          } else {
+            $('#btnIniciarAvaliacao').html('Iniciar Avaliação');
+            $('#btnIniciarAvaliacao, #btnCancelar').attr('disabled', false);
 
-          $('#divMsgErro').attr('hidden', false);
-          $('#msgErro').html(response.erro);
+            $('#divMsgErro').attr('hidden', false);
+            $('#msgErro').html(response.erro);
+          }
+        })
+        .fail(function(jqXHR, textStatus, msg) {
+          console.log(msg);
+        });
+      }
+    });
+    
+    $('.confirmationDelete').on('click', function () {
+      return confirm('Você tem certeza que deseja CANCELAR a avaliação?');
+    });
+    
+    $('.confirmationFinalizar').on('click', function () {
+      return confirm('Você tem certeza que deseja FINALIZAR a avaliação?');
+    });
+    
+    $('.confirmationDeleteAll').on('click', function () {
+      return confirm('Você tem certeza que deseja EXCLUIR?');
+    });
+    
+    $('#btnPdf').on('click', function () {
+      CreatePDFfromHTML();
+    });
+    
+    $('#btnFinalizarAvaliacao').on('click', function() {
+      var valid = true;
+      var name = '';
+
+      $( ".fieldsForms" ).each(function() {
+        if (!$('[name="'+$(this).attr('name')+'"]:checked').val()) {
+          valid = false
         }
-      })
-      .fail(function(jqXHR, textStatus, msg) {
-        console.log(msg);
+      });
+
+      $( ".fieldText" ).each(function() {
+        if ($(this).val() == '') {
+          valid = false
+        }
+      });
+
+      
+      if (valid) {
+        alert('Avaliação gravada com sucesso! Obrigado!');
+        $('form').submit();
+      } else {
+        alert('É obrigatório preencher todas opções!!');
+      }
+    });
+    
+    function copyToClipboard(element) {
+      var $temp = $("<input>");
+      $("body").append($temp);
+      $temp.val($(element).text()).select();
+      document.execCommand("copy");
+      $temp.remove();
+    }
+
+    function CreatePDFfromHTML() {
+      var HTML_Width = $(".content-wrapper").width();
+      var HTML_Height = $(".content-wrapper").height();
+      var top_left_margin = 15;
+      var PDF_Width = HTML_Width + (top_left_margin * 2);
+      var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+      var canvas_image_width = HTML_Width;
+      var canvas_image_height = HTML_Height;
+
+      var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+      html2canvas($(".content-wrapper")[0]).then(function (canvas) {
+          var imgData = canvas.toDataURL("image/jpeg", 1.0);
+          var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+          pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+          for (var i = 1; i <= totalPDFPages; i++) { 
+              pdf.addPage(PDF_Width, PDF_Height);
+              pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+          }
+          pdf.save("Resultado.pdf");
+          return;
       });
     }
-  });
-  
-  $('.confirmationDelete').on('click', function () {
-    return confirm('Você tem certeza que deseja CANCELAR a avaliação?');
-  });
-  
-  $('.confirmationFinalizar').on('click', function () {
-    return confirm('Você tem certeza que deseja FINALIZAR a avaliação?');
-  });
-  
-  $('.confirmationDeleteAll').on('click', function () {
-    return confirm('Você tem certeza que deseja EXCLUIR?');
-  });
-  
-  $('#btnPdf').on('click', function () {
-    CreatePDFfromHTML();
-  });
-  
-  function copyToClipboard(element) {
-    var $temp = $("<input>");
-    $("body").append($temp);
-    $temp.val($(element).text()).select();
-    document.execCommand("copy");
-    $temp.remove();
-  }
-
-  function CreatePDFfromHTML() {
-    var HTML_Width = $(".content-wrapper").width();
-    var HTML_Height = $(".content-wrapper").height();
-    var top_left_margin = 15;
-    var PDF_Width = HTML_Width + (top_left_margin * 2);
-    var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
-    var canvas_image_width = HTML_Width;
-    var canvas_image_height = HTML_Height;
-
-    var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-
-    html2canvas($(".content-wrapper")[0]).then(function (canvas) {
-        var imgData = canvas.toDataURL("image/jpeg", 1.0);
-        var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-        pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-        for (var i = 1; i <= totalPDFPages; i++) { 
-            pdf.addPage(PDF_Width, PDF_Height);
-            pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-        }
-        pdf.save("Resultado.pdf");
-        return;
-    });
-  }
 
   //COMPARAR AVALIAÇÕES
   
