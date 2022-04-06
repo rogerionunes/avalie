@@ -112,10 +112,6 @@ class CompararController extends Controller
 
         $avaliacaoTurma2->notas = $notas2;
         $arrAvaliacoes = [];
-        // pergunta 1
-        // qtde nota 1
-        // qtde nota 2
-        // qtde nota 3 (...)
         
         foreach ($avaliacaoTurma1->notas as $nota1) {
             $pergunta = DB::table('formularios_perguntas')->find($nota1->pergunta_id);
