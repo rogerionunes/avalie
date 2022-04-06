@@ -90,11 +90,13 @@ class CompararController extends Controller
             return redirect()->back()->withInput()->withErrors(['A Turma não possui avaliação criada']);
         }
 
-        $avaliacaoTurma1->notas = DB::table('avaliacoes_notas')->where(['avaliacao_id' => $avaliacaoTurma1->id])->get();
+        $notas1 = DB::table('avaliacoes_notas')->where(['avaliacao_id' => $avaliacaoTurma1->id])->get();
 
-        if (!$avaliacaoTurma1->notas) {
+        if (!$notas1->count() > 0) {
             return redirect()->back()->withInput()->withErrors(['A Turma  não possui avaliação respondida ']);
         }
+
+        $avaliacaoTurma1->notas = $notas1;
         
         $avaliacaoTurma2 = DB::table('avaliacoes')->where(['id_turma' => $turmas[1], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId, 'status' => '1'])->first();
         
@@ -102,12 +104,13 @@ class CompararController extends Controller
             return redirect()->back()->withInput()->withErrors(['A Turma não possui avaliação criada: ']);
         }
         
-        $avaliacaoTurma2->notas = DB::table('avaliacoes_notas')->where(['avaliacao_id' => $avaliacaoTurma2->id])->get();
-        dd($avaliacaoTurma2->notas);
-        if (!$avaliacaoTurma2->notas) {
+        $notas2 = DB::table('avaliacoes_notas')->where(['avaliacao_id' => $avaliacaoTurma2->id])->get();
+        
+        if (!$notas2->count() > 0) {
             return redirect()->back()->withInput()->withErrors(['A Turma  não possui avaliação respondida ']);
         }
-        
+
+        $avaliacaoTurma2->notas = $notas2;
         $arrAvaliacoes = [];
         // pergunta 1
         // qtde nota 1
