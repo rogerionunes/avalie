@@ -85,9 +85,9 @@ class CompararController extends Controller
         }
 
         $avaliacaoTurma1 = DB::table('avaliacoes')->where(['id_turma' => $turmas[0], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId])->latest('id')->first();
-
+        dd($avaliacaoTurma1);
         if (!$avaliacaoTurma1) {
-            return redirect()->back()->withInput()->withErrors(['A Turma não possui avaliação criada: ']);
+            return redirect()->back()->withInput()->withErrors(['A Turma não possui avaliação criada']);
         }
 
         $avaliacaoTurma1->notas = DB::table('avaliacoes_notas')->where(['avaliacao_id' => $avaliacaoTurma1->id])->get();
