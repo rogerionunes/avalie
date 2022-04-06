@@ -83,7 +83,7 @@ class CompararController extends Controller
         foreach ($turmas as $turma) {
             $turmaAux[] = DB::table('turmas')->find($turma);
         }
-
+        dd($turmas);
         $avaliacaoTurma1 = DB::table('avaliacoes')->where(['id_turma' => $turmas[0], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId, 'status' => '1'])->first();
         
         if (!$avaliacaoTurma1) {
