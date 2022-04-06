@@ -61,9 +61,9 @@ class CompararController extends Controller
      */
     public function relatorio($cursoId, $turmasIds, $disciplinaId)
     {
-        $cursoId = preg_replace('/[^0-9]/', "", $cursoId);
-        $turmasIds = preg_replace('/[^0-9]/', "", $turmasIds);
-        $disciplinaId = preg_replace('/[^0-9]/', "", $disciplinaId);
+        $cursoId = $cursoId;
+        $turmasIds = $turmasIds;
+        $disciplinaId = $disciplinaId;
         
         $curso = DB::table('cursos')->find($cursoId);
 
@@ -84,8 +84,8 @@ class CompararController extends Controller
             $turmaAux[] = DB::table('turmas')->find($turma);
         }
 
-        $avaliacaoTurma1 = DB::table('avaliacoes')->where(['id_turma' => $turmas[0], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId, 'status' => '1']);
-        dd($avaliacaoTurma1);
+        $avaliacaoTurma1 = DB::table('avaliacoes')->where(['id_turma' => $turmas[0], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId, 'status' => '1'])->first();
+        
         if (!$avaliacaoTurma1) {
             return redirect()->back()->withInput()->withErrors(['A Turma não possui avaliação criada']);
         }
@@ -96,7 +96,7 @@ class CompararController extends Controller
             return redirect()->back()->withInput()->withErrors(['A Turma  não possui avaliação respondida ']);
         }
         
-        $avaliacaoTurma2 = DB::table('avaliacoes')->where(['id_turma' => $turmas[1], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId])->latest('id')->first();
+        $avaliacaoTurma2 = DB::table('avaliacoes')->where(['id_turma' => $turmas[1], 'id_curso' => $cursoId, 'id_disciplina' => $disciplinaId, 'status' => '1'])->first();
         
         if (!$avaliacaoTurma2) {
             return redirect()->back()->withInput()->withErrors(['A Turma não possui avaliação criada: ']);
