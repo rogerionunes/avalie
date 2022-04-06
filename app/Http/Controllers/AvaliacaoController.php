@@ -105,8 +105,6 @@ class AvaliacaoController extends Controller
             return redirect()->back()->withInput()->withErrors(['PIN inexistente!']);
         }
 
-        $request->pin = preg_replace('/[^A-Za-z0-9]/', "", $request->pin);
-
         $avaliacao = Avaliacoes::where([['pin', $request->pin],['status', '1']])->first();
 
         if (!$avaliacao) {
