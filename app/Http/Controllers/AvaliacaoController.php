@@ -111,7 +111,7 @@ class AvaliacaoController extends Controller
             return redirect()->back()->withInput()->withErrors(['PIN não encontrado!']);
         }
 
-        $formulariosPerguntas = $avaliacao->curso->formularios->formulariosPerguntas;
+        $formulariosPerguntas = $avaliacao->formularios->formulariosPerguntas;
 
         DB::beginTransaction();
 
