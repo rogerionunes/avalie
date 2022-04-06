@@ -103,7 +103,7 @@ class CompararController extends Controller
         }
         
         $avaliacaoTurma2->notas = DB::table('avaliacoes_notas')->where(['avaliacao_id' => $avaliacaoTurma2->id])->get();
-
+        dd($avaliacaoTurma2->notas);
         if (!$avaliacaoTurma2->notas) {
             return redirect()->back()->withInput()->withErrors(['A Turma  não possui avaliação respondida ']);
         }
