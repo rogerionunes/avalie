@@ -178,6 +178,8 @@ class CompararController extends Controller
                 $arrAvaliacoes[$nota2->pergunta_id]['respostas2'][] = $nota2->texto;
             }
         }
+
+        dd($arrAvaliacoes);
         
         return view('admin.comparar.rel', [
             'curso' => $curso,
