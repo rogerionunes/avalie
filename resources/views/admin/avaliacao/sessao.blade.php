@@ -80,6 +80,7 @@
           @csrf
 
             @foreach ([$listPerguntasDP, $listPerguntasIA] as $list)
+            <div class="table-responsive">
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
@@ -124,6 +125,7 @@
                     @endforeach
                 </tbody>
               </table>
+            </div>
             @endforeach
 
             @foreach ($listPerguntasO as $pergunta)
