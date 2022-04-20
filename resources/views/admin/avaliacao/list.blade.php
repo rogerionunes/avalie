@@ -100,6 +100,7 @@
       <div class="col-md-12">
         <div class="card card-primary">
           <div class="card-body">
+            <div class="table-responsive">
               <table id="table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -148,6 +149,7 @@
                 </tbody>
               </table>
             </div>
+          </div>
           <!-- /.card-body -->
         </div>
         <!-- /.card -->

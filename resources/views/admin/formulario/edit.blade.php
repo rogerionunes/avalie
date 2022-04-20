@@ -113,39 +113,41 @@
             </div>
             <div class="row">
               <div class="col-12">
-                <table class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th width="10%">Ordem</th>
-                    <th width="15%">Tipo</th>
-                    <th width="15%">Bloco</th>
-                    <th width="60%">Titulo</th>
-                  </tr>
-                  </thead>
-                  <tbody id="tbodyPerguntas">
-                    @foreach ($formulariosPerguntas as $pergunta)
-                      <tr id="linha{{$pergunta->ordem}}">
-                        <td>{{$pergunta->ordem}}</td>
-                        <td>{{$pergunta->tipo}}</td>
-                        <td>
-                          @switch($pergunta->bloco)
-                              @case('DP')
-                                  Formulário/Professor
-                                  @break
-                              @case('IA')
-                                  Infraestrutura/Atendimento
-                                  @break
-                              @case('O')
-                                  Outros
-                                  @break
-                          @endswitch
-                        </td>
-                        <td>{{$pergunta->titulo}}</td>
-                        <input type="hidden" name="perguntas[]" class="perguntas" value="{{$pergunta->ordem.'|'.$pergunta->tipo.'|'.$pergunta->bloco.'|'.$pergunta->titulo}}">
-                      </tr>
-                    @endforeach
-                  </tbody>
-                </table>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th width="10%">Ordem</th>
+                      <th width="15%">Tipo</th>
+                      <th width="15%">Bloco</th>
+                      <th width="60%">Titulo</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbodyPerguntas">
+                      @foreach ($formulariosPerguntas as $pergunta)
+                        <tr id="linha{{$pergunta->ordem}}">
+                          <td>{{$pergunta->ordem}}</td>
+                          <td>{{$pergunta->tipo}}</td>
+                          <td>
+                            @switch($pergunta->bloco)
+                                @case('DP')
+                                    Formulário/Professor
+                                    @break
+                                @case('IA')
+                                    Infraestrutura/Atendimento
+                                    @break
+                                @case('O')
+                                    Outros
+                                    @break
+                            @endswitch
+                          </td>
+                          <td>{{$pergunta->titulo}}</td>
+                          <input type="hidden" name="perguntas[]" class="perguntas" value="{{$pergunta->ordem.'|'.$pergunta->tipo.'|'.$pergunta->bloco.'|'.$pergunta->titulo}}">
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
             <div class="row">

@@ -113,19 +113,21 @@
             </div>
             <div class="row">
               <div class="col-12">
-                <table class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th width="10%">Ordem</th>
-                    <th width="15%">Tipo</th>
-                    <th width="15%">Bloco</th>
-                    <th width="60%">Titulo</th>
-                  </tr>
-                  </thead>
-                  <tbody id="tbodyPerguntas">
-                    <td colspan="4" align="center" id="nenhumaPergunta">Nenhuma Pergunta Cadastrada</td>
-                  </tbody>
-                </table>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th width="10%">Ordem</th>
+                      <th width="15%">Tipo</th>
+                      <th width="15%">Bloco</th>
+                      <th width="60%">Titulo</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbodyPerguntas">
+                      <td colspan="4" align="center" id="nenhumaPergunta">Nenhuma Pergunta Cadastrada</td>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
             <div class="row">
