@@ -83,7 +83,7 @@ class FormularioController extends Controller
         }
 
         try {
-            $formularios = Formularios::create(['name' => $request->nome, 'id_curso' => $request->curso, 'descricao' => $request->descricao]);
+            $formularios = Formularios::create(['name' => $request->nome, 'id_curso' => $request->curso, 'descricao_avaliacao' => $request->descricao]);
         } catch (Exception $e) {
             return redirect()->back()->withInput()->withErrors(['Ocorreu algum erro:'.$e->getMessage()]);
         }
@@ -157,7 +157,7 @@ class FormularioController extends Controller
         try {
             $formulario->name = $request->nome;
             $formulario->id_curso = $request->curso;
-            $formulario->descricao = $request->descricao;
+            $formulario->descricao_avaliacao = $request->descricao;
             $formulario->save();
         } catch (Exception $e) {
             DB::rollBack();
