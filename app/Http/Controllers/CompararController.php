@@ -179,8 +179,6 @@ class CompararController extends Controller
             }
         }
 
-        dd($arrAvaliacoes); 
-        
         return view('admin.comparar.rel', [
             'curso' => $curso,
             'disciplina' => $disciplina,
