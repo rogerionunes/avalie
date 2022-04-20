@@ -61,7 +61,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Descrição Inicial</label>
-                  <textarea class="form-control" rows="3" name="descricao" require> {{ $formulario->descricao }}</textarea>
+                  <textarea class="form-control" rows="3" name="descricao" require> {{ $formulario->descricao_avaliacao }}</textarea>
                 </div>
               </div>
             </div>
