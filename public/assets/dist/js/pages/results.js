@@ -23,7 +23,7 @@ $(function () {
       
       $.each(response.dados.listPerguntas, function(index, value) {
 
-        var donutChartCanvas = $('.donutChart'+value.id).get('0').getContext('2d');
+        var donutChartCanvas = $('.donutChart'+value.id)[0].getContext('2d');
         
         var donutData = {
           labels: value.notas.labels,
@@ -31,16 +31,16 @@ $(function () {
             {
               data: value.notas.data,
               backgroundColor : [
-                '#FF0000', 
-                '#FF4500', 
-                '#FF8C00', 
-                '#FFA500', 
-                '#FFD700', 
-                '#ADFF2F',
-                '#7FFF00',
-                '#00FF00',
-                '#228B22',
-                '#006400',
+                '#696969', 
+                '#A9A9A9', 
+                '#6A5ACD', 
+                '#483D8B', 
+                '#191970', 
+                '#00008B',
+                '#0000CD',
+                '#6495ED',
+                '#4169E1',
+                '#1E90FF',
               ],
               datalabels: {
                 color: '#000'
