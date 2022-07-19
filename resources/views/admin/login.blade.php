@@ -33,11 +33,6 @@
         </div>
       @endif
 
-        <?php 
-        $text = $_GET('success') ? '' : '';
-        echo $text;
-        ?>
-
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Email" name='email'>
           <div class="input-group-append">
