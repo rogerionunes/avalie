@@ -136,7 +136,7 @@ class AvaliacaoController extends Controller
         
         DB::commit();
         
-        return redirect()->route('/')->withSuccess(['Avaliação feita com sucesso! :)']);
+        return redirect()->route('/')->with('success', 'Avaliação feita com sucesso!');
     }
     
     public function sessao(Request $request)
