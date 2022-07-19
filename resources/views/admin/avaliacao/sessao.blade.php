@@ -115,16 +115,16 @@
                       <tr>
                           <th scope="row" align="center">{{$pergunta->ordem}}</th>
                           <td>{{$pergunta->titulo}}?</td>
-                          <td align="center" style="cursor: pointer;opacity: 0.6;"><input class="fieldsForms" type="radio" value="1" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td align="center"><input class="fieldsForms" type="radio" value="2" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td align="center"><input class="fieldsForms" type="radio" value="3" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td align="center"><input class="fieldsForms" type="radio" value="4" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td align="center"><input class="fieldsForms" type="radio" value="5" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td align="center"><input class="fieldsForms" type="radio" value="6" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td align="center"><input class="fieldsForms" type="radio" value="7" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td align="center"><input class="fieldsForms" type="radio" value="8" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td align="center"><input class="fieldsForms" type="radio" value="9" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td align="center"><input class="fieldsForms" type="radio" value="10" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;"><input style="cursor: pointer;" class="fieldsForms" type="radio" value="1" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;"><input style="cursor: pointer;"class="fieldsForms" type="radio" value="2" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;"><input style="cursor: pointer;"class="fieldsForms" type="radio" value="3" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;"><input style="cursor: pointer;"class="fieldsForms" type="radio" value="4" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;"><input style="cursor: pointer;"class="fieldsForms" type="radio" value="5" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;"><input style="cursor: pointer;"class="fieldsForms" type="radio" value="6" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;"><input style="cursor: pointer;"class="fieldsForms" type="radio" value="7" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;"><input style="cursor: pointer;"class="fieldsForms" type="radio" value="8" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;"><input style="cursor: pointer;"class="fieldsForms" type="radio" value="9" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;"><input style="cursor: pointer;"class="fieldsForms" type="radio" value="10" name="pergunta_{{$pergunta->ordem}}"></td>
                       </tr>
                     @endforeach
                 </tbody>
