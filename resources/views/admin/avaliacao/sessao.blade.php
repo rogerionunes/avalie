@@ -109,18 +109,18 @@
                 <tbody>
                     @foreach ($list as $pergunta)
                       <tr>
-                          <th scope="row">{{$pergunta->ordem}}</th>
+                          <th scope="row" align="center">{{$pergunta->ordem}}</th>
                           <td>{{$pergunta->titulo}}?</td>
-                          <td><input class="fieldsForms" type="radio" value="1" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td><input class="fieldsForms" type="radio" value="2" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td><input class="fieldsForms" type="radio" value="3" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td><input class="fieldsForms" type="radio" value="4" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td><input class="fieldsForms" type="radio" value="5" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td><input class="fieldsForms" type="radio" value="6" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td><input class="fieldsForms" type="radio" value="7" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td><input class="fieldsForms" type="radio" value="8" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td><input class="fieldsForms" type="radio" value="9" name="pergunta_{{$pergunta->ordem}}"></td>
-                          <td><input class="fieldsForms" type="radio" value="10" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center"><input class="fieldsForms" type="radio" value="1" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center"><input class="fieldsForms" type="radio" value="2" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center"><input class="fieldsForms" type="radio" value="3" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center"><input class="fieldsForms" type="radio" value="4" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center"><input class="fieldsForms" type="radio" value="5" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center"><input class="fieldsForms" type="radio" value="6" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center"><input class="fieldsForms" type="radio" value="7" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center"><input class="fieldsForms" type="radio" value="8" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center"><input class="fieldsForms" type="radio" value="9" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center"><input class="fieldsForms" type="radio" value="10" name="pergunta_{{$pergunta->ordem}}"></td>
                       </tr>
                     @endforeach
                 </tbody>
