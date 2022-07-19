@@ -1,7 +1,11 @@
 @extends('templates.templateDashboard')
 
 @section('contentDashboard')
-
+  <style>
+    td:hover {
+      opacity: 1.0;
+    }
+  </style>
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
@@ -111,7 +115,7 @@
                       <tr>
                           <th scope="row" align="center">{{$pergunta->ordem}}</th>
                           <td>{{$pergunta->titulo}}?</td>
-                          <td align="center"><input class="fieldsForms" type="radio" value="1" name="pergunta_{{$pergunta->ordem}}"></td>
+                          <td align="center" style="cursor: pointer;opacity: 0.6;"><input class="fieldsForms" type="radio" value="1" name="pergunta_{{$pergunta->ordem}}"></td>
                           <td align="center"><input class="fieldsForms" type="radio" value="2" name="pergunta_{{$pergunta->ordem}}"></td>
                           <td align="center"><input class="fieldsForms" type="radio" value="3" name="pergunta_{{$pergunta->ordem}}"></td>
                           <td align="center"><input class="fieldsForms" type="radio" value="4" name="pergunta_{{$pergunta->ordem}}"></td>
