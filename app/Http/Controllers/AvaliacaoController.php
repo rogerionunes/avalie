@@ -133,10 +133,10 @@ class AvaliacaoController extends Controller
                 return redirect()->back()->withInput()->withErrors(['Erro ao salvar perguntas: '.$e->getMessage()]);
             }
         }
-
+        
         DB::commit();
-
-        return redirect()->route('/?success=OK');
+        
+        return redirect()->route('/')->withSuccess(['Avaliação feita com sucesso! :)']);
     }
     
     public function sessao(Request $request)

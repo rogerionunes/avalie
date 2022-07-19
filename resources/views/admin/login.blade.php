@@ -26,9 +26,15 @@
         @endforeach
         @endif
 
+      @if(session('success'))
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            <h5><i class="fa fa-check"></i> Avaliação gravada com sucesso!</h5>
+        </div>
+      @endif
+
         <?php 
-        $text = $_GET('success') ? '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h5><i class="fa fa-check"></i> Deu tudo certo :)</h5></div>' : '';
+        $text = $_GET('success') ? '' : '';
         echo $text;
         ?>
 
