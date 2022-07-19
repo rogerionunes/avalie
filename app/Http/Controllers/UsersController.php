@@ -84,6 +84,16 @@ class UsersController extends Controller
         if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             return redirect()->back()->withInput($campos)->withErrors(['Email não válido']);
         }
+        
+        if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            return redirect()->back()->withInput($campos)->withErrors(['Email não válido']);
+        }
+
+        $userSameEmail = DB::table('users')->where('email', $request->email)->get();
+        
+        if ($userSameEmail) {
+            return redirect()->back()->withInput($campos)->withErrors(['Email já está sendo utilizado']);
+        }
 
         $user = Users::create(
             ['name' => $request->nome,
