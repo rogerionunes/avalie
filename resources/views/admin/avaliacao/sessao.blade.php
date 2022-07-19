@@ -88,7 +88,7 @@
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col" align="center">#</th>
                     <th scope="col" width="50%">
                         Avaliação sobre a 
                         @if ($list[0]->bloco == 'DP') 
@@ -97,16 +97,16 @@
                           Instituição e Atendimento 
                         @endif
                     </th>
-                    <th scope="col">1</th>
-                    <th scope="col">2</th>
-                    <th scope="col">3</th>
-                    <th scope="col">4</th>
-                    <th scope="col">5</th>
-                    <th scope="col">6</th>
-                    <th scope="col">7</th>
-                    <th scope="col">8</th>
-                    <th scope="col">9</th>
-                    <th scope="col">10</th>
+                    <th scope="col" align="center">1</th>
+                    <th scope="col" align="center">2</th>
+                    <th scope="col" align="center">3</th>
+                    <th scope="col" align="center">4</th>
+                    <th scope="col" align="center">5</th>
+                    <th scope="col" align="center">6</th>
+                    <th scope="col" align="center">7</th>
+                    <th scope="col" align="center">8</th>
+                    <th scope="col" align="center">9</th>
+                    <th scope="col" align="center">10</th>
                   </tr>
                 </thead>
                 

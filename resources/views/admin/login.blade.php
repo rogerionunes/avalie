@@ -26,6 +26,12 @@
         @endforeach
         @endif
 
+        <?php 
+        $text = isset($_GET('success')) ? '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="fa fa-check"></i> Deu tudo certo :)</h5></div>' : '';
+        echo $text;
+        ?>
+
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Email" name='email'>
           <div class="input-group-append">

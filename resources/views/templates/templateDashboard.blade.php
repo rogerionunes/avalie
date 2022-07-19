@@ -520,7 +520,6 @@
 
       
       if (valid) {
-        alert('Avaliação gravada com sucesso! Obrigado!');
         $('form').submit();
       } else {
         alert('É obrigatório preencher todas opções!!');
