@@ -26,7 +26,7 @@
         @endforeach
         @endif
 
-      @if(session('success'))
+      @if(Request::segment(2) != '')
         <div class="alert alert-success alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
             <h5><i class="fa fa-check"></i> Avaliação gravada com sucesso!</h5>
