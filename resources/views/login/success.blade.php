@@ -20,9 +20,11 @@
       <div class="col-3">
       </div>
     </div>
-        <div class="alert alert-success alert-dismissible">
-            <h5><i class="fa fa-check"></i> Avaliação realizada com sucesso! :)</h5>
-        </div>
+
+      <div class="alert alert-success alert-dismissible">
+          <h5><i class="fa fa-check"></i> Avaliação realizada com sucesso! :)</h5>
+      </div>
+      
     </div>
     <!-- /.login-card-body -->
   </div>
