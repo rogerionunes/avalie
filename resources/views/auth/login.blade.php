@@ -26,6 +26,10 @@
           @endforeach
         @endif
 
+        <?php 
+          var_dump(Request::segment(0));exit;
+        ?>
+
         @if(Request::segment(0) != '')
           <div class="alert alert-success alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
