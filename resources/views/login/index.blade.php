@@ -38,7 +38,7 @@
         @endif
 
         <?php
-          var_dump(session()->has('success'));exit;
+          var_dump(Request::segment());exit;
         ?>
 
         @if(Request::segment(0) != '')
