@@ -37,6 +37,13 @@
         @endforeach
         @endif
 
+        @if(Request::segment(1) != '')
+          <div class="alert alert-success alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+              <h5><i class="fa fa-check"></i> Avaliação gravada com sucesso!</h5>
+          </div>
+        @endif
+
         <div class="input-group mb-3">
           <input type="text" class="form-control" maxlength="6" placeholder="PIN" name='pin' id='pin'>
         </div>
