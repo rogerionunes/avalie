@@ -37,11 +37,7 @@
         @endforeach
         @endif
 
-        <?php
-          var_dump(Request::segment(1));exit;
-        ?>
-
-        @if(Request::segment(0) != '')
+        @if(isset($_GET['success']))
           <div class="alert alert-success alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
               <h5><i class="fa fa-check"></i> Avaliação gravada com sucesso!</h5>
