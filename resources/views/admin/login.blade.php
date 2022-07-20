@@ -17,21 +17,14 @@
         @csrf
 
         @if($errors->all())
-        @foreach ($errors->all() as $error)
-        <div class="alert alert-danger alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-          <h5><i class="icon fas fa-ban"></i> Erro!</h5>
-          {{ $error }}
-        </div>
-        @endforeach
+          @foreach ($errors->all() as $error)
+          <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-ban"></i> Erro!</h5>
+            {{ $error }}
+          </div>
+          @endforeach
         @endif
-
-      @if(Request::segment(2) != '')
-        <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-            <h5><i class="fa fa-check"></i> Avaliação gravada com sucesso!</h5>
-        </div>
-      @endif
 
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Email" name='email'>
