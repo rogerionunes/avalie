@@ -136,7 +136,7 @@ class AvaliacaoController extends Controller
         
         DB::commit();
         
-        return redirect()->route('/', ['success'=>'OK']);
+        return redirect()->route('/sucesso');
     }
     
     public function sessao(Request $request)

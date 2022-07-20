@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', 'LoginController@index')->name('/');
-Route::get('/autenticar', 'LoginController@index')->name('autenticar');
+Route::get('/sucesso', 'LoginController@success')->name('login.success');
 
 // admin/dashboard
 Route::get('/admin', 'AdminController@dashboard')->name('admin');

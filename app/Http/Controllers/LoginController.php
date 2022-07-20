@@ -15,6 +15,15 @@ class LoginController extends Controller
     {
         return view('login.index');
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function success()
+    {
+        return view('login.success');
+    }
 
     /**
      * Show the form for creating a new resource.
