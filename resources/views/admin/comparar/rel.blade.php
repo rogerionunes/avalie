@@ -105,7 +105,7 @@
                             <div class="col-md-5">
                               <div class="progress-group">
                                 <span><b>Nota {{ $i }} ( {{ $avaliacao['avaliacoes'][$i]['qtde1'] }} notas)</b></span>
-                                <span class="float-right"><b>{{ $nota['qtde1'] > 0 ? $nota['qtde1'] / $avaliacao['qtdeTotal1'] * 100 : 0 }}%</b></span>
+                                <span class="float-right"><b>{{ $nota['qtde1'] > 0 ? (int)($nota['qtde1'] / $avaliacao['qtdeTotal1'] * 100) : 0 }}%</b></span>
 
                                 <div class="progress progress-lg"> 
                                   <div class="progress-bar bg-primary" style="width: {{ $avaliacao['avaliacoes'][$i]['qtde1'] > 0 ? $avaliacao['avaliacoes'][$i]['qtde1'] / $avaliacao['qtdeTotal1'] * 100 : 0 }}%"></div>
@@ -119,7 +119,7 @@
                             <div class="col-md-5">
                               <div class="progress-group">
                                 <span><b>Nota {{ $i }} ({{ $avaliacao['avaliacoes'][$i]['qtde2']  }} notas)</b></span>
-                                <span class="float-right"><b>{{ $avaliacao['avaliacoes'][$i]['qtde2'] > 0 ? $avaliacao['avaliacoes'][$i]['qtde2'] / $avaliacao['qtdeTotal2'] * 100 : 0 }}%</b></span>
+                                <span class="float-right"><b>{{ $avaliacao['avaliacoes'][$i]['qtde2'] > 0 ? (int)($avaliacao['avaliacoes'][$i]['qtde2'] / $avaliacao['qtdeTotal2'] * 100) : 0 }}%</b></span>
                                 <div class="progress progress-lg"> 
                                 <div class="progress-bar bg-warning" style="width: {{ $avaliacao['avaliacoes'][$i]['qtde2'] > 0 ? $avaliacao['avaliacoes'][$i]['qtde2'] / $avaliacao['qtdeTotal2'] * 100 : 0 }}%"></div>
                                 </div>
