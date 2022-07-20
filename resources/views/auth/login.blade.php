@@ -17,19 +17,19 @@
         @csrf
 
         @if($errors->all())
-        @foreach ($errors->all() as $error)
-        <div class="alert alert-danger alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-          <h5><i class="icon fas fa-ban"></i> Erro!</h5>
-          {{ $error }}
-        </div>
-        @endforeach
+          @foreach ($errors->all() as $error)
+          <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-ban"></i> Erro!</h5>
+            {{ $error }}
+          </div>
+          @endforeach
         @endif
 
-        @if(Request::segment(1) != '')
+        @if(Request::segment(2) != '')
           <div class="alert alert-success alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-              <h5><i class="fa fa-check"></i> AvaliaÃ§Ã£o gravada com sucesso!</h5>
+              <h5><i class="fa fa-check"></i> Avaliação gravada com sucesso!</h5>
           </div>
         @endif
 
