@@ -18,7 +18,7 @@ Auth::routes();
 
 Route::get('/', 'LoginController@index')->name('/');
 
-// Route::get('/sucesso', 'LoginController@success')->name('login.success');
+Route::get('/sucesso', 'LoginController@success')->name('login.success');
 
 // admin/dashboard
 Route::get('/admin', 'AdminController@dashboard')->name('admin');
