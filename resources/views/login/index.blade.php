@@ -38,7 +38,7 @@
         @endif
 
         <?php
-          var_dump(Request::segment(0));exit;
+          var_dump(Request::segment());exit;
         ?>
 
         @if(Request::segment(0) != '')
